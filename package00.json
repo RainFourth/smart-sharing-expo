@@ -1,0 +1,52 @@
+{
+    "name": "smart-sharing-expo",
+    "version": "1.0.0",
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+        "start": "expo start",
+        "android": "expo start --android",
+        "ios": "expo start --ios",
+        "web": "expo start --web",
+        "eject": "expo eject"
+    },
+    "dependencies": {
+        "@ptomasroos/react-native-multi-slider": "^2.2.2",
+        "react-native-safe-area-context": "^3.2.0",
+        "react-native-masked-input-text": "^1.0.11",
+        "react-native-paper": "^4.11.2",
+
+        "@react-native-async-storage/async-storage": "^1.16.1",
+        "@react-native-community/datetimepicker": "^5.1.0",
+        "@react-native-community/netinfo": "^8.0.0",
+        "@react-navigation/material-bottom-tabs": "^6.1.1",
+        "@react-navigation/native": "^6.0.8",
+        "@react-navigation/stack": "^6.1.1",
+        "datevalidator": "^2.0.0",
+        "expo": "~44.0.0",
+        "expo-status-bar": "~1.2.0",
+        "prop-types": "^15.8.1",
+        "react": "17.0.1",
+        "react-dom": "17.0.1",
+        "react-native": "0.64.3",
+        "react-native-calendars": "^1.1278.0",
+        "react-native-check-box": "^2.1.7",
+        "react-native-config": "^1.4.5",
+        "react-native-dropdown-picker": "^5.3.0",
+        "react-native-gesture-handler": "^2.2.0",
+        "react-native-image-crop-picker": "^0.37.2",
+        "react-native-map-clustering": "^3.4.2",
+        "react-native-maps": "^0.30.1",
+        "react-native-snap-carousel": "^3.9.1",
+        "react-native-svg": "^12.1.1",
+        "react-native-vector-icons": "^9.1.0",
+        "react-native-web": "0.17.1",
+        "socket.io-client": "^4.4.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.9",
+        "@types/react": "~17.0.21",
+        "@types/react-native": "~0.64.12",
+        "typescript": "~4.3.5"
+    },
+    "private": true
+}

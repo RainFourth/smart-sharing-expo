@@ -1,6 +1,48 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true
-  }
+    "extends": "expo/tsconfig.base",
+    "compilerOptions": {
+        "strict": true,
+        "downlevelIteration": true,
+
+        // хз, влияет ли это на что-нибудь, но без этого тоже работает
+        "typeRoots": ["./.env.d.ts"],
+
+        // Здесь пути чисто для идешки, для компилятора они в babel.config.js
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["./src/*"],
+            "@assets/*": ["./assets/*"],
+            "@t": ["./src/themes"], "@t*": ["./src/themes*"],
+            "@n": ["./src/navigations"], "@n/*": ["./src/navigations/*"],
+            "@sc": ["./src/screens"], "@sc/*": ["./src/screens/*"],
+            "@c": ["./src/components"], "@c/*": ["./src/components/*"],
+            "@h": ["./src/hooks"], "@h/*": ["./src/hooks/*"],
+            "@u": ["./src/utils"], "@u/*": ["./src/utils/*"],
+            "@u2": ["./src/utils2"], "@u2/*": ["./src/utils2/*"],
+            "@r/*": ["./src/repositories/*"],
+            "@se/*": ["./src/services/*"],
+            "@env": ["./.env.d.ts"], // идешка подтянет типы .env файла
+
+            "@test/2": ["./src/test"]
+        },
+
+/*
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["./src/*"],
+            "@assets/*": ["./assets/*"],
+            "@t": ["./src/themes"],
+            "@n": ["./src/navigations"],
+            "@sc": ["./src/screens"],
+            "@c": ["./src/components"],
+            "@h": ["./src/hooks"],
+            "@u": ["./src/utils"],
+            "@r/*": ["./src/repositories/*"],
+            "@se/*": ["./src/services/*"],
+
+            "@test/2": ["./src/test"]
+        },
+*/
+
+    }
 }
