@@ -1,2 +1,2 @@
-export * from './theme';
+export * from './useTheme';
 export { useUser } from './user';

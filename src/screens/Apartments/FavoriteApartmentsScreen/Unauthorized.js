@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { useTheme } from '@h';
 
-import FavoriteUnauthorized from '@assets/FavoriteUnauthorized';
+import FavoriteUnauthorized from '@ic/FavoriteUnauthorized';
 
 const makeStyles = (theme) => StyleSheet.create({
     root: {

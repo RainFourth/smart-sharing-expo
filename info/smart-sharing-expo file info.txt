@@ -1,0 +1,219 @@
+
+Обратить внимание на чтобы там прицепить корневую компоненту:
+./index.js
+./src/index.js
+
+lib ERROR: 'react-native-masked-input-text'
+
+
+заменить на redux или thunk (вместо react context):
+./src/utils/AppContext.js
+
+
+изучить AsyncStorage:
+./src/hooks/useTheme.ts
+
+
+
+ещё либы: 
+"@ptomasroos/react-native-multi-slider"
+"react-native-safe-area-context"
+"react-native-masked-input-text"
+
+
+
+
+root:
+./.env																*** список каких-то констант - url'ы источников внешних апи
+./.env.example														*** шаблон .env
+./.gitignore														OK копировать не нужно, на содержимое пофиг
+./app.json															*** задаёт какие-то имена
+./babel.config.js													OK !!!<изучить>
+./index.js															OK удалено
+./jsconfig.json														OK !!!<изучить> содержит сокращения путей => преехало в tsconfig.json. Вопрос а надо ли оно.
+./package.json														*** исследовать либы, доимпортировать или заменить при возникновении нужды
+./package-lock.json													*** исследовать либы, доимпортировать или заменить при возникновении нужды
+./react-native.config.js											OK удалён тк наверное не нужен
+
+./android															OK удалить - содержит собранный проект
+./ios																OK удалить - содержит собранный проект
+./manage															OK удалить - содержит собранный проект
+
+
+./assets/fonts														OK папка со шрифтами
+
+src:
+./src/index.js														OK *** содержит компоненту App; код перенесён в ./App.tsx; либы: 'react-native-gesture-handler' "@react-native-community/netinfo" 'socket.io-client' 'react-native-background-task'
+
+
+assets:
+./src/assets/apartmentImage.png										OK !!! перемещено в assets/images + переименовать
+./src/assets/AuthMethodSelectBackground.js							OK !!! перемещено в assets/icons; либа react-native-svg; + переименовать + мб svg файл отдельно сделать
+./src/assets/FavoriteEmpty.js										OK !!! перемещено в assets/icons; либа react-native-svg; + переименовать + мб svg файл отдельно сделать
+./src/assets/FavoriteUnathorized.js									OK !!! перемещено в assets/icons; либа react-native-svg; + переименовать + мб svg файл отдельно сделать
+
+
+components:
+./src/components/Filters/Category.js								OK !!! компонента Category
+./src/components/Filters/DoubleInput.js								OK !!! компонента DoubleInput
+./src/components/Filters/Facilities.js								OK !!! компонента Facilities
+./src/components/Filters/index.js									OK !!! компонента Filters
+./src/components/Filters/Rating.js									OK !!! компонента Rating
+./src/components/Filters/RoomsCount.js								OK !!! компонента RoomsCount
+./src/components/Input/InputsType/CheckboxList.js					OK !!! компонента CheckboxList
+./src/components/Input/InputsType/DateInput.js						OK !!! компонента DateInput, либы: 'datevalidator', ERROR: 'react-native-masked-input-text'
+./src/components/Input/InputsType/Default.js						OK !!! компонента Default
+./src/components/Input/InputsType/DropDown.js						OK !!! компонента DropDown, либы: 'react-native-dropdown-picker'
+./src/components/Input/InputsType/Email.js							OK !!! компонента Email
+./src/components/Input/InputsType/index.js							OK *** импорт как модуля, а здесь то оно надо?
+./src/components/Input/InputsType/Name.js							OK !!! компонента Name
+./src/components/Input/InputsType/Password.js						OK !!! компонента Password
+./src/components/Input/InputsType/Phone.js							OK !!! компонента Phone, либы: ERROR: 'react-native-masked-input-text'
+./src/components/Input/index.js										OK !!! компонента Input, исправить грамматику, ввести typescript
+./src/components/ModalMessage/ModalType/Custom.js					OK !!! компонента Custom
+./src/components/ModalMessage/ModalType/Default.js					OK !!! компонента Default
+./src/components/ModalMessage/ModalType/index.js					OK *** импорт как модуля, а здесь то оно надо?
+./src/components/ModalMessage/index.js								OK !!! компонента ModalMessage, ввести typescript
+./src/components/ApartmentCard.js									OK !!! компонента ApartmentCard
+./src/components/Button.js											OK !!! компонента Button
+./src/components/Category.js										OK !!! компонента Category
+./src/components/Container.js										OK !!! компонента Container
+./src/components/DropDownListHeader.js								OK !!! компонента DropDownListHeader
+./src/components/Facility.js										OK !!! компонента Facility
+./src/components/FileUploader.js									OK !!! компонента DropDown, либы: 'react-native-image-crop-picker'
+./src/components/FreeDates.js										OK !!! компонента FreeDates, либы: 'react-native-calendars'
+./src/components/index.js											OK *** импорт как модуля
+./src/components/InfiniteScroll.js									OK !!! компонента InfiniteScroll
+./src/components/InfoMessage.js										OK !!! компонента InfoMessage
+./src/components/MapMarker.js										OK !!! компонента MapMarker
+./src/components/MapSearch.js										OK !!! компонента MapSearch
+./src/components/MoreDetails.js										OK !!! компонента MoreDetails
+./src/components/Notification.js									OK !!! компонента Notification
+./src/components/Popup.js											OK !!! компонента Popup
+./src/components/Preloader.js										OK !!! компонента Preloader
+./src/components/Rating.js											OK !!! компонента Rating
+./src/components/Review.js											OK !!! компонента Review
+./src/components/ScreenHeader.js									OK !!! компонента ScreenHeader
+./src/components/Sub.js												OK !!! компонента Sub
+./src/components/SwipeablePanel.js									OK !!! компонента SwipeablePanel
+
+
+hooks:
+./src/hooks/index.js												OK !!! экспорт как псевдо-модуля, разобраться как это работает
+./src/hooks/theme.js												OK !!! что-то про темы
+./src/hooks/user.js													OK !!! загрузка инфы о юзере из async storage, либа '@react-native-async-storage/async-storage' 'react-native-config'
+
+
+navigations:
+./src/navigations/AppNavigation/defaultOptins.js					OK какие-то опции по умолчанию
+./src/navigations/AppNavigation/index.js							OK *** какая-то компонента AppNavigation, либы: '@react-navigation/material-bottom-tabs' 'react-native-vector-icons/Feather'
+./src/navigations/PersonalAccountNavigator/index.js					OK *** какая-то компонента PersonalAccountNavigator, либы: '@react-navigation/stack'
+./src/navigations/PersonalAccountNavigator/ProfileNavigation.js		OK *** какая-то компонента ProfileNavigation
+./src/navigations/ApartmentNavigation.js							OK *** какая-то компонента ApartmentNavigation
+./src/navigations/ApartmentsListNavigation.js						OK *** какая-то компонента ApartmentsListNavigation
+./src/navigations/ApartmentsManageNavigation.js						OK *** какая-то компонента ApartmentsManageNavigation
+./src/navigations/ApartmentsMapNavigation.js						OK *** какая-то компонента ApartmentsMapNavigation
+./src/navigations/FavoriteApartmentsNavigation.js					OK *** какая-то компонента FavoriteApartmentsNavigation
+./src/navigations/index.js											OK экспорт как псевдо-модуля
+./src/navigations/LoginNavigation.js								OK *** какая-то компонента LoginNavigation
+./src/navigations/MyApartmentsNavigation.js							OK *** какая-то компонента MyApartmentsNavigation
+./src/navigations/NotificationsNavigation.js						OK *** какая-то компонента NotificationsNavigation
+
+
+repositories:														OK Доступ к API !!! переименовать в repo
+./src/repositories/apartmentsRepository.js							OK *** API доступ к apartments, проверить, подтягивает ли оно API_URL, !!! переименовать в repo
+./src/repositories/notificationsRepository.js						OK *** API доступ к notifications, проверить, подтягивает ли оно API_URL, !!! переименовать в repo
+./src/repositories/userRepository.js								OK *** API доступ к user, проверить, подтягивает ли оно API_URL, !!! переименовать в repo
+
+
+screens:
+./src/screens/Apartments/ApartmentScreen/index.js					OK *** какая-то компонента ApartmentSreen, либы: 'react-native-snap-carousel'
+./src/screens/Apartments/BookingScreen/index.js						OK *** какая-то компонента BookingScreen, либы: 'react-native-snap-carousel', '@react-native-community/datetimepicker'
+./src/screens/Apartments/FavoriteApartmentsScreen/Empty.js			OK *** компонента Empty
+./src/screens/Apartments/FavoriteApartmentsScreen/index.js			OK *** компонента FavoriteApartmentsScreen, либы: '@react-navigation/native'
+./src/screens/Apartments/FavoriteApartmentsScreen/Unathorized.js	OK *** компонента Unauthorized
+./src/screens/Apartments/ListSreen/index.js							OK *** компонента ListSreen, переименовать
+./src/screens/Apartments/Manage/CreateSreen/index.js				OK *** компонента CreateSreen, переименовать
+./src/screens/Apartments/Manage/Address.js							OK *** компонента Address
+./src/screens/Apartments/Manage/ApartmentData.js					OK *** компонента ApartmentData
+./src/screens/Apartments/Manage/EditApartmentScreen.js				OK *** компонента EditApartmentScreen
+./src/screens/Apartments/Manage/Facilities.js						OK *** компонента Facilities, либы: 'react-native-check-box';
+./src/screens/Apartments/Manage/index.js							OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/Apartments/Manage/MyApartmentsScreen.js 				OK *** компонента MyApartmentsScreen
+./src/screens/Apartments/Manage/RoomsInput.js						OK *** компонента RoomsInput
+./src/screens/Apartments/Manage/SelectOnMap.js						OK *** компонента SelectOnMap, либы: "react-native-maps";
+./src/screens/Apartments/Manage/UpdateSreen.js						OK *** компонента UpdateSreen, пустая компонента + надо переименовать
+./src/screens/Apartments/CitiesScreen.js							OK *** компонента CitiesScreen
+./src/screens/Apartments/index.js									OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/Apartments/MapScreen.js								OK *** компонента MapSreen, SwipeablePanelHeader + переименовать, либы: "react-native-map-clustering"
+./src/screens/Apartments/ReviewsScreen.js							OK *** компонента ReviewsScreen
+./src/screens/Auth/index.js											OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/Auth/MethodSelectionScreen.js							OK *** компонента MethodSelectionScreen
+./src/screens/Auth/OAuthComponent.js								OK *** компонента OAuthComponent
+./src/screens/Auth/SignInScreen.js									OK *** компонента SignInSreen, переименовать
+./src/screens/Auth/SignUpScreen.js									OK *** компонента SignUpSreen, переименовать
+./src/screens/Messages/index.js										OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/Messages/MainScreen.js								OK *** компонента MainScreen
+./src/screens/Notifications/index.js								OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/Notifications/MainScreen.js							OK *** компонента MainScreen
+./src/screens/Notifications/Notification.js							OK *** компонента Notification
+./src/screens/OAuth/index.js										OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/OAuth/SignInSrceen.js									OK *** компонента SignInSreen, переименовать
+./src/screens/OAuth/SignUpSreen.js									OK *** компонента SignUpSreen, переименовать, компонента пустая
+./src/screens/OAuth/StatusScreen.js									OK *** компонента StatusScreen, переименовать
+./src/screens/PersonalAccount/BookingScreen/Apartment.js			OK *** компонента Apartment
+./src/screens/PersonalAccount/BookingScreen/index.js				OK *** компонента BookingScreen
+./src/screens/PersonalAccount/Profile/EditScreen/DateEditor.js		OK *** компонента DateEditor
+./src/screens/PersonalAccount/Profile/EditScreen/EmailEditor.js		OK *** компонента EmailEditor
+./src/screens/PersonalAccount/Profile/EditScreen/index.js			OK *** компонента EditScreen
+./src/screens/PersonalAccount/Profile/EditScreen/PhoneEditor.js		OK *** компонента PhoneEditor
+./src/screens/PersonalAccount/Profile/EditScreen/RoleEditor.js		OK *** компонента RoleEditor
+./src/screens/PersonalAccount/Profile/EditScreen/TextEditor.js		OK *** компонента TextEditor
+./src/screens/PersonalAccount/Profile/Documents						OK *** компонента Documents
+./src/screens/PersonalAccount/Profile/index.js						OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/PersonalAccount/Profile/Info.js						OK *** компонента Info
+./src/screens/PersonalAccount/Profile/ProfileScreen.js				OK *** компонента ProfileScreen
+./src/screens/PersonalAccount/index.js								OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/PersonalAccount/MainScreen.js							OK *** компонента MainSreen, переименовать
+./src/screens/PersonalAccount/UpdateScreen.js						OK *** компонента UpdateSreen, переименовать, пустая компонента
+./src/screens/index.js												OK *** импорт как модуля, а здесь то оно надо?
+./src/screens/PreloaderScreen.js									OK *** компонента PreloaderSreen, сразу показывает компоненту Preloader
+./src/screens/WelcomeScreen.js										OK *** компонента WelcomeSreen, переименовать, пустая компонента
+
+
+services:															OK преобразовывает полученыые данные из репозиториев в более удобные если надо
+./src/services/apartmentsService.js									OK
+./src/services/notificationsService.js								OK
+./src/services/userService.js										OK
+
+
+themes:
+./src/themes/colors.js												OK содержит объект с цветами
+./src/themes/darkTheme.js											OK !!! описание тёмной темы. Исправить отсутствующий цвет.
+./src/themes/fonts.js												OK *** экспорт названий шрифтов
+./src/themes/index.js												OK экспортирует светлую и тёмную темы как модуль
+./src/themes/lightTheme.js											OK описание объекта свойств светлой темы
+
+
+utils:
+./src/utils/AppContext.js											OK !!! *** изучить React Context
+./src/utils/Buffer.js												OK !!! работает как async Map<id,obj> - использовать Map вместо []
+./src/utils/customFile.js											OK пустой файл - удалить
+./src/utils/date.js													OK !!! Date to yyyy-mm-dd. Заменить своим классом дат.
+./src/utils/Datee.js												OK !!! класс для работы с датами. Заменить своим классом дат.
+./src/utils/datee_.js												OK !!! возвращает статический экземпляр Datee. Заменить своим классом дат.
+./src/utils/fetcher.js												OK !!! скрипт для удобного использования fetch - заменить на axios
+./src/utils/index.js												OK экспортит файлы как модуль по пути, определённому в tsconfig paths
+./src/utils/prettyPrint												OK !!! красивый вывод в консоль - найти норм либу
+./src/utils/reducer.js												OK reducer favorites/notifications
+./src/utils/Rights.js												OK список прав пользователей
+./src/utils/splitePrice.js											OK !!! Исправить Splite на Split. Отделяет тысячи пробелом у целого числа (допустимо иметь максимум 3 цифры в дробной части). Заменить на мою либу NumFormat и чекнуть производительность
+./src/utils/timestempToNormal.js									OK !!! переименовать timestempToNormal в timestampToNormal (но возможны конфликты с методами из даты, проверить)
+
+
+
+
+OK: ввести TypeScript и удалить зависимость "prop-types": "^15.8.1"
+Теперь доделать типы нормально, когда доберусь до этих компонент:
+./src/components/Input/index.js
+./src/components/ModalMessage/index.js

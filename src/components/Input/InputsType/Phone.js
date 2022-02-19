@@ -23,7 +23,7 @@ const makeStyles = (theme) => StyleSheet.create({
 
 function Phone({
     value = null,
-    placeholder, onChange,
+    placeholder = undefined, onChange = ()=>{},
     type = 'default', keyboardType = 'default'
 }) {
     const styles = useTheme(theme => makeStyles(theme), []);

@@ -9,7 +9,7 @@ const StackNavigator = createStackNavigator();
 function FavoriteApartmentsNavigation() {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='FavoriteApartmentsScreen'
         >
             <StackNavigator.Screen

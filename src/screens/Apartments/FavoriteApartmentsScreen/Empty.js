@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { useTheme } from '@h'
 
-import FavoriteEmpty from '@assets/FavoriteEmpty';
+import FavoriteEmpty from '@ic/FavoriteEmpty';
 
 const makeStyles = (theme) => StyleSheet.create({
     root: {

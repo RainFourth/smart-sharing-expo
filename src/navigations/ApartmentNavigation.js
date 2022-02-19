@@ -7,7 +7,7 @@ const StackNavigator = createStackNavigator();
 
 function ApartmentNavigation() {
     return (
-        <StackNavigator.Navigator headerMode='none' initialRouteName='ApartmentScreen'>
+        <StackNavigator.Navigator screenOptions={{headerShown: false}} initialRouteName='ApartmentScreen'>
             <StackNavigator.Screen
                 name='ApartmentScreen'
                 options={{ title: 'Апаратаменты' }}

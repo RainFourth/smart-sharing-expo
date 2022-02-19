@@ -2,16 +2,23 @@ import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, Animated, View, Text, StatusBar, Dimensions, TouchableOpacity, Touchable } from 'react-native';
 
 import { useTheme } from '@h';
+import {ThemeType} from "@t";
+import {NotificationObjType} from "~/../notificationObjType";
 
 const dimensions = Dimensions.get("window");
 const { width: FULL_WIDTH } = dimensions;
 
-const makeStyles = (theme, type) => StyleSheet.create({
+const makeStyles = (
+    theme: ThemeType,
+    type?: NotificationObjType["type"]
+) => StyleSheet.create({
     centeredView: {
         width: '100%',
         position: 'absolute',
         justifyContent: "center",
         alignItems: "center",
+        // todo fix it
+        // @ts-ignore
         top: StatusBar.currentHeight + 10
     },
     modalView: {
@@ -50,17 +57,25 @@ const makeStyles = (theme, type) => StyleSheet.create({
     }
 })
 
+type NotificationType = {
+    notification?: NotificationObjType
+    visible?: boolean
+    timeout?: number
+    setVisible?: (visible: boolean) => void
+    onPress?: () => void
+}
+
 function Notification({
     notification = {},
     visible = false,
     timeout = 2000,
-    setVisible = () => { },
+    setVisible =  (visible: boolean) => { },
     onPress = () => { }
-}) {
+}: NotificationType) {
     const styles = useTheme((theme) => makeStyles(theme, notification.type), [notification.type]);
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
-    const [display, setDisplay] = useState('none');
+    const [display, setDisplay] = useState('none' as 'none'|'flex');
 
     useEffect(() => {
         if (visible) {

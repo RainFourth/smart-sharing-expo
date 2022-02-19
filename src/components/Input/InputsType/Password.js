@@ -37,7 +37,7 @@ const makeStyles = (theme) => StyleSheet.create({
 })
 
 function Password({
-    placeholder, onChange,
+    placeholder = undefined, onChange = ()=>{},
     type = 'default', keyboardType = 'default',
     confirmation = false, startErrroText = true,
     check = true

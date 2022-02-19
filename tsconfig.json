@@ -11,7 +11,9 @@
         "baseUrl": ".",
         "paths": {
             "~/*": ["./src/*"],
-            "@assets/*": ["./assets/*"],
+            "@assets/*": ["./src/assets/*"],
+            "@im/*": ["./src/assets/images/*"],
+            "@ic/*": ["./src/assets/icons/*"],
             "@t": ["./src/themes"], "@t*": ["./src/themes*"],
             "@n": ["./src/navigations"], "@n/*": ["./src/navigations/*"],
             "@sc": ["./src/screens"], "@sc/*": ["./src/screens/*"],
@@ -25,6 +27,7 @@
 
             "@test/2": ["./src/test"]
         },
+
 
 /*
         "baseUrl": ".",

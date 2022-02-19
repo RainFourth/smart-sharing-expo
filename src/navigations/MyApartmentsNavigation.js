@@ -9,7 +9,7 @@ const StackNavigator = createStackNavigator();
 function MyApartmentsNavigation() {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='MyApartmentsScreen'
         >
             <StackNavigator.Screen

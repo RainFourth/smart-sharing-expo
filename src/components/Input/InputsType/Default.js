@@ -35,7 +35,7 @@ const makeStyles = (theme) => StyleSheet.create({
 
 function Default({
     placeholder = '', onChange = () => { },
-    value,
+    value = undefined,
     type = 'default', keyboardType = 'default',
     disabled = false, description = undefined,
     warning = undefined, multiline = false,

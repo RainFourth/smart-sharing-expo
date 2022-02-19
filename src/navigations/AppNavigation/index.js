@@ -52,7 +52,7 @@ function AppNavigation({ navigation }) {
                 return res;
             }, {})
 
-        // TODO chenge redirect sreen
+        // TODO change redirect screen
         navigation.navigate("OAuthStatusScreen", params);
     }
 

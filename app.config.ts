@@ -5,6 +5,7 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 
 // В этот файл переехало содержимое app.json
 
+// todo app icon and splash - изучить
 
 export default ({ config }: ConfigContext): ExpoConfig => {
     return {
@@ -13,9 +14,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         slug: "smart-sharing-expo",
         version: "1.0.0",
         orientation: "portrait",
-        icon: "./assets/icon.png",
+        icon: "./src/assets/icons/icon.png",
         splash: {
-            image: "./assets/splash.png",
+            image: "./src/assets/images/splash.png",
             resizeMode: "contain",
             backgroundColor: "#ffffff"
         },
@@ -30,12 +31,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
         android: {
             adaptiveIcon: {
-                foregroundImage: "./assets/adaptive-icon.png",
+                foregroundImage: "./src/assets/icons/adaptive-icon.png",
                 backgroundColor: "#FFFFFF"
             }
         },
         web: {
-            favicon: "./assets/favicon.png"
+            favicon: "./src/assets/icons/favicon.png"
         },
     }
 };

@@ -1,0 +1,23 @@
+use @react-navigation/stack:
+
+https://reactnavigation.org/docs/getting-started/
+https://reactnavigation.org/docs/stack-navigator/
+
+1)
+expo install @react-navigation/native
+expo install @react-navigation/stack (or @react-navigation/native-stack)
+expo install react-native-screens react-native-safe-area-context
+
+
+WARNING!!!
+@react-navigation/native@x.*.* and @react-navigation/stack@x.*.* must have the same version x
+
+2)
+expo install react-native-gesture-handler
+
+!!!!!! To finalize installation of react-native-gesture-handler, add the following at the top (make sure it's at the top and there's nothing else before it) of your entry file, such as index.js or App.js:
+
+import 'react-native-gesture-handler';
+
+3)
+expo install @react-native-masked-view/masked-view

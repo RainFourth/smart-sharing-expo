@@ -1,7 +1,8 @@
 import { colors } from './colors';
 import { fonts } from './fonts';
+import {ThemeType} from "./themeType";
 
-export const lightTheme = {
+export const lightTheme: ThemeType = {
     font: {
         family: fonts.family,
         familyBold: fonts.familyBold,

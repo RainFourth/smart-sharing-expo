@@ -140,7 +140,7 @@ function Apartment({ apartment = {} }) {
                         let source;
 
                         if (item.no_picture) {
-                            source = require('@assets/apartmentImage.png');
+                            source = require('@im/apartmentImage.png');
                         } else {
                             source = {
                                 uri: `${Config.API_URL}/${item.path}`,

@@ -1,14 +1,26 @@
 import 'react-native-gesture-handler';
+/*
+    About import 'react-native-gesture-handler';
+
+    To finalize installation of react-native-gesture-handler, add the following at the top
+    (make sure it's at the top and there's nothing else before it)
+    of your entry file, such as index.js or App.js
+ */
+
+
 import React, { useMemo, useReducer, useEffect, useCallback, useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
+
 import { createStackNavigator } from '@react-navigation/stack';
+
 import { useNetInfo } from "@react-native-community/netinfo";
 import io from 'socket.io-client';
 import { NOTIFICATIONS_API_URL, NOTIFICATIONS_SOCKET_NAMESPACE, NOTIFICATIONS_SOCKET_PATH } from "@env";
 
 import { Vibration } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+import { useFonts } from 'expo-font';
 
 import { WelcomeSreen, Auth, OAuth, PreloaderSreen } from '@sc';
 import { AppNavigation, LoginNavigation } from '@n';
@@ -17,6 +29,7 @@ import { useUser, loadTheme } from '@h';
 import { Notification } from '@c';
 
 import * as userService from '@se/userService';
+import {NotificationObjType} from "./notificationObjType";
 
 
 const RootNavigation = createStackNavigator();
@@ -35,9 +48,17 @@ function App() {
 
     const [loading, user, setUser] = useUser();
 
+    // todo use redux or thunk
     const [state, dispatch] = useReducer(reducer.reducer, reducer.initState);
 
-    const preloading = useMemo(() => !isConnected || loading || !theme, [isConnected, loading, theme]);
+    // todo check if bold, italics font kinds are importing - походу не импортятся
+    const [fontLoaded] = useFonts({
+        'Montserrat-Regular': require('@assets/fonts/Montserrat-Regular.ttf'),
+        'Montserrat-Medium': require('@assets/fonts/Montserrat-Medium.ttf'),
+    })
+
+    const preloading = useMemo(() => !isConnected || loading || !theme || !fontLoaded,
+        [isConnected, loading, theme, fontLoaded]);
 
     // const [initialState, setInitialState] = useState();
     // const [isReady, setIsReady] = useState(false);
@@ -76,8 +97,8 @@ function App() {
     // 	})
 
     const [socket, setSocket] = useState(null);
-    const [notification, setNotification] = useState({});
-    const [notificationVisibale, setNotificationVisible] = useState(false)
+    const [notification, setNotification] = useState({} as NotificationObjType);
+    const [notificationVisible, setNotificationVisible] = useState(false)
 
     const updateJwt = useCallback(async socket_ => {
         socket_.disconnect();
@@ -154,26 +175,31 @@ function App() {
             {preloading && <PreloaderSreen />}
             {!preloading &&
                 <>
-                    <NavigationContainer
+                <NavigationContainer
                         // initialState={initialState}
                         // onStateChange={(state) =>
                         // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
                         // }
                     >
-                        {/*headerMode='none'*/}
-                        <RootNavigation.Navigator     initialRouteName='AppNavigation'>
+                        {/**/}
+                        <RootNavigation.Navigator screenOptions={{
+                                headerShown: true,
+                                headerTitle: 'Smart Sharing'
+                            }}
+                            initialRouteName='AppNavigation'
+                        >
                             <RootNavigation.Screen name='WelcomeScreen' component={WelcomeSreen} />
+                            <RootNavigation.Screen name='AppNavigation' component={AppNavigation} />
                             <RootNavigation.Screen name='Login' component={LoginNavigation} />
                             <RootNavigation.Screen name='SignUpScreen' component={Auth.SignUpSreen} />
                             <RootNavigation.Screen name='SignInScreen' component={Auth.SignInSreen} />
                             <RootNavigation.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen} />
                             <RootNavigation.Screen name='OAuthSignInScreen' component={OAuth.SignInSreen} />
                             <RootNavigation.Screen name='OAuthSignUpScreen' component={OAuth.SignUpSreen} />
-                            <RootNavigation.Screen name='AppNavigation' component={AppNavigation} />
                         </RootNavigation.Navigator>
                     </NavigationContainer>
-                    {/*@ts-ignore*/}
-                    <Notification visible={notificationVisibale} setVisible={setNotificationVisible}
+
+                    <Notification visible={notificationVisible} setVisible={setNotificationVisible}
                         notification={notification}
                         onPress={() => {
                             //prettyPrint(navigationRef)

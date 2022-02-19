@@ -1,9 +1,21 @@
-const initState = {
+import {anyObj} from "@u2/utils";
+
+// todo use redux or thunk
+
+type ActionType = {type: string}&anyObj
+
+// todo types
+type StateType = {
+    favorites: unknown[],
+    notifications: unknown[]
+}
+
+const initState: StateType = {
     favorites: [],
     notifications: []
 }
 
-function reducer(state, action) {
+function reducer(state: StateType, action: ActionType) {
     switch (action.type) {
         case 'addFavorites':
             return {
@@ -38,6 +50,8 @@ function reducer(state, action) {
 }
 
 export {
+    ActionType,
+    StateType,
     initState,
     reducer
 }

@@ -9,7 +9,7 @@ const StackNavigator = createStackNavigator();
 function ApartmentsMapNavigation() {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='ApartmentsCitiesScreen'
         >
             <StackNavigator.Screen

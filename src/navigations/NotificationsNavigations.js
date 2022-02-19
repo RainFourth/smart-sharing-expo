@@ -9,7 +9,7 @@ const StackNavigator = createStackNavigator();
 function NotificationsNavigation({ }) {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='MainScreen'
         >
             <StackNavigator.Screen

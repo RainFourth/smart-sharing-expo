@@ -8,7 +8,7 @@ const StackNavigator = createStackNavigator();
 function LoginNavigation() {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='MethodScreen'
         >
             <StackNavigator.Screen

@@ -21,7 +21,7 @@ const makeStyles = (theme) => StyleSheet.create({
 })
 
 function Name({
-    placeholder, onChange,
+    placeholder = undefined, onChange = ()=>{},
     type = 'default', keyboardType = 'default'
 }) {
     const styles = useTheme(theme => makeStyles(theme), []);

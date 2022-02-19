@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-import AuthMethodSelectBackground from '@assets/AuthMethodSelectBackground';
+import AuthMethodSelectBackground from '@ic/AuthMethodSelectBackground';
 import { Container, Button } from '@c';
 
 import { useTheme, useThemeObj } from '@h';

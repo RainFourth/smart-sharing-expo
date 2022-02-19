@@ -247,7 +247,7 @@ function ApartmentSreen({ route, navigation }) {
                                 let source;
 
                                 if (item.no_picture) {
-                                    source = require('@assets/apartmentImage.png');
+                                    source = require('@im/apartmentImage.png');
                                 } else {
                                     source = {
                                         uri: `${API_URL}/${item.path}`,

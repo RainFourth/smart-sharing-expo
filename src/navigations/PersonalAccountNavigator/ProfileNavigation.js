@@ -8,7 +8,7 @@ const StackNavigator = createStackNavigator();
 function ProfileNavigation() {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='ProfileScreen'
         >
             <StackNavigator.Screen

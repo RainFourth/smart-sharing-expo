@@ -10,7 +10,7 @@ const StackNavigator = createStackNavigator();
 function PersonalAccountNavigator() {
     return (
         <StackNavigator.Navigator
-            headerMode='none'
+            screenOptions={{headerShown: false}}
             initialRouteName='PersonalAccountMainScreen'
         >
             <StackNavigator.Screen
