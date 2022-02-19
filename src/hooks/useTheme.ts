@@ -1,13 +1,15 @@
-import {
-    useContext, useMemo,
-    useEffect, useState
-} from "react";
-import { Appearance } from 'react-native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { AppContext, prettyPrint } from "@u";
 import {darkTheme, lightTheme, ThemeType} from '@t'
+import {useDispatch, useSelector} from "react-redux";
+import {StateType} from "@rx/store";
+import {setTheme} from "@rx/themeReducer";
+
+// import { Appearance } from 'react-native';
+// TODO dark theme
+// const userTheme = Appearance.getColorScheme();
+// await AsyncStorage.setItem('theme', userTheme)
+
+// todo от темы должен зависеть цвет Preloading (хотя бы 2: светлый и тёмный)
+// todo splash сначала тёмный всегда
 
 const themesMap = {
     light: lightTheme,
@@ -16,12 +18,68 @@ const themesMap = {
 export type ThemeName = keyof typeof themesMap
 
 
+function useThemeNew(){
+    const theme =
+        useSelector<StateType,StateType['theme']['theme']>(state => state.theme.theme)
+    const themeLoaded =
+        useSelector<StateType,StateType['theme']['_persist']['rehydrated']>(state => state.theme._persist.rehydrated)
+    const d = useDispatch()
 
-// todo от темы должен зависеть цвет Preloading (хотя бы 2: светлый и тёмный)
+    const set = (theme: ThemeName)=>{ d(setTheme(theme)) }
+    const getThemeObj = ()=>themesMap[theme]
+
+    return { theme, set, getThemeObj, themeLoaded }
+}
+
+export { useThemeNew, useTheme, useThemeObj };
 
 
-function loadTheme() {
-    // todo make public const (redux/saga) with theme name
+
+
+
+
+
+
+
+
+import { useMemo } from "react";
+
+// todo remove this
+function useTheme<T>(applyTheme: (theme: ThemeType)=>T, dependencies: any[] = []) {
+    const t = useThemeNew()
+    const result = useMemo(() => applyTheme(t.getThemeObj()), [t, ...dependencies]);
+
+    return result;
+}
+
+// todo remove this
+function useThemeObj(){ return useThemeNew().getThemeObj() }
+
+
+
+
+
+/*function useTheme<T>(fn: (theme: ThemeType)=>T, dependencies: any[] = []) {
+    const { theme } = useContext(AppContext);
+    const themeObj = useMemo(() => themesMap[theme], [theme]);
+    const result = useMemo(() => fn(themeObj), [theme, ...dependencies]);
+
+    return result;
+}*/
+
+/*function useThemeObj(){
+    const { theme } = useContext(AppContext);
+    const themeObj = useMemo(() => themesMap[theme], [theme]);
+
+    return themeObj;
+}*/
+
+
+
+
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+
+/*function loadTheme() {
     const [theme, setTheme] = useState('light' as ThemeName);
 
     const setTheme2 = (theme: ThemeName) => {
@@ -47,42 +105,4 @@ function loadTheme() {
     }, [])
 
     return [theme, setTheme2] as [typeof theme, typeof setTheme2];
-}
-
-function useTheme<T>(fn: (theme: ThemeType)=>T, dependencies: any[] = []) {
-    const { theme } = useContext(AppContext);
-    const themeObj = useMemo(() => themesMap[theme], [theme]);
-    const result = useMemo(() => fn(themeObj), [theme, ...dependencies]);
-
-    return result;
-}
-
-function useThemeObj(){
-    const { theme } = useContext(AppContext);
-    const themeObj = useMemo(() => themesMap[theme], [theme]);
-
-    return themeObj;
-}
-
-// todo
-/*function useThemeNew(){
-    const [themeName, setThemeName] = useState(undefined as ThemeName|undefined)
-
-    const load = ()=>{
-
-    }
-
-    const getName = ()=>{
-        return ""
-    }
-    const setName = (name: string)=>{
-
-    }
-    const getTheme = ()=>{
-        return lightTheme
-    }
-
-    return { getName, setName, getTheme }
 }*/
-
-export { /*useThemeNew,*/ useTheme, useThemeObj, loadTheme };

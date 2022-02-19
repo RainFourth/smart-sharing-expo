@@ -19,6 +19,7 @@
             "@sc": ["./src/screens"], "@sc/*": ["./src/screens/*"],
             "@c": ["./src/components"], "@c/*": ["./src/components/*"],
             "@h": ["./src/hooks"], "@h/*": ["./src/hooks/*"],
+            "@rx": ["./src/redux"], "@rx/*": ["./src/redux/*"],
             "@u": ["./src/utils"], "@u/*": ["./src/utils/*"],
             "@u2": ["./src/utils2"], "@u2/*": ["./src/utils2/*"],
             "@r/*": ["./src/repositories/*"],

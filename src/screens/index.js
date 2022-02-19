@@ -5,7 +5,7 @@ import * as PersonalAccount from './PersonalAccount';
 import * as Notifications from './Notifications';
 import * as Messages from './Messages';
 
-export { WelcomeSreen } from './WelcomeScreen';
+export { WelcomeScreen } from './WelcomeScreen';
 export { PreloaderSreen } from './PreloaderScreen';
 
 export { Auth };

@@ -18,6 +18,7 @@ module.exports = function(api) {
                     "@sc": './src/screens',
                     "@c":  './src/components',
                     "@h": './src/hooks',
+                    "@rx": './src/redux',
                     "@u": './src/utils',
                     "@u2": './src/utils2',
                     "@r": './src/repositories',

@@ -3,7 +3,7 @@ import { StyleSheet, Animated, View, Text, StatusBar, Dimensions, TouchableOpaci
 
 import { useTheme } from '@h';
 import {ThemeType} from "@t";
-import {NotificationObjType} from "~/../notificationObjType";
+import {NotificationObjType} from "../notificationObjType";
 
 const dimensions = Dimensions.get("window");
 const { width: FULL_WIDTH } = dimensions;

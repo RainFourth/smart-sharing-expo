@@ -1,5 +1,4 @@
 import * as fetcher from './fetcher';
-import * as reducer from './reducer';
 
 export { AppContext } from './AppContext';
 export { Rights } from './Rights';
@@ -12,4 +11,3 @@ export { Datee } from './Datee';
 export { datee } from './datee_';
 
 export { fetcher };
-export { reducer };

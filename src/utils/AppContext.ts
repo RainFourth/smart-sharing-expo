@@ -1,16 +1,16 @@
 import { createContext } from 'react';
 import {ThemeName} from "@h";
-import {ActionType, StateType} from "@u/reducer";
+import {ReducerActionType, ReducerStateType} from "@rx/reducer";
 
 
-
+// todo REMOVE (already using redux)
 const AppContext = createContext({ } as {
     user: unknown // todo type
     setUser: unknown // todo type
     theme: ThemeName
     setTheme: (theme: ThemeName)=>void
-    dispatch: (action: ActionType)=>void // todo use redux or thunk
-    state: StateType // todo use redux or thunk
+    dispatch: (action: ReducerActionType)=>void
+    state: ReducerStateType
 });
 
 export { AppContext };
