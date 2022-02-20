@@ -10,6 +10,8 @@ export const colors = {
     dark3: '#958FA6',
     dark4: '#CCC7D9',
 
+    darkBgc: '#212121',
+
     light0: '#E5E4EB',
     light1: '#ECEBF0',
     light2: '#F3F2F5',

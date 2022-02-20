@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "@rx/store";
 
 
+// todo user froms strage - now; user from remote server - async (наверное)
+
 export function useUser(){
     const auth = useSelector<StateType,StateType['auth']>(state => state.auth)
 
@@ -38,7 +40,7 @@ export function useUser(){
 
     const setUser = (user: {})=>{ d(setUser(user)) }
 
-    return { user: auth.user, set: setUser, authLoaded: authRehydrated && authLoaded }
+    return { user: auth.user, setTheme: setUser, authLoaded: authRehydrated && authLoaded }
 }
 
 

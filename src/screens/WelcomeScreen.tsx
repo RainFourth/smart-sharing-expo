@@ -15,8 +15,8 @@ function WelcomeScreen() {
             <Text>{alreadyDark+""}</Text>
             <Text>{t.theme}</Text>
             <Text>Welcome!!!</Text>
-            <Button title={"light"} onPress={()=>t.set('light')}/>
-            <Button title={"dark"} onPress={()=>t.set('dark')}/>
+            <Button title={"light"} onPress={()=>t.setTheme('light')}/>
+            <Button title={"dark"} onPress={()=>t.setTheme('dark')}/>
         </>
     )
 }

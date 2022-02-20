@@ -20,6 +20,7 @@
         "@react-navigation/stack": "^6.1.1",
         "datevalidator": "^2.0.0",
         "expo": "~44.0.0",
+        "expo-dev-client": "~0.8.4",
         "expo-status-bar": "~1.2.0",
         "react": "17.0.1",
         "react-dom": "17.0.1",

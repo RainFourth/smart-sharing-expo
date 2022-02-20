@@ -181,7 +181,7 @@ screens:
 ./src/screens/PersonalAccount/MainScreen.js							OK *** компонента MainSreen, переименовать
 ./src/screens/PersonalAccount/UpdateScreen.js						OK *** компонента UpdateSreen, переименовать, пустая компонента
 ./src/screens/index.js												OK *** импорт как модуля, а здесь то оно надо?
-./src/screens/PreloaderScreen.js									OK *** компонента PreloaderSreen, сразу показывает компоненту Preloader
+./src/screens/PreloaderScreen.js									OK *** компонента PreloaderScreen, сразу показывает компоненту Preloader
 ./src/screens/WelcomeScreen.js										OK *** компонента WelcomeSreen, переименовать, пустая компонента
 
 

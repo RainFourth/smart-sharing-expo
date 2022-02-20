@@ -1,7 +1,7 @@
 import {darkTheme, lightTheme, ThemeType} from '@t'
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "@rx/store";
-import {setTheme} from "@rx/themeReducer";
+import {setTheme as setThemeActionCreator} from "@rx/themeReducer";
 
 // import { Appearance } from 'react-native';
 // TODO dark theme
@@ -25,10 +25,11 @@ function useThemeNew(){
         useSelector<StateType,StateType['theme']['_persist']['rehydrated']>(state => state.theme._persist.rehydrated)
     const d = useDispatch()
 
-    const set = (theme: ThemeName)=>{ d(setTheme(theme)) }
-    const getThemeObj = ()=>themesMap[theme]
+    const setTheme = (theme: ThemeName)=>{ d(setThemeActionCreator(theme)) }
 
-    return { theme, set, getThemeObj, themeLoaded }
+    const themeObj = useMemo(()=>themesMap[theme], [theme])
+
+    return { theme, themeObj, setTheme, themeLoaded }
 }
 
 export { useThemeNew, useTheme, useThemeObj };
@@ -46,14 +47,14 @@ import { useMemo } from "react";
 
 // todo remove this
 function useTheme<T>(applyTheme: (theme: ThemeType)=>T, dependencies: any[] = []) {
-    const t = useThemeNew()
-    const result = useMemo(() => applyTheme(t.getThemeObj()), [t, ...dependencies]);
+    const { themeObj } = useThemeNew()
+    const result = useMemo(()=>applyTheme(themeObj), [themeObj, ...dependencies]);
 
     return result;
 }
 
 // todo remove this
-function useThemeObj(){ return useThemeNew().getThemeObj() }
+function useThemeObj(){ return useThemeNew().themeObj }
 
 
 

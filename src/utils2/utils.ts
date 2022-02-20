@@ -14,3 +14,5 @@ export type Optional<T> = {
 // объект с любым количеством любых свойств
 // можно сделать {type: string}&anyObj и тогда можно задавать любые свойства но type будет обязателен
 export type anyObj = { [prop in string | number]: any }
+
+export const emptyFunction: (...args: unknown[])=>unknown = ()=>{}

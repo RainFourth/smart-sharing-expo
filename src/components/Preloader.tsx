@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { useTheme, useThemeObj } from '@h';
+import { useThemeNew } from '@h';
+import { ThemeType } from "@t";
 
-const makeStyles = (theme) => StyleSheet.create({
+const makeStyles = (theme: ThemeType) => StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -12,16 +13,14 @@ const makeStyles = (theme) => StyleSheet.create({
 })
 
 function Preloader() {
-    const styles = useTheme((theme) => makeStyles(theme), []);
-    const theme = useThemeObj();
+    const { themeObj, themeLoaded } = useThemeNew()
+    const s = useMemo(()=>makeStyles(themeObj),[themeObj])
 
     return (
-        <View
-            style={styles.container}
-        >
+        <View style={s.container}>
             <ActivityIndicator
                 size='large'
-                color={theme.preloader.spinnerColor}
+                color={themeObj.preloader.spinnerColor}
             />
         </View>
     )

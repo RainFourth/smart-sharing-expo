@@ -6,7 +6,7 @@ import * as Notifications from './Notifications';
 import * as Messages from './Messages';
 
 export { WelcomeScreen } from './WelcomeScreen';
-export { PreloaderSreen } from './PreloaderScreen';
+export { PreloaderScreen } from './PreloaderScreen';
 
 export { Auth };
 export { OAuth };

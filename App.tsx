@@ -8,20 +8,32 @@ import store from "~/redux/store";
 // and you can't useDispatch here because in props of this component no store yet
 
 import Main from "@c/Main";
+import {StyleSheet, View} from "react-native";
+import {colors} from "@t/colors";
 
 
 const persistor = persistStore(store)
 
 
-function App() {
+const darkBgc = StyleSheet.create({
+    mainView: {
+        flex: 1,
+        backgroundColor: colors.darkBgc
+    }
+})
 
-    return (
-        <Provider store={store}>
+
+function App() {
+    // корневой View с тёмным фоном, чтобы сразу после Splash Screen не мигал белый экран
+    // пока не загрузится тема из AsyncStorage, считается, что она тёмная
+    return <View style={darkBgc.mainView}>
+        <Provider store={store} >
             <PersistGate loading={null} persistor={persistor}>
-                <Main/>
+                <Main />
             </PersistGate>
-        </Provider>
-    )
+    </Provider>
+    </View>
+
 }
 
 export default App;

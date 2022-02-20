@@ -18,11 +18,11 @@ import { NOTIFICATIONS_API_URL, NOTIFICATIONS_SOCKET_NAMESPACE, NOTIFICATIONS_SO
 import { useNetInfo } from "@react-native-community/netinfo";
 import io from 'socket.io-client';
 
-import { Vibration } from 'react-native';
+import {StyleSheet, Vibration, View} from 'react-native';
 
 import { useFonts } from 'expo-font';
 
-import { WelcomeScreen, Auth, OAuth, PreloaderSreen } from '@sc';
+import { WelcomeScreen, Auth, OAuth, PreloaderScreen } from '@sc';
 import { AppNavigation, LoginNavigation } from '@n';
 import { AppContext, prettyPrint } from '@u';
 import {useThemeNew, useUser} from '@h';
@@ -32,6 +32,7 @@ import * as userService from '@se/userService';
 import {NotificationObjType} from "~/notificationObjType";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "@rx/store";
+import {colors} from "@t/colors";
 
 
 const RootNavigation = createStackNavigator();
@@ -82,6 +83,9 @@ function Main() {
 
     const preloading = useMemo(() => !isConnected || !u.authLoaded || !t.themeLoaded || !fontLoaded,
         [isConnected, u.authLoaded, t.themeLoaded, fontLoaded]);
+
+
+
 
     // const [initialState, setInitialState] = useState();
     // const [isReady, setIsReady] = useState(false);
@@ -187,55 +191,59 @@ function Main() {
     }, [u.user]);
 
 
+    // style={StyleSheet.create({aaa:{}}).aaa}
+
+    if (!t.themeLoaded) return <></>
+
     return (
-                <AppContext.Provider
-                    value={{
-                        user: u.user, setUser: u.set,
-                        theme: t.theme, setTheme: t.set,
-                        dispatch: d, state
-                    }}
-                >
-                    {preloading && <PreloaderSreen />}
-                    {!preloading &&
-                        <>
-                            <NavigationContainer
-                                // initialState={initialState}
-                                // onStateChange={(state) =>
-                                // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
-                                // }
-                            >
-                                {/**/}
-                                <RootNavigation.Navigator
-                                    screenOptions={{
-                                        headerShown: true,
-                                        headerTitle: 'Smart Sharing'
-                                    }}
-                                    initialRouteName='AppNavigation'
-                                >
-                                    <RootNavigation.Screen name='WelcomeScreen' component={WelcomeScreen} />
-                                    <RootNavigation.Screen name='AppNavigation' component={AppNavigation} />
-                                    <RootNavigation.Screen name='Login' component={LoginNavigation} />
-                                    <RootNavigation.Screen name='SignUpScreen' component={Auth.SignUpSreen} />
-                                    <RootNavigation.Screen name='SignInScreen' component={Auth.SignInSreen} />
-                                    <RootNavigation.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen} />
-                                    <RootNavigation.Screen name='OAuthSignInScreen' component={OAuth.SignInSreen} />
-                                    <RootNavigation.Screen name='OAuthSignUpScreen' component={OAuth.SignUpSreen} />
-                                </RootNavigation.Navigator>
-                            </NavigationContainer>
+        <AppContext.Provider
+            value={{
+                user: u.user, setUser: u.setTheme,
+                theme: t.theme, setTheme: t.setTheme,
+                dispatch: d, state
+            }}
+        >
+            {preloading && <PreloaderScreen />}
+            {!preloading &&
+                <>
+                    <NavigationContainer
+                        // initialState={initialState}
+                        // onStateChange={(state) =>
+                        // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+                        // }
+                    >
+                        {/**/}
+                        <RootNavigation.Navigator
+                            screenOptions={{
+                                headerShown: true,
+                                headerTitle: 'Smart Sharing'
+                            }}
+                            initialRouteName='WelcomeScreen'
+                        >
+                            <RootNavigation.Screen name='WelcomeScreen' component={WelcomeScreen} />
+                            <RootNavigation.Screen name='AppNavigation' component={AppNavigation} />
+                            <RootNavigation.Screen name='Login' component={LoginNavigation} />
+                            <RootNavigation.Screen name='SignUpScreen' component={Auth.SignUpSreen} />
+                            <RootNavigation.Screen name='SignInScreen' component={Auth.SignInSreen} />
+                            <RootNavigation.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen} />
+                            <RootNavigation.Screen name='OAuthSignInScreen' component={OAuth.SignInSreen} />
+                            <RootNavigation.Screen name='OAuthSignUpScreen' component={OAuth.SignUpSreen} />
+                        </RootNavigation.Navigator>
+                    </NavigationContainer>
 
-                            <Notification visible={notificationVisible} setVisible={setNotificationVisible}
-                                          notification={notification}
-                                          onPress={() => {
-                                              //prettyPrint(navigationRef)
-                                              // 	navigation.navigate('AppNavigation', {
-                                              // 	screen: 'Notifications'
-                                              // })
-                                          }}
-                            />
-                        </>
-                    }
+                    <Notification visible={notificationVisible} setVisible={setNotificationVisible}
+                                  notification={notification}
+                                  onPress={() => {
+                                      //prettyPrint(navigationRef)
+                                      // 	navigation.navigate('AppNavigation', {
+                                      // 	screen: 'Notifications'
+                                      // })
+                                  }}
+                    />
+                </>
+            }
 
-                </AppContext.Provider>
+        </AppContext.Provider>
     )
 }
 

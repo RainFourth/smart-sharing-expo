@@ -1,7 +1,7 @@
-//import { colors } from './colors'
 import {ThemeType} from "./themeType";
 //import { fonts } from "./fonts";
 import {lightTheme} from "./lightTheme";
+import {colors} from "@t/colors";
 
 
 /*const darkTheme0 = {
@@ -15,4 +15,9 @@ import {lightTheme} from "./lightTheme";
 }*/
 
 // todo implement
-export const darkTheme: ThemeType = lightTheme
+export const darkTheme: ThemeType = {
+    ...lightTheme,
+    backgroundColor: {
+        mainColor: colors.darkBgc
+    }
+}
