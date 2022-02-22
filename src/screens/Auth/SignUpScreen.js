@@ -18,6 +18,7 @@ import { useTheme } from '@h';
 
 import * as apartmentsService from '@se/apartmentsService';
 import * as userService from '@se/userService';
+import {useAuth} from "@h/useAuth";
 
 const makeStyles = (theme) => StyleSheet.create({
     root: {
@@ -46,10 +47,10 @@ const makeStyles = (theme) => StyleSheet.create({
     }
 })
 
-function SignUpSreen({ navigation }) {
+function SignUpScreen({ navigation }) {
     const styles = useTheme(theme => makeStyles(theme), []);
 
-    const { setUser } = useContext(AppContext);
+    const { setJwt, setUser } = useAuth()
 
     const [options, setOptions] = useState({});
 
@@ -99,15 +100,16 @@ function SignUpSreen({ navigation }) {
         if (count < 10) {
             setModal(true)
         } else {
-            const { error, status, payload } = await userService.signUp(options);
+            const { error, jwt, user } = await userService.signUp(options);
 
-            if (status > 299) {
+            if (error) {
                 // TODO replace to modal
-                alert(error);
+                alert(error.code+": "+error.info);
                 return;
             }
 
-            await setUser(payload);
+            setJwt(jwt)
+            setUser(user)
 
             navigation.push('PersonalAccountMainScreen')
         }
@@ -206,4 +208,4 @@ function SignUpSreen({ navigation }) {
     )
 }
 
-export { SignUpSreen };
+export { SignUpScreen };

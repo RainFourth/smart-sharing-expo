@@ -167,8 +167,8 @@ const makeStyles = (theme) => StyleSheet.create({
     }
 })
 
-// function ApartmentSreen({ route: { params: { id, full = false } }, navigation }) {
-function ApartmentSreen({ route, navigation }) {
+// function ApartmentScreen({ route: { params: { id, full = false } }, navigation }) {
+function ApartmentScreen({ route, navigation }) {
     const { id, full = false } = route.params;
     const styles = useTheme(theme => makeStyles(theme), []);
     const theme = useThemeObj();
@@ -449,4 +449,4 @@ function ApartmentSreen({ route, navigation }) {
     )
 }
 
-export { ApartmentSreen };
+export { ApartmentScreen };

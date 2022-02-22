@@ -19,9 +19,10 @@ import {
     InfiniteScroll, ApartmentCard,
     MapMarker, Preloader, Filters
 } from "@c";
-import { useTheme, useThemeObj } from "@h";
+import {useAuth, useTheme, useThemeNew, useThemeObj} from "@h";
 
 import * as apartmentsService from "@se/apartmentsService";
+import {useDispatch, useSelector} from "react-redux";
 
 const dimensions = Dimensions.get("window");
 const { width: FULL_WIDTH } = dimensions;
@@ -136,11 +137,33 @@ function SwipeablePanelHeader(count, filters, selectedIds) {
     );
 }
 
-function MapSreen({ navigation, route: { params: { id, lat, lon, name: cityName } } }) {
-    const styles = useTheme(theme => makeStyles(theme), []);
-    const theme = useThemeObj();
+function MapScreen({
+    navigation, /*route: {
+        params: {
+            id = "ChIJZfbiU9M6qF0RTunYVhTN1jE",
+            lat = 52.28771725041251,
+            lon = 104.28070340632,
+            name: cityName = "Иркутск"
+        }
+    }*/
+}) {
 
-    const { user, state, dispatch } = useContext(AppContext);
+    let id = "ChIJZfbiU9M6qF0RTunYVhTN1jE"
+    let lat = 52.28771725041251
+    let lon = 104.28070340632
+    let name = "Иркутск"
+
+
+    //const styles = useTheme(theme => makeStyles(theme), []);
+    //const themeObj = useThemeObj();
+    const { themeObj } = useThemeNew()
+    const styles = makeStyles(themeObj)
+
+    //const { user, state, dispatch } = useContext(AppContext);
+    const { user } = useAuth()
+    const state = useSelector(s=>s.reducer)
+    const dispatch = useDispatch()
+
     const [latLon, setLatLon] = useState({
         latitude: lat,
         longitude: lon
@@ -169,7 +192,7 @@ function MapSreen({ navigation, route: { params: { id, lat, lon, name: cityName 
     const [selectedApartments, setSelectedApartments] = useState([]);
 
     useEffect(() => {
-        if (user !== null && user.work_city.id === id) {
+        if (user && user.work_city.id === id) {
             setLatLon(prev => ({
                 ...prev,
                 latitude: user.work_city.lat,
@@ -367,7 +390,7 @@ function MapSreen({ navigation, route: { params: { id, lat, lon, name: cityName 
                 }}
                 onMapReady={onMapReady}
                 preserveClusterPressBehavior={true}
-                clusterColor={theme.marker.selected.backgroundColor}
+                clusterColor={themeObj.marker.selected.backgroundColor}
                 onPress={() => {
                     setSelectedIds([]);
                     setShowSearchVariant(false);
@@ -393,7 +416,9 @@ function MapSreen({ navigation, route: { params: { id, lat, lon, name: cityName 
                     </Marker>
                 )}
             </MapView>
-            <MapSearch
+
+            {/*todo uncomment*/}
+            {/*<MapSearch
                 city={{ cityName, id }}
                 onBack={() => navigation.push('ApartmentsCitiesScreen')}
                 onFilters={() => {
@@ -405,7 +430,7 @@ function MapSreen({ navigation, route: { params: { id, lat, lon, name: cityName 
                 applyAddress={applyAddress}
                 showVariant={showSearchVariant}
                 setShowVariant={setShowSearchVariant}
-            />
+            />*/}
             <SwipeablePanel
                 panelStyle={styles.panel}
                 header={SwipeablePanelHeader(apartmentsCount, filters, selectedIds)}
@@ -470,4 +495,4 @@ function MapSreen({ navigation, route: { params: { id, lat, lon, name: cityName 
     );
 }
 
-export { MapSreen };
+export { MapScreen };

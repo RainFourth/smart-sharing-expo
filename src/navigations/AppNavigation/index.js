@@ -1,10 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Linking, View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { Messages } from '@sc';
-import { AppContext, Rights } from '@u';
 import { ApartmentsMapNavigation, FavoriteApartmentsNavigation, PersonalAccountNavigator, NotificationsNavigation } from '@n';
 import { useTheme, useThemeObj } from '@h';
 
@@ -36,7 +35,6 @@ function AppNavigation({ navigation }) {
     const styles = useTheme(theme => makeStyles(theme), []);
     const theme = useThemeObj();
 
-    const { user } = useContext(AppContext);
 
     function handleOpenURL({ url }) {
         if (!/^.*:\/\/oauth/.test(url)) return;

@@ -14,7 +14,7 @@ import { AppContext, fetcher, prettyPrint } from '@u';
 const dimensions = Dimensions.get("window");
 const { width: FULL_WIDTH } = dimensions;
 
-function MainSreen({ navigation }) {
+function MainScreen({ navigation }) {
     const { user, setUser, dispatch } = useContext(AppContext);
     const modal = useRef(null);
 
@@ -88,4 +88,4 @@ function MainSreen({ navigation }) {
     )
 }
 
-export { MainSreen };
+export { MainScreen };

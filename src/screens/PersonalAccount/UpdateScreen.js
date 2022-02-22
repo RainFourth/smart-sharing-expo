@@ -1,10 +1,10 @@
 import React from 'react';
 
-function UpdateSreen() {
+function UpdateScreen() {
     return (
         <>
         </>
     )
 }
 
-export { UpdateSreen };
+export { UpdateScreen };

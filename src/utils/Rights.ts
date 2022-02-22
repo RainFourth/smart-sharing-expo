@@ -1,3 +1,6 @@
+import {AuthStateType} from "@rx/authReducer";
+import {empty} from "@u2/utils";
+
 export const Rights = {
 	'USERS_NOT_VERIFIED': 'users.not_verified',
 	'USERS_EMPLOYEE': 'users.employee',
@@ -11,4 +14,11 @@ export const Rights = {
 	'REQUESTS_CALL': 'requests.call',
 	'REQUESTS_LAW': 'requests.law',
 	'REQUESTS_ADMIN': 'requests.admin'
+}
+export type RightsType = typeof Rights
+
+
+export const hasRights = (user: AuthStateType['user']|empty, rights: RightsType[]) => {
+	if (user && user.rights) return rights.every(r=>user.rights.includes(r))
+	return false
 }

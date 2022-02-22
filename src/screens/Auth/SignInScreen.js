@@ -15,6 +15,7 @@ import { useTheme, useThemeObj } from '@h';
 import { OAuthComponent } from './OAuthComponent';
 
 import * as userService from '@se/userService';
+import {useAuth} from "@h/useAuth";
 
 const dimensions = Dimensions.get("window");
 const { width: FULL_WIDTH } = dimensions;
@@ -93,11 +94,10 @@ const makeStyles = (theme) => StyleSheet.create({
     }
 })
 
-function SignInSreen({ navigation }) {
+function SignInScreen({ navigation }) {
     const styles = useTheme(theme => makeStyles(theme), []);
-    const theme = useThemeObj();
 
-    const { setUser, dispatch } = useContext(AppContext);
+    const { setUser, setJwt } = useAuth()
 
     const [phoneOrEmail, setPhoneOrEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -106,33 +106,24 @@ function SignInSreen({ navigation }) {
     const [popupText, setPopupText] = useState('');
 
     const singIn = async () => {
-        const { status, errors, payload, error } = await userService.singIn({
+        const { error, jwt, user } = await userService.signIn({
             phoneOrEmail,
             password
         })
 
-        if (status > 299) {
-            console.log(status)
-            prettyPrint(errors)
-            prettyPrint(error)
-
-            if (status === 400) {
-                if (error.localCode === 1)
-                    setPopupText('Неверный телефон или неверная почта');
-                else if (error.localCode === 2)
-                    setPopupText('Неверный пароль');
-            } else if (status === 422) {
-                setPopupText('Некорректные данные');
-            } else {
-                // TODO replace to modal
-                alert(JSON.stringify(errors, '*', 2));
+        if (error) {
+            switch (error.code){
+                case "incorrect-login": setPopupText('Неверный телефон или неверная почта'); break
+                case 'incorrect-password': setPopupText('Неверный пароль'); break
+                case 'incorrect-data': setPopupText('Некорректные данные'); break
+                case 'errors': alert(JSON.stringify(error.data, '*', 2)); break
             }
-
-            setPopup(true);
-            return;
+            setPopup(true)
+            return
         }
 
-        await setUser(payload);
+        setJwt(jwt)
+        setUser(user)
         navigation.navigate('Profile');
     }
 
@@ -188,4 +179,4 @@ function SignInSreen({ navigation }) {
     )
 }
 
-export { SignInSreen };
+export { SignInScreen };

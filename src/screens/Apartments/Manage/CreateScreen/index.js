@@ -37,7 +37,7 @@ const makeStyles = (theme) => StyleSheet.create({
     }
 })
 
-function CreateSreen({ navigation }) {
+function CreateScreen({ navigation }) {
     const styles = useTheme(theme => makeStyles(theme), []);
     const theme = useThemeObj();
 
@@ -313,4 +313,4 @@ function CreateSreen({ navigation }) {
     )
 }
 
-export { CreateSreen };
+export { CreateScreen };

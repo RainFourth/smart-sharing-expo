@@ -11,7 +11,7 @@ function ApartmentNavigation() {
             <StackNavigator.Screen
                 name='ApartmentScreen'
                 options={{ title: 'Апаратаменты' }}
-                component={Apartments.ApartmentSreen}
+                component={Apartments.ApartmentScreen}
             />
             <StackNavigator.Screen
                 name='ReviewsScreen'

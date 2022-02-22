@@ -1,8 +1,8 @@
 import * as Manage from './Manage';
 
-export { ListSreen } from './ListScreen';
-export { MapSreen } from './MapScreen';
-export { ApartmentSreen } from './ApartmentScreen';
+export { ListScreen } from './ListScreen';
+export { MapScreen } from './MapScreen';
+export { ApartmentScreen } from './ApartmentScreen';
 export { FavoriteApartmentsScreen } from './FavoriteApartmentsScreen';
 export { CitiesScreen } from './CitiesScreen'
 export { ReviewsScreen } from './ReviewsScreen';

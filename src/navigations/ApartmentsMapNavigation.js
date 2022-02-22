@@ -20,7 +20,7 @@ function ApartmentsMapNavigation() {
             <StackNavigator.Screen
                 name='ApartmentsMapScreen'
                 options={{ title: 'Карта' }}
-                component={Apartments.MapSreen}
+                component={Apartments.MapScreen}
             />
             <StackNavigator.Screen
                 name='ApartmentNavigator'

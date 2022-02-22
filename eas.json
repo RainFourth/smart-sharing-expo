@@ -7,6 +7,15 @@
                 "developmentClient": false
             }
         },
+        "dev-aab": {
+            "android": {
+                "buildType": "app-bundle",
+                "distribution": "internal",
+                "developmentClient": false
+            }
+        },
+
+
         "dev-apk-devclient": {
             "android": {
                 "buildType": "apk",

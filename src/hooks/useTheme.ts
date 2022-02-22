@@ -19,10 +19,8 @@ export type ThemeName = keyof typeof themesMap
 
 
 function useThemeNew(){
-    const theme =
-        useSelector<StateType,StateType['theme']['theme']>(state => state.theme.theme)
-    const themeLoaded =
-        useSelector<StateType,StateType['theme']['_persist']['rehydrated']>(state => state.theme._persist.rehydrated)
+    const { theme, _persist: { rehydrated: themeLoaded }} =
+        useSelector<StateType,StateType['theme']>(state => state.theme)
     const d = useDispatch()
 
     const setTheme = (theme: ThemeName)=>{ d(setThemeActionCreator(theme)) }

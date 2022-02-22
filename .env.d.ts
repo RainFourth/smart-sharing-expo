@@ -14,4 +14,6 @@ declare module '@env' {
     export const OAUTH_FACEBOOK_SIGN: string
 
     export const CURRENT_TIMEZONE: string
+
+    export const GOOGLE_SERVICES_API_KEY: string
 }

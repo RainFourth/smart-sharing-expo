@@ -1,7 +1,7 @@
 import * as fetcher from './fetcher';
 
 export { AppContext } from './AppContext';
-export { Rights } from './Rights';
+export { Rights, RightsType } from './Rights';
 export { splitePrice } from './splitePrice';
 export { Buffer } from './Buffer';
 export { timestampToNormal } from './timestempToNormal';

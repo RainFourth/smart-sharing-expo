@@ -16,6 +16,7 @@ lib ERROR: 'react-native-masked-input-text'
 
 изучить:
 import { useFocusEffect } from '@react-navigation/native'
+js operator in
 
 
 
@@ -131,13 +132,13 @@ repositories:														OK Доступ к API !!! переименовать
 
 
 screens:
-./src/screens/Apartments/ApartmentScreen/index.js					OK *** какая-то компонента ApartmentSreen, либы: 'react-native-snap-carousel'
+./src/screens/Apartments/ApartmentScreen/index.js					OK *** какая-то компонента ApartmentScreen, либы: 'react-native-snap-carousel'
 ./src/screens/Apartments/BookingScreen/index.js						OK *** какая-то компонента BookingScreen, либы: 'react-native-snap-carousel', '@react-native-community/datetimepicker'
 ./src/screens/Apartments/FavoriteApartmentsScreen/Empty.js			OK *** компонента Empty
 ./src/screens/Apartments/FavoriteApartmentsScreen/index.js			OK *** компонента FavoriteApartmentsScreen, либы: '@react-navigation/native'
 ./src/screens/Apartments/FavoriteApartmentsScreen/Unathorized.js	OK *** компонента Unauthorized
-./src/screens/Apartments/ListSreen/index.js							OK *** компонента ListSreen, переименовать
-./src/screens/Apartments/Manage/CreateSreen/index.js				OK *** компонента CreateSreen, переименовать
+./src/screens/Apartments/ListScreen/index.js							OK *** компонента ListScreen, переименовать
+./src/screens/Apartments/Manage/CreateScreen/index.js				OK *** компонента CreateScreen, переименовать
 ./src/screens/Apartments/Manage/Address.js							OK *** компонента Address
 ./src/screens/Apartments/Manage/ApartmentData.js					OK *** компонента ApartmentData
 ./src/screens/Apartments/Manage/EditApartmentScreen.js				OK *** компонента EditApartmentScreen
@@ -146,24 +147,24 @@ screens:
 ./src/screens/Apartments/Manage/MyApartmentsScreen.js 				OK *** компонента MyApartmentsScreen
 ./src/screens/Apartments/Manage/RoomsInput.js						OK *** компонента RoomsInput
 ./src/screens/Apartments/Manage/SelectOnMap.js						OK *** компонента SelectOnMap, либы: "react-native-maps";
-./src/screens/Apartments/Manage/UpdateSreen.js						OK *** компонента UpdateSreen, пустая компонента + надо переименовать
+./src/screens/Apartments/Manage/UpdateScreen.js						OK *** компонента UpdateScreen, пустая компонента + надо переименовать
 ./src/screens/Apartments/CitiesScreen.js							OK *** компонента CitiesScreen
 ./src/screens/Apartments/index.js									OK *** импорт как модуля, а здесь то оно надо?
-./src/screens/Apartments/MapScreen.js								OK *** компонента MapSreen, SwipeablePanelHeader + переименовать, либы: "react-native-map-clustering"
+./src/screens/Apartments/MapScreen.js								OK *** компонента MapScreen, SwipeablePanelHeader + переименовать, либы: "react-native-map-clustering"
 ./src/screens/Apartments/ReviewsScreen.js							OK *** компонента ReviewsScreen
 ./src/screens/Auth/index.js											OK *** импорт как модуля, а здесь то оно надо?
 ./src/screens/Auth/MethodSelectionScreen.js							OK *** компонента MethodSelectionScreen
 ./src/screens/Auth/OAuthComponent.js								OK *** компонента OAuthComponent
-./src/screens/Auth/SignInScreen.js									OK *** компонента SignInSreen, переименовать
-./src/screens/Auth/SignUpScreen.js									OK *** компонента SignUpSreen, переименовать
+./src/screens/Auth/SignInScreen.js									OK *** компонента SignInScreen, переименовать
+./src/screens/Auth/SignUpScreen.js									OK *** компонента SignUpScreen, переименовать
 ./src/screens/Messages/index.js										OK *** импорт как модуля, а здесь то оно надо?
 ./src/screens/Messages/MainScreen.js								OK *** компонента MainScreen
 ./src/screens/Notifications/index.js								OK *** импорт как модуля, а здесь то оно надо?
 ./src/screens/Notifications/MainScreen.js							OK *** компонента MainScreen
 ./src/screens/Notifications/Notification.js							OK *** компонента Notification
 ./src/screens/OAuth/index.js										OK *** импорт как модуля, а здесь то оно надо?
-./src/screens/OAuth/SignInSrceen.js									OK *** компонента SignInSreen, переименовать
-./src/screens/OAuth/SignUpSreen.js									OK *** компонента SignUpSreen, переименовать, компонента пустая
+./src/screens/OAuth/SignInSrceen.js									OK *** компонента SignInScreen, переименовать
+./src/screens/OAuth/SignUpScreen.js									OK *** компонента SignUpScreen, переименовать, компонента пустая
 ./src/screens/OAuth/StatusScreen.js									OK *** компонента StatusScreen, переименовать
 ./src/screens/PersonalAccount/BookingScreen/Apartment.js			OK *** компонента Apartment
 ./src/screens/PersonalAccount/BookingScreen/index.js				OK *** компонента BookingScreen
@@ -178,11 +179,11 @@ screens:
 ./src/screens/PersonalAccount/Profile/Info.js						OK *** компонента Info
 ./src/screens/PersonalAccount/Profile/ProfileScreen.js				OK *** компонента ProfileScreen
 ./src/screens/PersonalAccount/index.js								OK *** импорт как модуля, а здесь то оно надо?
-./src/screens/PersonalAccount/MainScreen.js							OK *** компонента MainSreen, переименовать
-./src/screens/PersonalAccount/UpdateScreen.js						OK *** компонента UpdateSreen, переименовать, пустая компонента
+./src/screens/PersonalAccount/MainScreen.js							OK *** компонента MainScreen, переименовать
+./src/screens/PersonalAccount/UpdateScreen.js						OK *** компонента UpdateScreen, переименовать, пустая компонента
 ./src/screens/index.js												OK *** импорт как модуля, а здесь то оно надо?
 ./src/screens/PreloaderScreen.js									OK *** компонента PreloaderScreen, сразу показывает компоненту Preloader
-./src/screens/WelcomeScreen.js										OK *** компонента WelcomeSreen, переименовать, пустая компонента
+./src/screens/WelcomeScreen.js										OK *** компонента WelcomeScreen, переименовать, пустая компонента
 
 
 services:															OK преобразовывает полученыые данные из репозиториев в более удобные если надо

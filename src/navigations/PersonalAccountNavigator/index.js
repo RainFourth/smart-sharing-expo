@@ -16,17 +16,17 @@ function PersonalAccountNavigator() {
             <StackNavigator.Screen
                 name='PersonalAccountMainScreen'
                 options={{ title: 'Мой профиль' }}
-                component={PersonalAccount.MainSreen}
+                component={PersonalAccount.MainScreen}
             />
             <StackNavigator.Screen
                 name='PersonalAccountSignUp'
                 options={{ title: 'Регистрация' }}
-                component={Auth.SignUpSreen}
+                component={Auth.SignUpScreen}
             />
             <StackNavigator.Screen
                 name='CreateApartmentScreen'
                 options={{ title: 'Создание жилья' }}
-                component={Apartments.Manage.CreateSreen}
+                component={Apartments.Manage.CreateScreen}
             />
             <StackNavigator.Screen
                 name='MyApartmentsNavigation'

@@ -23,8 +23,6 @@ module.exports = function(api) {
                     "@u2": './src/utils2',
                     "@r": './src/repositories',
                     "@se": './src/services',
-
-                    "@test/2": './src/test',
                 }
             }],
             ['module:react-native-dotenv', {

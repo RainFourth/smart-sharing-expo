@@ -7,16 +7,16 @@ const StackNavigator = createStackNavigator();
 
 function ApartmentsListNavigation() {
     return (
-        <StackNavigator.Navigator screenOptions={{headerShown: false}} initialRouteName='ApartmentsListSreen'>
+        <StackNavigator.Navigator screenOptions={{headerShown: false}} initialRouteName='ApartmentsListScreen'>
             <StackNavigator.Screen
-                name='ApartmentsListSreen'
+                name='ApartmentsListScreen'
                 options={{ title: 'Список квартир' }}
-                component={Apartments.ListSreen}
+                component={Apartments.ListScreen}
             />
             <StackNavigator.Screen
-                name='ApartmentSreen'
+                name='ApartmentScreen'
                 options={{ title: 'Квартира' }}
-                component={Apartments.ApartmentSreen}
+                component={Apartments.ApartmentScreen}
             />
         </StackNavigator.Navigator>
     )

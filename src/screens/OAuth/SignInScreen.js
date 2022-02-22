@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 import { Container } from '@c';
 import { fetcher, AppContext } from '@u';
 
-function SignInSreen({ route: { params }, navigation }) {
+function SignInScreen({ route: { params }, navigation }) {
     const { setUser } = useContext(AppContext);
 
     const signIn = async () => {
@@ -44,4 +44,4 @@ function SignInSreen({ route: { params }, navigation }) {
     )
 }
 
-export { SignInSreen };
+export { SignInScreen };

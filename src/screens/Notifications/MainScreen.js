@@ -9,6 +9,7 @@ import { AppContext, prettyPrint } from '@u';
 import * as notificationsService from '@se/notificationsService';
 
 import { Notification } from './Notification';
+import {useAuth} from "@h/useAuth";
 
 const makeStyles = (theme) => StyleSheet.create({
     root: {
@@ -53,7 +54,8 @@ function MainScreen({ navigation }) {
     const modal = useRef(null);
     const scrollRef = useRef(null);
 
-    const { user, state, dispatch } = useContext(AppContext);
+    const { state, dispatch } = useContext(AppContext);
+    const { jwt } = useAuth()
 
     const [firstId, setFirstId] = useState(null);
     const [lastId, setLastId] = useState(null);
@@ -117,7 +119,7 @@ function MainScreen({ navigation }) {
             query.count = true;
         }
 
-        const { status, errors, payload } = await notificationsService.getNotifications(query, user.jwt);
+        const { status, errors, payload } = await notificationsService.getNotifications(query, jwt);
 
         if (status >= 299) {
             modal.current.show({ header: 'Произошла ошибка', description: prettyPrint(errors, 'str') })
@@ -148,7 +150,7 @@ function MainScreen({ navigation }) {
     }, [filter])
 
     const read = async (id) => {
-        const { errors, status } = await notificationsService.readNotification(id, user.jwt);
+        const { errors, status } = await notificationsService.readNotification(id, jwt);
 
         if (status > 299) {
             modal.current.show({ header: 'Произошла ошибка', description: prettyPrint(errors, 'str') });

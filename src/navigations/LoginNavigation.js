@@ -19,12 +19,12 @@ function LoginNavigation() {
             <StackNavigator.Screen
                 name='SignInScreen'
                 options={{ title: 'Вход' }}
-                component={Auth.SignInSreen}
+                component={Auth.SignInScreen}
             />
             <StackNavigator.Screen
                 name='SignUpScreen'
                 options={{ title: 'Регистрация' }}
-                component={Auth.SignUpSreen}
+                component={Auth.SignUpScreen}
             />
         </StackNavigator.Navigator>
     )

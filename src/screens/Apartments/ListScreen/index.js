@@ -3,7 +3,7 @@ import React from 'react';
 import { Container, InfiniteScroll, ApartmentCard } from '@c';
 import * as apartmentsService from '@se/apartmentsService';
 
-function ListSreen({ navigation }) {
+function ListScreen({ navigation }) {
     const getApartments = async (options) => {
         const { status, error, payload: { items, count } } = await apartmentsService.getList(options);
 
@@ -24,7 +24,7 @@ function ListSreen({ navigation }) {
                 renderItem={({ item }) =>
                     <ApartmentCard
                         item={item}
-                        onPress={(id) => navigation.push('ApartmentSreen', { id })}
+                        onPress={(id) => navigation.push('ApartmentScreen', { id })}
                     />
                 }
                 keyExtractor={item => String(item.id)}
@@ -35,4 +35,4 @@ function ListSreen({ navigation }) {
     )
 }
 
-export { ListSreen };
+export { ListScreen };

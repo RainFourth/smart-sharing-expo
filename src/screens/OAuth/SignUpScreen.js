@@ -1,9 +1,9 @@
 import React from 'react';
 
-function SignUpSreen() {
+function SignUpScreen() {
     return (
         <></>
     )
 }
 
-export { SignUpSreen };
+export { SignUpScreen };

@@ -11,11 +11,11 @@ function ApartmentsManageNavigation() {
         <TabNavigator.Navigator initialRouteName='ApartmentsCreateScreen'>
             <TabNavigator.Screen
                 name='ApartmentsCreateScreen'
-                component={Apartments.Manage.CreateSreen}
+                component={Apartments.Manage.CreateScreen}
             />
             <TabNavigator.Screen
                 name='ApartmentsUpdateScreen'
-                component={Apartments.Manage.UpdateSreen}
+                component={Apartments.Manage.UpdateScreen}
             />
         </TabNavigator.Navigator>
     )
