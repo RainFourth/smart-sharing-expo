@@ -3,6 +3,7 @@ export const colors = {
     mainColor: '#5E30E6',
     lighter: '#E6DEFF',
     medium: '#7B61FF',
+    primaryMedium: '#7B61FF',
 
     dark0: '#201C28',
     dark1: '#2E283D',
@@ -23,5 +24,7 @@ export const colors = {
     red2: '#FF5C5C',
     red3: '#FF8080',
     red4: '#FFE5E5',
-    line: '#EBEBEB'
+    line: '#EBEBEB',
+
+    gray: '#5C5C5C',
 }

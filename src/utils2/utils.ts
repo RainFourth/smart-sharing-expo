@@ -1,4 +1,5 @@
 import {ErrorType} from "@se/error";
+import {StyleSheet} from "react-native";
 
 
 export type empty = null|undefined
@@ -32,3 +33,48 @@ export const emptyFun: (...args: unknown[])=>unknown = ()=>{}
 export const noErrors = <T>(o: {error?: ErrorType|empty} & T): o is Require<T> => !o.error
 
 
+
+export const sg = StyleSheet.create({
+    absolute: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    },
+    transparent: {
+        backgroundColor: '#00000000'
+    }
+})
+
+
+
+/*
+
+type err = {
+    error?: ErrorType
+}
+type data = {
+    jwt?: string
+}
+
+let fun = (): err & data => {
+    const d = {
+        error: {
+            code: 'error'
+        } as ErrorType
+    }
+
+    return d as typeof d.error extends empty ? data : err
+}
+let fun2 = (): err & data => {
+    const d = {
+        data: {
+            jwt: "dksjflkj"
+        }
+    }
+
+    return d as typeof d.error extends empty ? data : err
+}
+
+*/

@@ -24,7 +24,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
             // resizeMode: cover - fit by height or contain - fit by width, по другому измерению изображение центрируется
             resizeMode: "contain",
             image: "./src/assets/images/splash-screen.png",
-            backgroundColor: '#212121' // todo and make light status bar icons if can
+            //backgroundColor: '#212121' // todo and make light status bar icons if can
+            backgroundColor: '#7B61FF' // todo and make light status bar icons if can
         },
         updates: {
             fallbackToCacheTimeout: 0

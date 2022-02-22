@@ -1,6 +1,16 @@
 
 
 export type ThemeType = {
+    readonly mainColors: {
+        readonly accent: string
+
+        readonly bgcElem: string
+
+        readonly bgc: string
+
+        readonly bgcAccent: string
+        readonly onBgcAccent: string
+    }
     readonly font: {
         readonly family: string,
         readonly familyBold: string,

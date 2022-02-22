@@ -17,6 +17,16 @@ import {colors} from "@t/colors";
 // todo implement
 export const darkTheme: ThemeType = {
     ...lightTheme,
+    mainColors: {
+        accent: colors.primaryMedium,
+
+        bgcElem: colors.gray,
+
+        bgc: colors.light0,
+
+        bgcAccent: colors.darkBgc,
+        onBgcAccent: 'white',
+    },
     backgroundColor: {
         mainColor: colors.darkBgc
     }

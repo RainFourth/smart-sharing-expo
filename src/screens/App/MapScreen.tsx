@@ -1,13 +1,8 @@
 import React from 'react'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import {StyleSheet, Text, View, ImageBackground, Pressable} from 'react-native'
-import { useDimens } from "@h/useDimens";
-import { WebView } from 'react-native-webview';
-import MessageIc from "@c/SvgIcons/MessageIc";
-import LocationIc from "@c/SvgIcons/LocationIc";
-import HeartIc from "@c/SvgIcons/HeartIc";
-import UserIc from "@c/SvgIcons/UserIc";
-import BottomTabBar from "@sc/MapScreen/BottomTabBar";
+import { StyleSheet, View } from 'react-native'
+import BottomTabBar, {Route} from "@sc/App/BottomTabBar";
+import { emptyFun, sg } from "@u2/utils";
 
 
 const s = StyleSheet.create({
@@ -37,20 +32,14 @@ const s = StyleSheet.create({
         //height: 100,
         //width: 100,
     },
-    absolute: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-    },
-    transparent: {
-        backgroundColor: '#00000000'
-    }
 });
 
-
-const MapScreen = ({navigation}:{navigation: any}) => {
+// todo useNavigation hook
+type MapScreenType = {
+    navigation: unknown
+    setRoute?: (route: Route) => void
+}
+const MapScreen = ({navigation, setRoute = emptyFun}:MapScreenType) => {
 
 
     /*console.log("AAAAAAAAAAAAAAAAAAAA")
@@ -69,7 +58,7 @@ const MapScreen = ({navigation}:{navigation: any}) => {
 
         <MapView
             provider={PROVIDER_GOOGLE}
-            style={s.absolute}
+            style={sg.absolute}
             onMapReady={onMapReady}
             onMapLoaded={onMapLoaded}
             initialRegion={{
@@ -81,24 +70,7 @@ const MapScreen = ({navigation}:{navigation: any}) => {
             showsBuildings={true}
         />
 
-        <View style={s.bottomBarBox}>
-
-            <WebView
-                style={[s.absolute, s.transparent]}
-                originWhitelist={['*']}
-                source={{ html:
-                        '<div style="' +
-                        'position: absolute; top: 0; right:0; bottom: 0; left: 0;' +
-                        'background: rgba(255,255,255,0.2); backdrop-filter: blur(48px);' +
-                        '/*width:100%; height:100%; margin:0; padding:-10px;*/' +
-                        '/*background: #ff000033;*/ /*transparent*/ /*background: #4fc3f733;*/  /*border: none*/" ' +
-                        '></div>'
-                }}
-            />
-
-            <BottomTabBar selected={'location'}/>
-
-        </View>
+        <BottomTabBar route={'map'} onRoute={setRoute} />
 
     </View>
 }

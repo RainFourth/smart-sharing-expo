@@ -3,6 +3,16 @@ import { fonts } from './fonts';
 import {ThemeType} from "./themeType";
 
 export const lightTheme: ThemeType = {
+    mainColors:{
+        accent: colors.primaryMedium,
+
+        bgcElem: colors.gray,
+
+        bgc: colors.light0,
+
+        bgcAccent: colors.primaryMedium,
+        onBgcAccent: 'white',
+    },
     font: {
         family: fonts.family,
         familyBold: fonts.familyBold,
@@ -23,7 +33,7 @@ export const lightTheme: ThemeType = {
         mainColor: colors.light4,
     },
     preloader: {
-        spinnerColor: colors.mainColor
+        spinnerColor: 'white'
     },
     button: {
         backgroundColor: {

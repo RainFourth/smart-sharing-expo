@@ -1,1 +1,5 @@
-eas build -p android --profile dev-apk              // dev-apk is profile name in eas.json
+eas build -p android --profile dev-apk
+eas build -p android --profile dev-aab
+
+
+// dev-apk or dev-aab is profile names in eas.json

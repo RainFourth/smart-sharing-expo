@@ -1,6 +1,5 @@
 export { Container } from './Container';
 export { InfiniteScroll } from './InfiniteScroll';
-export { Preloader } from './Preloader';
 export { MapMarker } from './MapMarker';
 export { MapSearch } from './MapSearch';
 export { ApartmentCard } from './ApartmentCard';

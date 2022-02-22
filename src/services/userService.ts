@@ -89,6 +89,7 @@ async function getRents(options) {
 
 
 
+
 // todo - OLD - uses session - replace with jwt and remove
 type getAuthDataBySessionType = () =>
     Promise<{ error?: ErrorType, jwt?: AuthStateType['jwt'], user?: AuthStateType['user'] }>

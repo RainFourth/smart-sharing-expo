@@ -8,7 +8,7 @@ import persistStore from "redux-persist/es/persistStore";
 import store from "~/redux/store";
 // and you can't useDispatch here because in props of this component no store yet
 
-import Main from "@c/Main";
+import Main from "@sc/Main";
 import {StyleSheet, View} from "react-native";
 import {colors} from "@t/colors";
 

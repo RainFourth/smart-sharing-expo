@@ -26,8 +26,9 @@ import { Notification } from '@c';
 
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "@rx/store";
-import MapScreen from "@sc/MapScreen/MapScreen";
+import MapScreen from "@sc/App/MapScreen";
 import { MapScreen as MapScreenOld } from "@sc/Apartments/MapScreen";
+import AppRoot from "@sc/App/AppRoot";
 
 
 const RootNavigation = createStackNavigator();
@@ -72,6 +73,8 @@ function Main() {
 
     if (!t.themeLoaded) return <></>
 
+    //return <PreloaderScreen />
+
     return (
         <AppContext.Provider
             value={{
@@ -95,7 +98,7 @@ function Main() {
                                 headerShown: false,
                                 //headerTitle: 'Smart Sharing'
                             }}
-                            initialRouteName='MapScreenNew'
+                            initialRouteName='AppRoot'
                         >
                             <RootNavigation.Screen name='WelcomeScreen' component={WelcomeScreen} />
                             <RootNavigation.Screen name='AppNavigation' component={AppNavigation} />
@@ -106,6 +109,7 @@ function Main() {
                             <RootNavigation.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen} />
                             <RootNavigation.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen} />
 
+                            <RootNavigation.Screen name='AppRoot' component={AppRoot} />
                             <RootNavigation.Screen name='MapScreenNew' component={MapScreen} />
                             <RootNavigation.Screen name='MapScreenOld' component={MapScreenOld} />
                         </RootNavigation.Navigator>
