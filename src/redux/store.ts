@@ -9,6 +9,7 @@ import authReducer, {AuthStateType} from "@rx/authReducer";
 import {persistReducer} from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
+import appReducer, {AppStateType} from "@rx/appReducer";
 
 
 
@@ -32,8 +33,10 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
     theme: persistReducer(themePersistConfig, themeReducer),
     reducer: reducer,
-    auth: persistReducer(authPersistConfig, authReducer)
+    auth: persistReducer(authPersistConfig, authReducer),
+    app: appReducer
 })
+
 type PersistState = {
     _persist: {
         rehydrated: boolean
@@ -44,6 +47,7 @@ export type StateType = {
     theme: ThemeStateType & PersistState
     reducer: ReducerStateType
     auth: AuthStateType & PersistState
+    app: AppStateType
 }
 
 

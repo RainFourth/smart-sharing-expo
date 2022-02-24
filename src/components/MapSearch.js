@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 
 import * as apartmentsService from "@se/apartmentsService";
-import { useTheme } from '@h';
+import {useTheme, useThemeNew} from '@h';
 
 const dimensions = Dimensions.get("window");
 const { width: FULL_WIDTH } = dimensions;
@@ -53,7 +53,7 @@ function MapSearch({
     showVariant = false,
     setShowVariant = () => { }
 }) {
-    const styles = useTheme(theme => makeStyles(theme), []);
+    const {style: styles} = useThemeNew(makeStyles);
 
     const inputRef = useRef();
 

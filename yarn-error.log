@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add -D @types/react-native-shadow
 
 PATH: 
   C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\VulkanSDK\1.1.106.0\Bin;C:\Python310\Scripts\;C:\Python310\;C:\Python39\Scripts\;C:\Python39\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\dotnet\;C:\Program Files\nodejs\;C:\Users\Tesseract\AppData\Local\Microsoft\WindowsApps;C:\Program Files\FFMPEG\ffmpeg-4.3-win64-static\bin;C:\Users\Tesseract\.dotnet\tools;C:\Users\Tesseract\AppData\Roaming\npm;D:\PROG\Android\[projects]\smart-sharing-expo\node_modules\.bin
@@ -14,12 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: D:\PROG\Android\[projects]\smart-sharing-expo\package.json: Unexpected string in JSON at position 1727
-      at JSON.parse (<anonymous>)
-      at C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
-      at C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+  Error: https://registry.yarnpkg.com/@types%2freact-native-shadow: Not found
+      at Request.params.callback [as _callback] (C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:67029:18)
+      at Request.self.callback (C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140883:22)
+      at Request.emit (node:events:520:28)
+      at Request.<anonymous> (C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141855:10)
+      at Request.emit (node:events:520:28)
+      at IncomingMessage.<anonymous> (C:\Users\Tesseract\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141777:12)
+      at Object.onceWrapper (node:events:639:28)
+      at IncomingMessage.emit (node:events:532:35)
+      at endReadableNT (node:internal/streams/readable:1346:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -63,8 +68,9 @@ npm manifest:
           "react-native-paper": "^4.7.2",
           "react-native-safe-area-context": "3.3.2",
           "react-native-screens": "~3.10.1",
+          "react-native-shadow": "^1.2.2",
           "react-native-snap-carousel": "^3.9.1",
-          "react-native-svg": "^12.1.1"
+          "react-native-svg": "^12.1.1",
           "react-native-vector-icons": "^8.0.0",
           "react-native-web": "0.17.1",
           "react-native-webview": "11.15.0",
@@ -78,8 +84,8 @@ npm manifest:
           "@expo/config": "^6.0.18",
           "@types/react": "~17.0.21",
           "@types/react-native": "~0.64.12",
-          "typescript": "~4.3.5",
-          "react-native-svg-transformer": "^1.0.0"
+          "react-native-svg-transformer": "^1.0.0",
+          "typescript": "~4.3.5"
       },
       "private": true
   }
@@ -5321,6 +5327,11 @@ Lockfile:
     dependencies:
       react-freeze "^1.0.0"
       warn-once "^0.1.0"
+  
+  react-native-shadow@^1.2.2:
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/react-native-shadow/-/react-native-shadow-1.2.2.tgz#08991cd14b71e32f2fc6363911c139d231949a66"
+    integrity sha512-kwTmqRKmPEML9KbJi0uvvKd+67rOJQcr3IyNp9bg+qi/H+Wnwev/Mr8sUiUZlYEJ433ii2iNwpjc1ERMjHtMWw==
   
   react-native-snap-carousel@^3.9.1:
     version "3.9.1"

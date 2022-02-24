@@ -5,9 +5,10 @@ import LocationIc from "@c/SvgIcons/LocationIc";
 import HeartIc from "@c/SvgIcons/HeartIc";
 import UserIc from "@c/SvgIcons/UserIc";
 import {useDimens} from "@h/useDimens";
-import {emptyFun} from "@u2/utils";
+import {emptyFun, nonEmpty} from "@u2/utils";
 import {useThemeNew} from "@h";
 import BlurView from "@c/BlurView";
+import {AppStateType} from "@rx/appReducer";
 
 
 
@@ -36,13 +37,14 @@ const s = StyleSheet.create({
 
 
 
-export type Route = 'messages' | 'map' | 'favorites' | 'profile'
 export type BottomTabBarType = {
-    route?: Route
-    onRoute?: (route: Route) => void
+    tab?: AppStateType['appNav']['tab']
+    onTab?: (route: AppStateType['appNav']['tab']) => void
+    height?: number
+    zIndex?: number
 }
 
-const BottomTabBar = ( { route = 'map', onRoute = emptyFun }: BottomTabBarType ) => {
+const BottomTabBar = ( { tab, onTab = emptyFun, height = 80, zIndex }: BottomTabBarType ) => {
 
     //const boxRef = useRef<View>(null);
     //if (boxRef.current){
@@ -55,32 +57,32 @@ const BottomTabBar = ( { route = 'map', onRoute = emptyFun }: BottomTabBarType )
 
 
     const getIconColor = useCallback(
-        (r: Route) => r===route ? themeObj.mainColors.accent : themeObj.mainColors.bgcElem,
-        [themeObj]
+        (t: AppStateType['appNav']['tab']) => t===tab ? themeObj.mainColors.accent1 : themeObj.mainColors.secondary1,
+        [tab,themeObj]
     )
 
 
     const icW = useDimens().w * 0.06
 
-    return  <View style={s.bottomBarBox}>
+    return  <View style={[s.bottomBarBox, {height}, nonEmpty(zIndex)?{zIndex}:{}]}>
 
-        <BlurView background="rgba(255,255,255,0.2)" blur="48px" />
+        <BlurView background={themeObj.bottomTabBar.color} blur="48px" />
 
         <View style={s.box} /*ref={boxRef}*/>
-            <Pressable style={[s.pressable, {/*backgroundColor: '#ff000055'*/}]}
-                       onPress={()=>onRoute('messages')}>
+            <Pressable style={s.pressable}
+                       onPress={()=>onTab('messages')}>
                 <MessageIc size={icW} color={getIconColor('messages')} />
             </Pressable>
             <Pressable style={s.pressable}
-                       onPress={()=>onRoute('map')}>
+                       onPress={()=>onTab('map')}>
                 <LocationIc size={icW} color={getIconColor('map')} />
             </Pressable>
             <Pressable style={s.pressable}
-                       onPress={()=>onRoute('favorites')}>
+                       onPress={()=>onTab('favorites')}>
                 <HeartIc size={icW} color={getIconColor('favorites')} />
             </Pressable>
             <Pressable style={s.pressable}
-                       onPress={()=>onRoute('profile')}>
+                       onPress={()=>onTab('profile')}>
                 <UserIc size={icW} color={getIconColor('profile')} />
             </Pressable>
         </View>

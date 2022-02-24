@@ -9,8 +9,8 @@ import * as userService from "@se/userService";
 const defaultUser: AuthStateType['user'] = {
     is_verified: false,
     name: "User",
-    patronymic: "Test", // отчество
-    surname: "Default",
+    patronymic: "Default", // отчество
+    surname: "Test",
     birth_date: 946684800000, // timestamp 01.01.2000 00:00:00 GMT+0
     registration_city: {
         name: string
@@ -35,7 +35,7 @@ const defaultUser: AuthStateType['user'] = {
 
 export function useAuth(){
     const { user, jwt, _persist : { rehydrated: authRehydrated } } =
-        useSelector<StateType, StateType['auth']>(state=>state.auth)
+        useSelector((s:StateType)=>s.auth)
     const [authLoaded, setAuthLoaded] = useState(false)
     const d = useDispatch()
     const [authDataReady, setAuthDataReady] = useState(false)

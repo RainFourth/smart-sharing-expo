@@ -8,7 +8,7 @@ import 'react-native-gesture-handler';
  */
 
 
-import React, { useMemo, useReducer, useEffect, useCallback, useState } from "react";
+import React, { useMemo } from "react";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,19 +19,15 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { useFonts } from 'expo-font';
 
 import { WelcomeScreen, Auth, OAuth, PreloaderScreen } from '@sc';
-import { AppNavigation, LoginNavigation } from '@n';
+import { LoginNavigation } from '@n';
 import { AppContext, prettyPrint } from '@u';
 import { useAuth, useSocket, useThemeNew } from '@h';
 import { Notification } from '@c';
 
-import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "@rx/store";
-import MapScreen from "@sc/App/MapScreen";
-import { MapScreen as MapScreenOld } from "@sc/Apartments/MapScreen";
-import AppRoot from "@sc/App/AppRoot";
+import { useDispatch, useSelector } from "react-redux";
+import { StateType } from "@rx/store";
+import AppNav, {AppNavProps} from "@sc/App/AppNav";
 
-
-const RootNavigation = createStackNavigator();
 
 
 
@@ -44,6 +40,21 @@ const RootNavigation = createStackNavigator();
 
 
 
+import { useNavigation } from "@react-navigation/native";
+import {PixelRatio, View} from "react-native";
+import {sg} from "@u2/utils";
+import {StatusBar} from "expo-status-bar";
+import Example from "@sc/Example"; // todo изучить
+// https://reactnavigation.org/docs/navigation-prop
+// https://reactnavigation.org/docs/typescript/#combining-navigation-props
+export type MainStackType = {
+    AppNav: AppNavProps
+    [name: string]: {} // todo types of other components
+}
+const RootNav = createStackNavigator<MainStackType>();
+
+
+
 
 function Main() {
 
@@ -53,13 +64,15 @@ function Main() {
 
     const auth = useAuth()
 
-    const state = useSelector<StateType,StateType['reducer']>(state=>state.reducer)
+    const state = useSelector((s:StateType)=>s.reducer)
     const d = useDispatch()
 
     // todo check if bold, italics font kinds are importing - походу не импортятся
     const [fontLoaded] = useFonts({
         'Montserrat-Regular': require('@assets/fonts/Montserrat-Regular.ttf'),
         'Montserrat-Medium': require('@assets/fonts/Montserrat-Medium.ttf'),
+        'Montserrat-SemiBold': require('@assets/fonts/Montserrat-SemiBold.ttf'),
+        'Montserrat-Bold': require('@assets/fonts/Montserrat-Bold.ttf'),
     })
 
     const preloading = useMemo(() => !isConnected || !auth.authDataReady || !t.themeLoaded || !fontLoaded,
@@ -83,49 +96,57 @@ function Main() {
                 dispatch: d, state
             }}
         >
-            {preloading && <PreloaderScreen />}
-            {!preloading &&
-                <>
-                    <NavigationContainer
-                        // initialState={initialState}
-                        // onStateChange={(state) =>
-                        // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
-                        // }
-                    >
-                        {/**/}
-                        <RootNavigation.Navigator
-                            screenOptions={{
-                                headerShown: false,
-                                //headerTitle: 'Smart Sharing'
-                            }}
-                            initialRouteName='AppRoot'
+            <View style={[sg.absolute, { backgroundColor: t.themeObj.mainColors.bgc1}]}>
+                <StatusBar
+                    style={t.theme==='light'?'dark':'light'}
+                />
+                {preloading && <PreloaderScreen />}
+                {!preloading &&
+                    <>
+                        <NavigationContainer
+                            // initialState={initialState}
+                            // onStateChange={(state) =>
+                            // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+                            // }
                         >
-                            <RootNavigation.Screen name='WelcomeScreen' component={WelcomeScreen} />
-                            <RootNavigation.Screen name='AppNavigation' component={AppNavigation} />
-                            <RootNavigation.Screen name='Login' component={LoginNavigation} />
-                            <RootNavigation.Screen name='SignUpScreen' component={Auth.SignUpScreen} />
-                            <RootNavigation.Screen name='SignInScreen' component={Auth.SignInScreen} />
-                            <RootNavigation.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen} />
-                            <RootNavigation.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen} />
-                            <RootNavigation.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen} />
+                            {/**/}
+                            <RootNav.Navigator
+                                screenOptions={{
+                                    headerShown: false,
+                                    //headerTitle: 'Smart Sharing'
+                                }}
+                                initialRouteName='AppNav'
+                            >
+                                {/*<RootNav.Screen name='Example' component={Example} />*/}
 
-                            <RootNavigation.Screen name='AppRoot' component={AppRoot} />
-                            <RootNavigation.Screen name='MapScreenNew' component={MapScreen} />
-                            <RootNavigation.Screen name='MapScreenOld' component={MapScreenOld} />
-                        </RootNavigation.Navigator>
-                    </NavigationContainer>
 
-                    <Notification visible={notificationVisible} setVisible={setNotificationVisible}
-                                  notification={notification}
-                                  onPress={() => {
-                                      //prettyPrint(navigationRef)
-                                      // 	navigation.navigate('AppNavigation', {
-                                      // 	screen: 'Notifications'
-                                      // })
-                                  }}
-                    />
-                </>
-            }
+                                <RootNav.Screen name='AppNav' component={AppNav} />
+
+                                <RootNav.Screen name='WelcomeScreen' component={WelcomeScreen} />
+
+                                <RootNav.Screen name='Login' component={LoginNavigation} />
+                                <RootNav.Screen name='SignUpScreen' component={Auth.SignUpScreen} />
+                                <RootNav.Screen name='SignInScreen' component={Auth.SignInScreen} />
+                                <RootNav.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen} />
+                                <RootNav.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen} />
+                                <RootNav.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen} />
+
+                            </RootNav.Navigator>
+                        </NavigationContainer>
+
+                        <Notification visible={notificationVisible} setVisible={setNotificationVisible}
+                                      notification={notification}
+                                      onPress={() => {
+                                          //prettyPrint(navigationRef)
+                                          // 	navigation.navigate('AppNavigation', {
+                                          // 	screen: 'Notifications'
+                                          // })
+                                      }}
+                        />
+                    </>
+                }
+            </View>
+
 
         </AppContext.Provider>
     )

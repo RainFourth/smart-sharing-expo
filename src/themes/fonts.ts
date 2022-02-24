@@ -1,4 +1,6 @@
 export const fonts = {
-    family: 'Montserrat-Regular',
-    familyBold: 'Montserrat-Medium'
+    regular: 'Montserrat-Regular',
+    medium: 'Montserrat-Medium',
+    semibold: 'Montserrat-SemiBold',
+    bold: 'Montserrat-Bold',
 }

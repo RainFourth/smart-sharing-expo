@@ -7,6 +7,8 @@ type authReducerTypes = "set-user" | 'set-jwt'
 export type AuthActionType = Action<authReducerTypes> & anyObj
 
 
+// user type: 'local' | ...
+
 // todo type
 export type AuthStateType = {
     jwt: string|empty

@@ -2,13 +2,14 @@ import React, { useContext, useMemo, useRef, useEffect, useState } from 'react';
 import { Text, StyleSheet, StatusBar, View, Button } from 'react-native';
 import { useIsFocused } from '@react-navigation/native'
 
-import { Container, InfiniteScroll, ApartmentCard, Preloader, ModalMessage } from '@c';
+import { Container, InfiniteScroll, ApartmentCard, ModalMessage } from '@c';
 import { AppContext, prettyPrint, Rights } from '@u';
 import { Unauthorized } from './Unauthorized';
 import { Empty } from './Empty';
 
-import { useTheme } from '@h';
+import {useTheme, useThemeNew} from '@h';
 import * as apartmentsService from '@se/apartmentsService';
+import Spinner from "@c/Spinner";
 
 const makeStyles = (theme) => StyleSheet.create({
     root: {
@@ -30,7 +31,7 @@ const makeStyles = (theme) => StyleSheet.create({
 })
 
 function FavoriteApartmentsScreen({ navigation }) {
-    const styles = useTheme(theme => makeStyles(theme), []);
+    const { style:s, themeObj } = useThemeNew(makeStyles)
 
     const { user, state, dispatch } = useContext(AppContext);
     // const isAll = useMemo(() => rights.includes(Rights.APARTMENTS_FAVORITES), [rights]);
@@ -68,18 +69,18 @@ function FavoriteApartmentsScreen({ navigation }) {
     }
 
     useEffect(() => {
-        if (user !== null) setLoading(true);
+        if (user) setLoading(true);
     }, [isFocused])
 
     useEffect(() => {
-        if (user === null) setLoading(false);
+        if (user) setLoading(false);
     }, [user]);
 
     return (
         <Container>
             {isFocused ?
-                <View style={styles.root}>
-                    <Text style={styles.header}>Избранное</Text>
+                <View style={s.root}>
+                    <Text style={s.header}>Избранное</Text>
                     {!user ?
                         <Unauthorized signIn={() => navigation.jumpTo('Profile')} />
                         :
@@ -87,10 +88,10 @@ function FavoriteApartmentsScreen({ navigation }) {
                         <Empty onSearch={() => navigation.jumpTo('ApartmentsMapNavigation')} />
                     }
                     {loading &&
-                        <Preloader />
+                        <Spinner color={themeObj.mainColors.accent} size={50} />
                     }
                     {user &&
-                        <View style={styles.view}>
+                        <View style={s.view}>
                             <InfiniteScroll
                                 ref={scrollRef}
                                 style={{ paddingTop: 32 }}

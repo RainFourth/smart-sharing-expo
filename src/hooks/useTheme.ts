@@ -23,7 +23,7 @@ export type ThemeName = keyof typeof themesMap
 
 function useThemeNew<T>(styleCreator?: (theme: ThemeType)=>StyleSheet.NamedStyles<T>){
     const { theme, _persist: { rehydrated: themeLoaded }} =
-        useSelector<StateType,StateType['theme']>(state => state.theme)
+        useSelector<StateType,StateType['theme']>((s:StateType) => s.theme)
     const d = useDispatch()
 
     const setTheme = (theme: ThemeName)=>{ d(setThemeActionCreator(theme)) }

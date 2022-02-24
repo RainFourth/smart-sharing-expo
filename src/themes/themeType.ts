@@ -1,19 +1,42 @@
+import {MapStyleElement} from "react-native-maps";
 
 
 export type ThemeType = {
     readonly mainColors: {
         readonly accent: string
 
+        readonly accent0: string
+        readonly accent1: string
+        readonly accent2: string
+
+        readonly secondary0: string
+        readonly secondary1: string
+        readonly secondary2: string
+
+        readonly bgc0: string
+        readonly bgc1: string
+        readonly bgc2: string
+
+        readonly onAccent0: string
+
+
         readonly bgcElem: string
 
         readonly bgc: string
+        readonly bgcBright: string
+        readonly onBgc0: string
 
         readonly bgcAccent: string
         readonly onBgcAccent: string
     }
+    readonly bottomTabBar: {
+        color: string
+    }
     readonly font: {
         readonly family: string,
+        readonly familyMedium: string
         readonly familyBold: string,
+
         readonly color: string,
         readonly headerColor: string,
         readonly separatorColor: string,
@@ -159,5 +182,6 @@ export type ThemeType = {
         },
         readonly textColor: string
     },
+    readonly mapStyle: MapStyleElement[]
     readonly colors: {[name: string]: string}
 }

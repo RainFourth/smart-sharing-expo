@@ -1,4 +1,4 @@
-export { AppNavigation } from './AppNavigation';
+
 export { ApartmentsManageNavigation } from './ApartmentsManageNavigation';
 export { ApartmentsListNavigation } from './ApartmentsListNavigation';
 export { PersonalAccountNavigator } from './PersonalAccountNavigator';

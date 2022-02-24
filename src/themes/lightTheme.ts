@@ -1,21 +1,48 @@
 import { colors } from './colors';
 import { fonts } from './fonts';
-import {ThemeType} from "./themeType";
+import { ThemeType } from "./themeType";
+import {lightMap} from "@t/googleMapStyles";
 
 export const lightTheme: ThemeType = {
     mainColors:{
+
+
+        accent0: colors.mainColor,
+        accent1: colors.medium,
+        accent2: colors.purple,
+
+        secondary0: 'black',
+        secondary1: colors.darkGray,
+        secondary2: colors.gray4,
+
+        bgc0: 'white',
+        bgc1: colors.light3,
+        bgc2: colors.light2,
+
+        onAccent0: 'white',
+
+        onBgc0: 'black',
+
+
         accent: colors.primaryMedium,
 
-        bgcElem: colors.gray,
+
+        bgcElem: colors.darkGray,
 
         bgc: colors.light0,
+        bgcBright: 'white',
 
         bgcAccent: colors.primaryMedium,
         onBgcAccent: 'white',
     },
+    bottomTabBar: {
+        color: "rgba(255,255,255,0.2)"
+    },
     font: {
-        family: fonts.family,
-        familyBold: fonts.familyBold,
+        family: fonts.regular,
+        familyMedium: fonts.medium,
+        familyBold: fonts.medium,
+
         color: colors.dark0,
         headerColor: colors.dark3,
         separatorColor: colors.dark2,
@@ -161,5 +188,6 @@ export const lightTheme: ThemeType = {
         },
         textColor: colors.light4,
     },
+    mapStyle: lightMap,
     colors
 };

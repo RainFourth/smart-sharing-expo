@@ -2,6 +2,7 @@ import {ThemeType} from "./themeType";
 //import { fonts } from "./fonts";
 import {lightTheme} from "./lightTheme";
 import {colors} from "@t/colors";
+import {darkMap} from "@t/googleMapStyles";
 
 
 /*const darkTheme0 = {
@@ -18,9 +19,26 @@ import {colors} from "@t/colors";
 export const darkTheme: ThemeType = {
     ...lightTheme,
     mainColors: {
+        ...lightTheme.mainColors,
+
+        accent2: colors.mainColor,
+
+        secondary0: 'white',
+        secondary1: colors.light3,
+        secondary2: colors.light2,
+
+        bgc0: colors.darkBgc,
+        bgc1: colors.darkBgc,
+        bgc2: colors.darkBgc,
+
+        onBgc0: 'white',
+
+
+
+
         accent: colors.primaryMedium,
 
-        bgcElem: colors.gray,
+        bgcElem: colors.darkGray,
 
         bgc: colors.light0,
 
@@ -29,5 +47,10 @@ export const darkTheme: ThemeType = {
     },
     backgroundColor: {
         mainColor: colors.darkBgc
-    }
+    },
+    bottomTabBar: {
+        color: "rgba(0,0,0,0)"
+    },
+
+    mapStyle: darkMap,
 }

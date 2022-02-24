@@ -4,6 +4,7 @@ export const colors = {
     lighter: '#E6DEFF',
     medium: '#7B61FF',
     primaryMedium: '#7B61FF',
+    purple: '#E6DEFF',
 
     dark0: '#201C28',
     dark1: '#2E283D',
@@ -26,5 +27,9 @@ export const colors = {
     red4: '#FFE5E5',
     line: '#EBEBEB',
 
-    gray: '#5C5C5C',
+    darkGray: '#5C5C5C',
+
+    gray4: '#e1e1e1',
+
+    darkViolet0: '#511a8d',
 }

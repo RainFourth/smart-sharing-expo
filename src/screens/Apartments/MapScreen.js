@@ -418,7 +418,7 @@ function MapScreen({
             </MapView>
 
             {/*todo uncomment*/}
-            {/*<MapSearch
+            <MapSearch
                 city={{ cityName, id }}
                 onBack={() => navigation.push('ApartmentsCitiesScreen')}
                 onFilters={() => {
@@ -430,7 +430,7 @@ function MapScreen({
                 applyAddress={applyAddress}
                 showVariant={showSearchVariant}
                 setShowVariant={setShowSearchVariant}
-            />*/}
+            />
             <SwipeablePanel
                 panelStyle={styles.panel}
                 header={SwipeablePanelHeader(apartmentsCount, filters, selectedIds)}
