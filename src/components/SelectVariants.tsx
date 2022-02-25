@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react'
 import {emptyFun, inf, sg} from "@u2/utils";
-import {StyleSheet, View, Text, Pressable, ColorValue} from "react-native";
+import {StyleSheet, View, Text, Pressable, ColorValue, TextStyle} from "react-native";
 
 
 const normalBoxDefault = {
@@ -16,7 +16,7 @@ const selectedBoxDefault = {
     borderColor: '#E6DEFF', // Purple
 }
 const selectedTxtDefault = {
-    color: '#5C5C5C' // gray dark
+    color: '#5C5C5C', // gray dark
 }
 
 const space = 14

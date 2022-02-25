@@ -1,4 +1,3 @@
-import {ErrorType} from "@se/error";
 import {StyleSheet} from "react-native";
 
 
@@ -61,34 +60,3 @@ export const inRange = (min:number, max:number, curr:number) => {
     if (curr>max) return max
     return curr
 }
-
-
-/*
-
-type err = {
-    error?: ErrorType
-}
-type data = {
-    jwt?: string
-}
-
-let fun = (): err & data => {
-    const d = {
-        error: {
-            code: 'error'
-        } as ErrorType
-    }
-
-    return d as typeof d.error extends empty ? data : err
-}
-let fun2 = (): err & data => {
-    const d = {
-        data: {
-            jwt: "dksjflkj"
-        }
-    }
-
-    return d as typeof d.error extends empty ? data : err
-}
-
-*/

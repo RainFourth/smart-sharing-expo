@@ -3,6 +3,7 @@
     "compilerOptions": {
         "strict": true,
         "downlevelIteration": true,
+        "noImplicitAny": false,
 
         // хз, влияет ли это на что-нибудь, но без этого тоже работает
         "typeRoots": ["./.env.d.ts"],

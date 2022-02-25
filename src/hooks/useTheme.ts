@@ -21,7 +21,7 @@ const themesMap = {
 export type ThemeName = keyof typeof themesMap
 
 
-function useThemeNew<T>(styleCreator?: (theme: ThemeType)=>StyleSheet.NamedStyles<T>){
+function useThemeNew<T extends StyleSheet.NamedStyles<T>>(styleCreator?: (theme: ThemeType)=>T){
     const { theme, _persist: { rehydrated: themeLoaded }} =
         useSelector<StateType,StateType['theme']>((s:StateType) => s.theme)
     const d = useDispatch()
@@ -32,7 +32,7 @@ function useThemeNew<T>(styleCreator?: (theme: ThemeType)=>StyleSheet.NamedStyle
 
     const style = useMemo(()=>{
         if (styleCreator) return styleCreator(themeObj)
-    },[themeObj, styleCreator]) as typeof styleCreator extends undefined ? undefined : StyleSheet.NamedStyles<T>
+    },[themeObj, styleCreator]) as typeof styleCreator extends undefined ? undefined : T
 
     return { theme, themeObj, style, setTheme, themeLoaded }
 }

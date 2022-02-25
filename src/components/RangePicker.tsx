@@ -3,7 +3,6 @@ import {ColorValue, Text, TextInput, TouchableNativeFeedback, View} from "react-
 import { emptyFun, inf } from "@u2/utils";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, runOnUI, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
-import {NumFormat} from "@u2/NumFormat";
 import {prettyPrint} from "@u";
 
 
@@ -16,11 +15,6 @@ export const inRange = (min:number, max:number, curr:number) => {
 }
 
 
-const f = new NumFormat().setFormat({
-    intDelim: { delim: ' ', step: 3 },
-    round: { mode: 'half-up', scale: 0 },
-    suffix: ' ₽'
-})
 
 
 const normalDefault = {

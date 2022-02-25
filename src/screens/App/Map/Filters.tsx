@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react'
-import {View, Text, StyleSheet, Pressable, TextInput} from "react-native";
+import React, {useCallback, useLayoutEffect, useMemo, useRef, useState} from 'react'
+import {View, Text, StyleSheet, Pressable, TextInput, TextStyle} from "react-native";
 import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppNavMapMode } from "@rx/appReducer";
 import { StateType } from "@rx/store";
-import {useSocket, useThemeNew} from "@h";
+import { useThemeNew } from "@h";
 import {ThemeType} from "@t";
 import SelectVariants from "@c/SelectVariants";
 import {useVariants} from "@h/useVariants";
@@ -12,8 +12,8 @@ import {useBackHandler} from "@react-native-community/hooks";
 import {inf, sg} from "@u2/utils";
 import Checkbox from 'expo-checkbox';
 import RangePicker from "@c/RangePicker";
-import {NumFormat} from "@u2/NumFormat";
 import {prettyPrint} from "@u";
+import {NumFormat} from "@rrainpath/num-format";
 
 
 const pad = 12
