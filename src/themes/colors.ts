@@ -28,7 +28,8 @@ export const colors = {
     line: '#EBEBEB',
 
     darkGray: '#5C5C5C',
-
+    gray2: '#9e9e9e',
+    gray3: '#C4C4C4',
     gray4: '#e1e1e1',
 
     darkViolet0: '#511a8d',

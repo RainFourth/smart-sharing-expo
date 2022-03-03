@@ -1,6 +1,6 @@
 import React from 'react'
-import {sg} from "@u2/utils";
 import {WebView} from "react-native-webview";
+import {sg} from "@u2/styleGlobal";
 
 
 type BlurViewType = {

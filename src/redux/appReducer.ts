@@ -2,21 +2,30 @@ import {Action} from "redux";
 import {anyObj} from "@u2/utils";
 
 
-type appActionType = 'setAppNavTab' | 'setAppNabMapMode'
+type appActionType = 'setAppNavTab' | 'setAppNabMapMode' | 'setLocationPermissionGranted'
 export type AppActionType = Action<appActionType> & anyObj
 
+// todo save location permission status
 
 export type AppStateType = {
     appNav: {
+        readonly bottomBarHeight: number
         tab: 'messages' | 'map' | 'favorites' | 'profile' | undefined
         mapMode: 'map' | 'filters' | 'settings'
+    }
+    location: {
+        granted: boolean
     }
 }
 
 const initState: AppStateType = {
     appNav: {
+        bottomBarHeight: 80,
         tab: 'map',
         mapMode: 'map',
+    },
+    location: {
+        granted: false
     }
 
 }
@@ -34,6 +43,13 @@ const appReducer = (state = initState, action: AppActionType) => {
             ...state,
             appNav: {...state.appNav, mapMode: action.mapMode}
         }
+        case "setLocationPermissionGranted": return {
+            ...state,
+            location: {
+                ...state.location,
+                granted: action.granted
+            }
+        }
         default: return state
     }
 }
@@ -46,4 +62,7 @@ export const setAppNavTab = (tab: AppStateType['appNav']['tab']): AppActionType 
 })
 export const setAppNavMapMode = (mapMode: AppStateType['appNav']['mapMode']): AppActionType => ({
     type: 'setAppNabMapMode', mapMode
+})
+export const setLocationPermissionGranted = (granted: AppStateType['location']['granted']): AppActionType => ({
+    type: 'setLocationPermissionGranted', granted
 })

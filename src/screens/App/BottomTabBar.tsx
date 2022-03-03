@@ -1,14 +1,16 @@
-import React, {useCallback, useRef} from 'react'
+import React, {useCallback, useRef, useState} from 'react'
 import {Pressable, StyleSheet, View} from "react-native";
 import MessageIc from "@c/SvgIcons/MessageIc";
 import LocationIc from "@c/SvgIcons/LocationIc";
 import HeartIc from "@c/SvgIcons/HeartIc";
 import UserIc from "@c/SvgIcons/UserIc";
 import {useDimens} from "@h/useDimens";
-import {emptyFun, nonEmpty} from "@u2/utils";
+import {emptyFun, inf, nonEmpty} from "@u2/utils";
 import {useThemeNew} from "@h";
 import BlurView from "@c/BlurView";
 import {AppStateType} from "@rx/appReducer";
+import Animated, {Easing, useAnimatedStyle, useSharedValue, withSequence, withTiming} from "react-native-reanimated";
+import CircleBgcAnim from "@c/CircleBgcAnim";
 
 
 
@@ -20,7 +22,7 @@ const s = StyleSheet.create({
         //backgroundColor: 'red'
     },
     pressable: {
-        flex:1, height:'100%',
+        height:'100%', aspectRatio: 1,
         display:'flex', justifyContent: 'center', alignItems: 'center',
         //backgroundColor: '#ff000055',
     },
@@ -61,6 +63,19 @@ const BottomTabBar = ( { tab, onTab = emptyFun, height = 80, zIndex }: BottomTab
         [tab,themeObj]
     )
 
+    const [animMode1,setAnimMode1] = useState(undefined as 'start'|'end'|undefined)
+    const onTouchStart1 = () => setAnimMode1('start')
+    const onTouchEnd1 = () => setAnimMode1('end')
+    const [animMode2,setAnimMode2] = useState(undefined as 'start'|'end'|undefined)
+    const onTouchStart2 = () => setAnimMode2('start')
+    const onTouchEnd2 = () => setAnimMode2('end')
+    const [animMode3,setAnimMode3] = useState(undefined as 'start'|'end'|undefined)
+    const onTouchStart3 = () => setAnimMode3('start')
+    const onTouchEnd3 = () => setAnimMode3('end')
+    const [animMode4,setAnimMode4] = useState(undefined as 'start'|'end'|undefined)
+    const onTouchStart4 = () => setAnimMode4('start')
+    const onTouchEnd4 = () => setAnimMode4('end')
+
 
     const icW = useDimens().w * 0.06
 
@@ -69,20 +84,37 @@ const BottomTabBar = ( { tab, onTab = emptyFun, height = 80, zIndex }: BottomTab
         <BlurView background={themeObj.bottomTabBar.color} blur="48px" />
 
         <View style={s.box} /*ref={boxRef}*/>
-            <Pressable style={s.pressable}
-                       onPress={()=>onTab('messages')}>
+            <Pressable style={[s.pressable]}
+                       onPress={()=>onTab('messages')}
+                       onTouchStart={onTouchStart1}
+                       onTouchEnd={onTouchEnd1}
+            >
+                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode1}/>
                 <MessageIc size={icW} color={getIconColor('messages')} />
             </Pressable>
+
             <Pressable style={s.pressable}
-                       onPress={()=>onTab('map')}>
+                       onPress={()=>onTab('map')}
+                       onTouchStart={onTouchStart2}
+                       onTouchEnd={onTouchEnd2}
+            >
+                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode2}/>
                 <LocationIc size={icW} color={getIconColor('map')} />
             </Pressable>
             <Pressable style={s.pressable}
-                       onPress={()=>onTab('favorites')}>
+                       onPress={()=>onTab('favorites')}
+                       onTouchStart={onTouchStart3}
+                       onTouchEnd={onTouchEnd3}
+            >
+                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode3}/>
                 <HeartIc size={icW} color={getIconColor('favorites')} />
             </Pressable>
             <Pressable style={s.pressable}
-                       onPress={()=>onTab('profile')}>
+                       onPress={()=>onTab('profile')}
+                       onTouchStart={onTouchStart4}
+                       onTouchEnd={onTouchEnd4}
+            >
+                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode4}/>
                 <UserIc size={icW} color={getIconColor('profile')} />
             </Pressable>
         </View>

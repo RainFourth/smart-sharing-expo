@@ -13,7 +13,7 @@ import { Facilities } from './Facilities';
 import { Rating } from './Rating';
 import { RoomsCount } from './RoomsCount';
 
-import { useTheme } from '@h';
+import {useTheme, useThemeNew} from '@h';
 
 const makeStyles = (theme) => StyleSheet.create({
     root: {
@@ -42,7 +42,8 @@ const makeStyles = (theme) => StyleSheet.create({
 });
 
 function Filters({ options, setOptions, onApply }) {
-    const styles = useTheme(theme => makeStyles(theme), []);
+    //const styles = useTheme(theme => makeStyles(theme), []);
+    const { style:styles } = useThemeNew(makeStyles)
 
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);

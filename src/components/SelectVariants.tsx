@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react'
-import {emptyFun, inf, sg} from "@u2/utils";
+import {emptyFun, inf} from "@u2/utils";
 import {StyleSheet, View, Text, Pressable, ColorValue, TextStyle} from "react-native";
+import {sg} from "@u2/styleGlobal";
 
 
 const normalBoxDefault = {

@@ -16,4 +16,9 @@ declare module '@env' {
     export const CURRENT_TIMEZONE: string
 
     export const GOOGLE_SERVICES_API_KEY: string
+
+
+
+
+    export const GOOGLE_WEB_API_KEY: string
 }

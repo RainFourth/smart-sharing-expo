@@ -98,7 +98,9 @@ const makeStyles = (theme) => StyleSheet.create({
 });
 
 function SwipeablePanelHeader(count, filters, selectedIds) {
-    const styles = useTheme(theme => makeStyles(theme), []);
+
+    //const styles = useTheme(theme => makeStyles(theme), []);
+    const { style: styles } = useThemeNew(makeStyles)
 
     return (
         <View style={styles.panelHeaderView}>
@@ -419,7 +421,7 @@ function MapScreen({
 
             {/*todo uncomment*/}
             <MapSearch
-                city={{ cityName, id }}
+                city={{ /*cityName,*/ id }}
                 onBack={() => navigation.push('ApartmentsCitiesScreen')}
                 onFilters={() => {
                     setFilters(true);
@@ -431,6 +433,12 @@ function MapScreen({
                 showVariant={showSearchVariant}
                 setShowVariant={setShowSearchVariant}
             />
+
+
+
+
+
+
             <SwipeablePanel
                 panelStyle={styles.panel}
                 header={SwipeablePanelHeader(apartmentsCount, filters, selectedIds)}

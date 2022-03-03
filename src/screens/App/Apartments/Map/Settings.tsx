@@ -98,7 +98,7 @@ const Settings = ({}:SettingsProps) => {
 
     const normalBoxVariants = useMemo(()=>({
         backgroundColor: 'transparent', //
-        borderColor: themeObj.mainColors.secondary2, // <noname>
+        borderColor: themeObj.mainColors.secondary4, // <noname>
     }),[themeObj])
     const normalTxtVariants = useMemo(()=>({
         color: themeObj.mainColors.secondary1, // gray dark

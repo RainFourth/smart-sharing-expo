@@ -10,10 +10,6 @@ import Animated, {
 } from 'react-native-reanimated';
 
 
-const f = async ()=>{
-    console.log("dlskjflkldj")
-    return undefined
-}
 
 function Ball() {
     const isPressed = useSharedValue(false);
@@ -42,12 +38,10 @@ function Ball() {
                 y: e.changeY + offset.value.y,
             };
 
-            runOnJS(f)()
         })
         .onFinalize(() => {
             'worklet';
             isPressed.value = false;
-            runOnJS(f)()
         });
 
     return (

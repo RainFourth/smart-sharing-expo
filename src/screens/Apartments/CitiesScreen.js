@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StatusBar, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
-import { API_URL } from "@env";
+
+//import { API_URL } from "@env";
+const API_URL = 'https://via.placeholder.com'
 
 import * as apartmentsService from "@se/apartmentsService";
-import { useTheme } from '@h';
+import { useThemeNew } from '@h';
 
 const STATUS_BAR_HEIGHT = StatusBar.currentHeight;
 
@@ -54,7 +56,8 @@ const makeStyles = (theme) => StyleSheet.create({
 })
 
 function CitiesScreen({ navigation }) {
-    const styles = useTheme(theme => makeStyles(theme), []);
+
+    const { style: styles } = useThemeNew(makeStyles)
 
     const [cities, setCities] = useState();
 

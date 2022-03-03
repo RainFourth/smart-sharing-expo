@@ -1,5 +1,5 @@
 import { colors } from './colors';
-import { fonts } from './fonts';
+import {fonts, fonts2} from './fonts';
 import { ThemeType } from "./themeType";
 import {lightMap} from "@t/googleMapStyles";
 
@@ -13,7 +13,9 @@ export const lightTheme: ThemeType = {
 
         secondary0: 'black',
         secondary1: colors.darkGray,
-        secondary2: colors.gray4,
+        secondary2: colors.gray2,
+        secondary3: colors.gray3,
+        secondary4: colors.gray4,
 
         bgc0: 'white',
         bgc1: colors.light3,
@@ -39,6 +41,8 @@ export const lightTheme: ThemeType = {
         color: "rgba(255,255,255,0.2)"
     },
     font: {
+        font: fonts2.montserrat,
+
         family: fonts.regular,
         familyMedium: fonts.medium,
         familyBold: fonts.medium,

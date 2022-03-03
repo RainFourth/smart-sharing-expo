@@ -4,7 +4,7 @@ import {Linking, View} from 'react-native';
 import { Messages } from '@sc';
 import { ApartmentsMapNavigation, FavoriteApartmentsNavigation, PersonalAccountNavigator, NotificationsNavigation } from '@n';
 import MessagesScreen from "@sc/App/Messages/MessagesScreen";
-import MapScreen from "@sc/App/Map/MapScreen";
+import MapScreen from "@sc/App/Apartments/Map/MapScreen";
 import FavoritesScreen from "@sc/App/Favorites/FavoritesScreen";
 import ProfileScreen from "@sc/App/Profile/ProfileScreen";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -16,6 +16,8 @@ import {StateType} from "@rx/store";
 import { setAppNavTab } from "@rx/appReducer";
 import {MainStackType} from "@sc/Main";
 import {useThemeNew} from "@h";
+import ApartmentsNav from "@sc/App/Apartments/ApartmentsNav";
+import Example from "@sc/Example";
 
 
 
@@ -68,11 +70,12 @@ function AppNav({}:Type ) {
 
 
     return <View style={{flex:1, backgroundColor: themeObj.mainColors.bgc2}}>
+        {/*стоит впереди Bottom Sheet чтобы быть ниже их*/}
         {function (){switch (appNav.tab){
-            case "messages": return <MessagesScreen />
-            case "map": return <MapScreen />
+            case "messages": return <ApartmentsMapNavigation />//return <MessagesScreen />
+            case "map": return <ApartmentsNav/>//return <MapScreen />
             case "favorites": return <FavoritesScreen />
-            case "profile": return <ProfileScreen />
+            case "profile": return <Example/>//return <ProfileScreen />
             default: return <></>
         }}()}
 
@@ -86,7 +89,6 @@ function AppNav({}:Type ) {
         <BottomTabBar
             tab={appNav.tab} height={bottomBarH}
             onTab={(tab)=>d(setAppNavTab(tab))}
-            zIndex={['filters','settings'].includes(appNav.mapMode)?-1:0}
         />
     </View>
 

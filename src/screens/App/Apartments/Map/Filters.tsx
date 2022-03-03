@@ -9,11 +9,12 @@ import {ThemeType} from "@t";
 import SelectVariants from "@c/SelectVariants";
 import {useVariants} from "@h/useVariants";
 import {useBackHandler} from "@react-native-community/hooks";
-import {inf, sg} from "@u2/utils";
+import {inf} from "@u2/utils";
 import Checkbox from 'expo-checkbox';
 import RangePicker from "@c/RangePicker";
 import {prettyPrint} from "@u";
 import {NumFormat} from "@rrainpath/num-format";
+import {sg} from "@u2/styleGlobal";
 
 
 const pad = 12
@@ -57,7 +58,7 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
 
     variantsBoxNormal:{
         backgroundColor: 'transparent',
-        borderColor: t.mainColors.secondary2,
+        borderColor: t.mainColors.secondary4,
     },
     variantsBoxSelected:{
         backgroundColor: t.mainColors.accent2,

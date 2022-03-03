@@ -46,7 +46,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
                 googleMaps:{
                     apiKey: "AIzaSyC0cLlO_1DGkn7zcH-JuH_AAiuTvhpHUqA"
                 }
-            }
+            },
+            softwareKeyboardLayoutMode: 'pan',
         },
         ios: {
             icon: "./src/assets/icons/ic-launcher-iphone.png",

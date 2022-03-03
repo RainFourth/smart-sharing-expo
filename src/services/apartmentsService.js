@@ -1,4 +1,5 @@
 import * as apartmentsRepository from '@r/apartmentsRepository';
+import * as apartmentsMockRepo from "@r/apartmentsRepoMock";
 
 
 async function getList(options) {
@@ -82,7 +83,8 @@ async function getFavoriteApartments(options) {
 }
 
 async function getCities(options) {
-    const response = await apartmentsRepository.getCities(options);
+    //const response = await apartmentsRepository.getCities(options);
+    const response = await apartmentsMockRepo.getCities()
 
     return response;
 }

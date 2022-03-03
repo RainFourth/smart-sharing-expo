@@ -77,7 +77,7 @@ function MapSearch({
             return;
         }
 
-        let tmp = payload.filter(el => el.city_id === city.id);
+        //let tmp = payload.filter(el => el.city_id === city.id);
 
         setStreets(payload);
         setSuitableStreets(payload);

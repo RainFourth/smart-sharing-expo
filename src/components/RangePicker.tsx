@@ -33,7 +33,8 @@ const selectedDefault = {
 // todo авторасширение/сужение диапазона
 
 const touchPadding = 7; // отступ касания в % с каждой стороны
-const minBarW = 5; // минимальная ширина полоски %
+const minBarW = 7; // минимальная ширина полоски %
+const minTipW = 10; // % - минимальная ширина касания у конца заполненой части
 
 
 
@@ -58,15 +59,21 @@ const RangePicker = ({
     const needToUpdateText = useSharedValue(true)
 
     const offset = useSharedValue({s,e})
-    const leftMode = useSharedValue(undefined as undefined|boolean)
+    const leftMode = useSharedValue(false)
     const barAnim = useAnimatedStyle(()=>{
         let s = (offset.value.s-min)/(max-min)*100
         let e = (offset.value.e-min)/(max-min)*100
         s = inRange(0,100,s)
         e = inRange(0,100,e)
-        const l = leftMode.value ?? e>50
-        if (l && e-s<minBarW) s = e-minBarW
-        else if (!l && e-s<minBarW) e = s+minBarW
+
+        const l = leftMode.value
+        if (l) s = inRange(0, e-minBarW, s)
+        else e = inRange(s+minBarW, 100, e)
+        //console.log(s,e)
+
+        /*if (l && e-s<minBarW) s = e-minBarW
+        else if (!l && e-s<minBarW) e = s+minBarW*/
+
         return { left: s+'%', right: 100-e+'%' }
     })
 
@@ -113,7 +120,9 @@ const RangePicker = ({
                 const ww = w - pad*2
                 x = inRange(min,max,(x-pad)/ww*(max-min)+min)
                 const s = offset.value.s, e = offset.value.e
-                if (x<=(s+e)/2) {
+                const l = leftMode.value
+                if (l && x <= Math.max(e-minTipW/100*(max-min),(s+e)/2)
+                || !l && x < Math.min(s+minTipW/100*(max-min),(s+e)/2)) {
                     leftMode.value = true
                     offset.value = {s: x, e}
                 }
@@ -134,8 +143,8 @@ const RangePicker = ({
                 const ww = w - pad*2
                 x = inRange(min,max,(x-pad)/ww*(max-min)+min)
                 const s = offset.value.s, e = offset.value.e
-                if (l && x<e) offset.value = {s: x, e}
-                else if (!l && x>s) offset.value = {s, e: x}
+                if (l) offset.value = {s: inRange(min,e,x), e}
+                else offset.value = {s, e: inRange(s,max,x)}
 
                 needToUpdateText.value = true
             }
@@ -152,8 +161,8 @@ const RangePicker = ({
                 const ww = w - pad*2
                 x = inRange(min,max,(x-pad)/ww*(max-min)+min)
                 const s = offset.value.s, e = offset.value.e
-                if (l && x<e) offset.value = {s: x, e}
-                else if (!l && x>s) offset.value = {s, e: x}
+                if (l) offset.value = {s: inRange(min,e,x), e}
+                else offset.value = {s, e: inRange(s,max,e)}
 
                 needToUpdateText.value = true
 
@@ -161,7 +170,6 @@ const RangePicker = ({
                 runOnJS(onEnd)(s,e)
 
             }
-            //leftMode.value = undefined
         })
 
 

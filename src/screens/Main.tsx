@@ -41,10 +41,11 @@ import AppNav, {AppNavProps} from "@sc/App/AppNav";
 
 
 import { useNavigation } from "@react-navigation/native";
-import {PixelRatio, View} from "react-native";
-import {sg} from "@u2/utils";
+import {Keyboard, PixelRatio, Pressable, TouchableOpacity, View} from "react-native";
 import {StatusBar} from "expo-status-bar";
-import Example from "@sc/Example"; // todo изучить
+import Example from "@sc/Example";
+import {backgroundColor} from "react-native-calendars/src/style";
+import {sg} from "@u2/styleGlobal"; // todo изучить
 // https://reactnavigation.org/docs/navigation-prop
 // https://reactnavigation.org/docs/typescript/#combining-navigation-props
 export type MainStackType = {
@@ -53,6 +54,14 @@ export type MainStackType = {
 }
 const RootNav = createStackNavigator<MainStackType>();
 
+
+
+/*
+    todo
+     1) уведомления внутри приложения
+     2) Нажмите назад ещё раз чтобы выйти
+
+ */
 
 
 
@@ -68,11 +77,21 @@ function Main() {
     const d = useDispatch()
 
     // todo check if bold, italics font kinds are importing - походу не импортятся
-    const [fontLoaded] = useFonts({
+    /*const [fontLoaded] = useFonts({
         'Montserrat-Regular': require('@assets/fonts/Montserrat-Regular.ttf'),
         'Montserrat-Medium': require('@assets/fonts/Montserrat-Medium.ttf'),
         'Montserrat-SemiBold': require('@assets/fonts/Montserrat-SemiBold.ttf'),
         'Montserrat-Bold': require('@assets/fonts/Montserrat-Bold.ttf'),
+    })*/
+    const [fontLoaded] = useFonts({
+        'Montserrat-Thin': require('@assets/fonts/Montserrat-Thin.ttf'),
+        'Montserrat-ExtraLight': require('@assets/fonts/Montserrat-ExtraLight.ttf'),
+        'Montserrat-Light': require('@assets/fonts/Montserrat-Light.ttf'),
+        'Montserrat-Regular': require('@assets/fonts/Montserrat-Regular.ttf'),
+        'Montserrat-Medium': require('@assets/fonts/Montserrat-Medium.ttf'),
+        'Montserrat-SemiBold': require('@assets/fonts/Montserrat-SemiBold.ttf'),
+        'Montserrat-Bold': require('@assets/fonts/Montserrat-Bold.ttf'),
+        'Montserrat-Black': require('@assets/fonts/Montserrat-Black.ttf'),
     })
 
     const preloading = useMemo(() => !isConnected || !auth.authDataReady || !t.themeLoaded || !fontLoaded,
@@ -82,6 +101,9 @@ function Main() {
 
     const [notification, notificationVisible, setNotificationVisible] = useSocket()
 
+    const onPressTO = () => {
+        Keyboard.dismiss()
+    }
 
 
     if (!t.themeLoaded) return <></>
@@ -96,56 +118,61 @@ function Main() {
                 dispatch: d, state
             }}
         >
-            <View style={[sg.absolute, { backgroundColor: t.themeObj.mainColors.bgc1}]}>
-                <StatusBar
-                    style={t.theme==='light'?'dark':'light'}
-                />
-                {preloading && <PreloaderScreen />}
-                {!preloading &&
-                    <>
-                        <NavigationContainer
-                            // initialState={initialState}
-                            // onStateChange={(state) =>
-                            // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
-                            // }
-                        >
-                            {/**/}
-                            <RootNav.Navigator
-                                screenOptions={{
-                                    headerShown: false,
-                                    //headerTitle: 'Smart Sharing'
-                                }}
-                                initialRouteName='AppNav'
+            {/*<TouchableOpacity
+                style={[sg.absolute, {backgroundColor: 'transparent', opacity: 0, zIndex: -1000}]}
+                onPress={onPressTO}
+            >*/}
+                <View style={[sg.absolute, {backgroundColor: t.themeObj.mainColors.bgc1}]} >
+                    <StatusBar
+                        style={t.theme === 'light' ? 'dark' : 'light'}
+                    />
+                    {preloading && <PreloaderScreen/>}
+                    {!preloading &&
+                        <>
+                            <NavigationContainer
+                                // initialState={initialState}
+                                // onStateChange={(state) =>
+                                // 	AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+                                // }
                             >
-                                {/*<RootNav.Screen name='Example' component={Example} />*/}
+                                {/**/}
+                                <RootNav.Navigator
+                                    screenOptions={{
+                                        headerShown: false,
+                                        //headerTitle: 'Smart Sharing'
+                                    }}
+                                    initialRouteName='AppNav'
+                                >
+                                    <RootNav.Screen name='Example' component={Example} />
 
 
-                                <RootNav.Screen name='AppNav' component={AppNav} />
+                                    <RootNav.Screen name='AppNav' component={AppNav}/>
 
-                                <RootNav.Screen name='WelcomeScreen' component={WelcomeScreen} />
+                                    <RootNav.Screen name='WelcomeScreen' component={WelcomeScreen}/>
 
-                                <RootNav.Screen name='Login' component={LoginNavigation} />
-                                <RootNav.Screen name='SignUpScreen' component={Auth.SignUpScreen} />
-                                <RootNav.Screen name='SignInScreen' component={Auth.SignInScreen} />
-                                <RootNav.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen} />
-                                <RootNav.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen} />
-                                <RootNav.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen} />
+                                    <RootNav.Screen name='Login' component={LoginNavigation}/>
+                                    <RootNav.Screen name='SignUpScreen' component={Auth.SignUpScreen}/>
+                                    <RootNav.Screen name='SignInScreen' component={Auth.SignInScreen}/>
+                                    <RootNav.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen}/>
+                                    <RootNav.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen}/>
+                                    <RootNav.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen}/>
 
-                            </RootNav.Navigator>
-                        </NavigationContainer>
+                                </RootNav.Navigator>
+                            </NavigationContainer>
 
-                        <Notification visible={notificationVisible} setVisible={setNotificationVisible}
-                                      notification={notification}
-                                      onPress={() => {
-                                          //prettyPrint(navigationRef)
-                                          // 	navigation.navigate('AppNavigation', {
-                                          // 	screen: 'Notifications'
-                                          // })
-                                      }}
-                        />
-                    </>
-                }
-            </View>
+                            <Notification visible={notificationVisible} setVisible={setNotificationVisible}
+                                          notification={notification}
+                                          onPress={() => {
+                                              //prettyPrint(navigationRef)
+                                              // 	navigation.navigate('AppNavigation', {
+                                              // 	screen: 'Notifications'
+                                              // })
+                                          }}
+                            />
+                        </>
+                    }
+                </View>
+            {/*</TouchableOpacity>*/}
 
 
         </AppContext.Provider>

@@ -25,7 +25,9 @@ export const darkTheme: ThemeType = {
 
         secondary0: 'white',
         secondary1: colors.light3,
-        secondary2: colors.light2,
+        secondary2: colors.gray2,
+        //secondary3: colors.gray3, //todo
+        secondary4: colors.light2,
 
         bgc0: colors.darkBgc,
         bgc1: colors.darkBgc,

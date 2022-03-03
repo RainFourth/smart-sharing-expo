@@ -1,4 +1,5 @@
 import {MapStyleElement} from "react-native-maps";
+import {fonts2, FontType} from "@t/fonts";
 
 
 export type ThemeType = {
@@ -12,6 +13,8 @@ export type ThemeType = {
         readonly secondary0: string
         readonly secondary1: string
         readonly secondary2: string
+        readonly secondary3: string
+        readonly secondary4: string
 
         readonly bgc0: string
         readonly bgc1: string
@@ -33,6 +36,8 @@ export type ThemeType = {
         color: string
     }
     readonly font: {
+        readonly font: FontType
+
         readonly family: string,
         readonly familyMedium: string
         readonly familyBold: string,

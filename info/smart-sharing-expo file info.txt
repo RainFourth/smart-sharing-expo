@@ -17,6 +17,9 @@ lib ERROR: 'react-native-masked-input-text'
 изучить:
 import { useFocusEffect } from '@react-navigation/native'
 js operator in
+TouchableOpacity
+TouchableWithoutFeedback
+
 
 
 
