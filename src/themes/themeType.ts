@@ -21,6 +21,7 @@ export type ThemeType = {
         readonly bgc2: string
 
         readonly onAccent0: string
+        readonly onAccent1: string
 
 
         readonly bgcElem: string

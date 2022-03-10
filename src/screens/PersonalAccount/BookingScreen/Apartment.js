@@ -5,7 +5,7 @@ import Config from "react-native-config";
 
 import { Button } from '@c';
 import { useTheme } from '@h';
-import { datee, prettyPrint, splitePrice } from '@u';
+import { datee, prettyPrint, splitPrice } from '@u';
 
 const datee_ = datee.instance;
 const fromMSK = (timestamp) => datee_.setTimestamp(timestamp, 'MSK');
@@ -158,7 +158,7 @@ function Apartment({ apartment = {} }) {
             </View>
             {pagination(activeSlide, apartment.apartment.images)}
             <Text style={styles.address}>{apartment.apartment.address}</Text>
-            <Text style={styles.price}>Стоимость: {splitePrice(apartment.price)} P.</Text>
+            <Text style={styles.price}>Стоимость: {splitPrice(apartment.price)} P.</Text>
             <Text style={styles.rentDate}>Аренда: {fromMSK(apartment.schedule[0].start_date).toString()} - {fromMSK(apartment.schedule[0].end_date).toString()}</Text>
             <Text style={styles.leaveDate}>Выезд: {fromMSK(apartment.schedule[1].start_date).toString()} - {fromMSK(apartment.schedule[1].end_date).toString()}</Text>
             <Text style={styles.status}>Статус: {apartment.status}</Text>

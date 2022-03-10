@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react'
-import {ColorValue, Text, TextInput, TouchableNativeFeedback, View} from "react-native";
+import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react'
+import {ColorValue, View} from "react-native";
 import { emptyFun, inf } from "@u2/utils";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, runOnUI, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
@@ -111,7 +111,7 @@ const RangePicker = ({
 
 
 
-    const gesture = Gesture.Pan()
+    const gesture = useMemo(()=>Gesture.Pan()
         .onTouchesDown((ev) => {
             'worklet';
             let x = ev.allTouches[0].x
@@ -170,7 +170,7 @@ const RangePicker = ({
                 runOnJS(onEnd)(s,e)
 
             }
-        })
+        }),[onEnd])
 
 
     return <View style={{width: '100%'}}>

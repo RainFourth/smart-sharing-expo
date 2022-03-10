@@ -2,7 +2,7 @@ import * as fetcher from './fetcher';
 
 export { AppContext } from './AppContext';
 export { Rights, RightsType } from './Rights';
-export { splitePrice } from './splitePrice';
+export { splitPrice } from './splitPrice';
 export { Buffer } from './Buffer';
 export { timestampToNormal } from './timestempToNormal';
 export { prettyPrint } from './prettyPrint';

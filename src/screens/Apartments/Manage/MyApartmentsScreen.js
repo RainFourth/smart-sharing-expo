@@ -8,7 +8,7 @@ import {
     Container, InfiniteScroll,
     ApartmentCard, ScreenHeader
 } from '@c';
-import { prettyPrint, splitePrice } from '@u';
+import { prettyPrint, splitPrice } from '@u';
 import * as apartmentsService from '@se/apartmentsService';
 
 function MyApartmentsScreen({ navigation }) {
@@ -29,7 +29,7 @@ function MyApartmentsScreen({ navigation }) {
         const { items, count } = payload;
 
         for (const item of items) {
-            item.price = splitePrice(item.price);
+            item.price = splitPrice(item.price);
         }
 
         return [null, items, count];

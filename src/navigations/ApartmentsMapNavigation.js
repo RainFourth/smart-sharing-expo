@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { Apartments } from '@sc';
 import { ApartmentNavigation } from '@n';
+import BottomTabBar from "@sc/App/BottomTabBar";
 
 const StackNavigator = createStackNavigator();
 

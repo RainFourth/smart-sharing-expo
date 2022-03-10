@@ -3,7 +3,7 @@ import React from 'react'
 // @ts-ignore
 import MessageSvg from '@ic/ic-message.svg'
 
-const MessageIc = ({color, size}: {color:string, size?:number}) => {
+const MessageIc = ({color, size}: {color:string, size?:number|string}) => {
     return <MessageSvg
         width={size??'100%'}
         height={size??'100%'}

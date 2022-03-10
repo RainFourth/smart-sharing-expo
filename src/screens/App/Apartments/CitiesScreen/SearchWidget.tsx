@@ -15,7 +15,7 @@ import Space from "@c/Space";
 
 
 const makeStyle = (t: ThemeType) => StyleSheet.create({
-    bgc: {
+    inputBox: {
         width: '100%', height: 50,
         backgroundColor: t.mainColors.bgc0,
         borderRadius: inf, // round corners
@@ -34,9 +34,10 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
 
 
 type SearchWidgetProps = {
-
+    value: string
+    setValue: (val: string) => void
 }
-const SearchWidget = ({  }:SearchWidgetProps) => {
+const SearchWidget = ({ value, setValue }:SearchWidgetProps) => {
 
     const { style:s, themeObj } = useThemeNew(makeStyle)
     //const d = useDispatch()
@@ -53,6 +54,7 @@ const SearchWidget = ({  }:SearchWidgetProps) => {
 
 
     const blurInput = () => {
+        //console.log('blur')
         Keyboard.dismiss()
         inputRef.current?.blur()
     }
@@ -71,7 +73,7 @@ const SearchWidget = ({  }:SearchWidgetProps) => {
 
 
 
-    return <View style={[sg.row, s.bgc]}>
+    return <View style={[sg.row, s.inputBox]}>
         <View style={[{height: '100%', width: 50}, sg.centerContent]}>
             <SearchIc color={themeObj.mainColors.onBgc0} size={24} />
         </View>
@@ -79,6 +81,8 @@ const SearchWidget = ({  }:SearchWidgetProps) => {
 
         <View style={{flex:1}}>
             <TextInput
+                value={value}
+                onChangeText={setValue}
                 onTouchStart={onTouchInput}
                 ref={inputRef}
                 onFocus={onInputFocus}

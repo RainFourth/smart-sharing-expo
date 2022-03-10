@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
-import MapView, {LatLng, PROVIDER_GOOGLE, Region} from 'react-native-maps'
-import { StyleSheet, View } from 'react-native'
-import {empty} from "@u2/utils";
+import MapView, {LatLng, Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps'
+import {Pressable, StyleSheet, View} from 'react-native'
+import {empty, groupBy, reduce, halfUp} from "@u2/utils";
 import MapSearchWidget from "@sc/App/Apartments/Map/MapSearchWidget";
 import Filters from "@sc/App/Apartments/Map/Filters";
 import Settings from "@sc/App/Apartments/Map/Settings";
@@ -13,14 +13,13 @@ import {setAppNavMapMode, setLocationPermissionGranted} from "@rx/appReducer";
 import * as Location from 'expo-location'
 import {Accuracy} from "expo-location";
 import {sg} from "@u2/styleGlobal";
+import {MapMarker} from "@c";
+import MapMarker2 from "@c/MapMarker2";
+import {prettyPrint} from "@u";
+import {fetchApartmentsInCity, setGroupedApartments, setSelectedCity} from "@rx/apartmentsReducer";
+import {PlaceType} from "@r/apartmentsRepoMockData";
 
 
-const s = StyleSheet.create({
-    searchBox: {
-        position: 'absolute',
-        top: 44, left: 15, height: 49, right: 15
-    }
-});
 
 
 // todo useNavigation hook
@@ -30,7 +29,7 @@ export type MapScreenType = {}
 const MapScreen = ({}:MapScreenType) => {
 
     const { themeObj } = useThemeNew()
-    const { appNav: { mapMode }, location: { granted: locationGranted }} = useSelector((s: StateType) => s.app)
+    const { appNav: { mapMode }, /*location: { granted: locationGranted }*/} = useSelector((s: StateType) => s.app)
     const d = useDispatch()
 
     useBackHandler(()=>{
@@ -43,17 +42,16 @@ const MapScreen = ({}:MapScreenType) => {
 
     const mapRef = useRef<MapView>(null)
 
-    const [location, setLocation] = useState(undefined as empty|Location.LocationObject)
+    //const [location, setLocation] = useState(undefined as empty|Location.LocationObject)
 
-    const onMapReady = () => {
-        //alert("Map ready!")
-    }
+    const [mapReady, setMapReady] = useState(false)
+    const onMapReady = () => setMapReady(true)
     const onMapLoaded = () => {
         //alert("Map loaded!")
     }
 
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         //setLoadLocationPermission(true)
         //setErrLocationPermission(undefined)
         Location.requestForegroundPermissionsAsync()
@@ -71,10 +69,10 @@ const MapScreen = ({}:MapScreenType) => {
             .finally(()=>{
                 //setLoadLocationPermission(false)
             })
-    },[])
+    },[])*/
 
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if (locationGranted){
             //setLoadLocation(true)
             //setErrLocation(undefined)
@@ -98,20 +96,21 @@ const MapScreen = ({}:MapScreenType) => {
         } else {
             setLocation(undefined)
         }
-    },[locationGranted])
+    },[locationGranted])*/
 
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if (location && mapRef.current){
             mapRef.current.setCamera({
                 center: { latitude: location.coords.latitude, longitude: location.coords.longitude}
             })
         }
-    },[location])
+    },[location])*/
 
 
 
-    const [regionName, setRegionName] = useState(undefined as string|empty)
+
+    /*const [regionName, setRegionName] = useState(undefined as string|empty)
     const onRegionChange = async (r: Region) => {
         if (locationGranted){
             const regionData = await Location.reverseGeocodeAsync({latitude: r.latitude, longitude: r.longitude})
@@ -119,50 +118,100 @@ const MapScreen = ({}:MapScreenType) => {
             setRegionName(regionData[0].city)
             //console.log(regionData)
         }
-    }
+    }*/
+
+    const { city, apartments: { apartments, error: apError }, groupedApartments, addressFilter } = useSelector((s:StateType)=>s.apartments.selectedCity)
+    const [addressFilterSet, setAddressFilterSet] = useState(new Set<string>())
+    useEffect(()=>{
+        setAddressFilterSet(new Set(addressFilter.map(p=>p.typeName+" "+p.id)))
+    },[addressFilter])
+    useEffect(()=>{
+        d(fetchApartmentsInCity(city.id))
+        mapRef.current?.setCamera({
+            //zoom: 14,
+            center: {
+                latitude: city.location.lat,
+                longitude: city.location.lon
+            }
+        })
+    },[city])
+    useEffect(()=>{
+        if (addressFilter[0] && addressFilter[0].typeName==='город') d(setSelectedCity(addressFilter[0]))
+        if (apartments){
+            const groupedAp = reduce(
+                groupBy(
+                    addressFilterSet.size===0 ? apartments : apartments.filter(
+                        ap => addressFilterSet.has('округ '+ap.districtId) || addressFilterSet.has('район '+ap.districtId)
+                            || addressFilterSet.has('улица '+ap.streetId) || addressFilterSet.has('переулок '+ap.streetId)
+                            || addressFilterSet.has('микрорайон '+ap.streetId)
+                    ),
+                    ap => halfUp(ap.coordinates.latitude, 3)+" "+halfUp(ap.coordinates.longitude, 3)
+                ),
+                v => ({
+                    ids: [v.id],
+                    minPrice: v.price,
+                    coordinates: {
+                        latitude: v.coordinates.latitude,
+                        longitude: v.coordinates.longitude
+                }}),
+                (v,nv)=>{
+                    nv.ids.push(v.id)
+                    nv.minPrice = Math.min(v.price, nv.minPrice)
+                    return nv
+                }
+            )
+            d(setGroupedApartments([...groupedAp.values()]))
+        }
+    },[apartments, addressFilter, addressFilterSet])
+    useEffect(()=>{
+        if (apError) alert("Не удалось загрузить координаты квартир\n"+prettyPrint(apError,'str'))
+    },[apError])
 
 
 
+    return <View style={[sg.absolute,sg.centerContent,{backgroundColor: 'black'}]}>
+        <MapView
+            ref={mapRef}
+            provider={PROVIDER_GOOGLE}
+            style={[sg.absolute, {backgroundColor: themeObj.mainColors.bgc2}]}
+            onMapReady={onMapReady}
+            onMapLoaded={onMapLoaded}
+            initialRegion={{
+                latitude: city.location.lat,
+                longitude: city.location.lon,
+                latitudeDelta: 0.2,
+                longitudeDelta: 0.2,
+            }}
+            showsBuildings={true}
+            customMapStyle={themeObj.mapStyle}
+
+            /*onRegionChangeComplete={onRegionChange}*/
+            /*showsUserLocation={true}*/
+        >
+            {/*
+                WARNING!!! Custom markers lag issue, to solve:
+                1) change key to index (key={indexInArray})
+                2) disable props tracksViewChanges={false} or add icon props instead of image
+            */}
+            { mapReady && groupedApartments?.map((ap,i)=><Marker
+                tracksViewChanges={false}
+                key={i}
+                coordinate={ap.coordinates}
+                onPress={()=>console.log('marker pressed')}
+                >
+                    <MapMarker2
+                        count={ap.ids.length}
+                        price={ap.minPrice}
+                        selected={false}
+                    />
+                </Marker>
+            )}
+        </MapView>
 
 
+        <MapSearchWidget />
 
-
-    return <>
-
-        <View style={[sg.absolute,sg.centerContent,{backgroundColor: 'black'}]}>
-            <MapView
-                ref={mapRef}
-                provider={PROVIDER_GOOGLE}
-                style={[sg.absolute, {backgroundColor: themeObj.mainColors.bgc2}]}
-                onMapReady={onMapReady}
-                onMapLoaded={onMapLoaded}
-                initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
-                }}
-                showsBuildings={true}
-                customMapStyle={themeObj.mapStyle}
-                onRegionChangeComplete={onRegionChange}
-                showsUserLocation={true}
-            />
-        </View>
-
-        <View style={s.searchBox}>
-            <MapSearchWidget currentRegionName={regionName}/>
-        </View>
-
-        <View style={[sg.absolute, {zIndex:1}]} pointerEvents='box-none'>
-            <Filters/>
-        </View>
-
-
-        <View style={[sg.absolute, {zIndex:1}]} pointerEvents='box-none'>
-            <Settings/>
-        </View>
-
-    </>
+    </View>
 }
 export default MapScreen
 

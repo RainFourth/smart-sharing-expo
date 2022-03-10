@@ -11,18 +11,20 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 
 import BottomTabBar from "@sc/App/BottomTabBar";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {StateType} from "@rx/store";
-import { setAppNavTab } from "@rx/appReducer";
 import {MainStackType} from "@sc/Main";
 import {useThemeNew} from "@h";
 import ApartmentsNav from "@sc/App/Apartments/ApartmentsNav";
 import Example from "@sc/Example";
+import TestScreen from "@sc/TestScreen";
+import {sg} from "@u2/styleGlobal";
+import Filters from "@sc/App/Apartments/Map/Filters";
+import Settings from "@sc/App/Apartments/Map/Settings";
 
 
 
 
-const bottomBarH = 80
 
 
 export type AppNavProps = {}
@@ -31,9 +33,8 @@ type Type = StackScreenProps<MainStackType,'AppNav'>
 
 function AppNav({}:Type ) {
 
-    const d = useDispatch()
-    const appNav = useSelector((s:StateType)=>s.app.appNav)
     const { themeObj } = useThemeNew()
+    const { tab, mapMode } = useSelector((s:StateType)=>s.app.appNav)
 
     // todo
     function handleOpenURL({ url }:{ url:string }) {
@@ -69,9 +70,11 @@ function AppNav({}:Type ) {
 
 
 
-    return <View style={{flex:1, backgroundColor: themeObj.mainColors.bgc2}}>
-        {/*стоит впереди Bottom Sheet чтобы быть ниже их*/}
-        {function (){switch (appNav.tab){
+    return <View style={[sg.absolute, {backgroundColor: themeObj.mainColors.bgc2}]}>
+
+        {/*<TestScreen/>*/}
+
+        {function (){switch (tab){
             case "messages": return <ApartmentsMapNavigation />//return <MessagesScreen />
             case "map": return <ApartmentsNav/>//return <MapScreen />
             case "favorites": return <FavoritesScreen />
@@ -79,17 +82,16 @@ function AppNav({}:Type ) {
             default: return <></>
         }}()}
 
-        {/*{
-            !['filters','settings'].includes(appNav.mapMode) && <BottomTabBar
-                tab={appNav.tab} height={bottomBarH}
-                onTab={(tab)=>d(setAppNavTab(tab))}
-                zIndex={-0}
-            />
-        }*/}
-        <BottomTabBar
-            tab={appNav.tab} height={bottomBarH}
-            onTab={(tab)=>d(setAppNavTab(tab))}
-        />
+        <BottomTabBar />
+
+        { tab==='map' && <View style={sg.absolute} pointerEvents='box-none'>
+            <Filters/>
+        </View> }
+
+        { tab==='map' && <View style={sg.absolute} pointerEvents='box-none'>
+            <Settings/>
+        </View> }
+
     </View>
 
 

@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore, compose} from "redux";
-//import thunkMiddleware from "redux-thunk";
+import thunkMiddleware from "redux-thunk";
 //import createSagaMiddleware from 'redux-saga'
 
 import themeReducer, {ThemeStateType} from "./themeReducer";
@@ -10,6 +10,7 @@ import {persistReducer} from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 import appReducer, {AppStateType} from "@rx/appReducer";
+import apartmentsReducer, {ApartmentsStateType} from "@rx/apartmentsReducer";
 
 
 
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
     theme: persistReducer(themePersistConfig, themeReducer),
     reducer: reducer,
     auth: persistReducer(authPersistConfig, authReducer),
-    app: appReducer
+    app: appReducer,
+    apartments: apartmentsReducer
 })
 
 type PersistState = {
@@ -48,6 +50,7 @@ export type StateType = {
     reducer: ReducerStateType
     auth: AuthStateType & PersistState
     app: AppStateType
+    apartments: ApartmentsStateType
 }
 
 
@@ -57,11 +60,6 @@ export type StateType = {
 
 
 
-// переменные и reducer'ы автоматически создадутся и привяжутся
-/*const store = createStore(
-    rootReducer,
-    applyMiddleware(thunkMiddleware),
-);*/
 
 //const sagaMiddleware = createSagaMiddleware()
 
@@ -70,8 +68,15 @@ export type StateType = {
 //    composeEnhancer(applyMiddleware(thunkMiddleware, sagaMiddleware))
 //);
 
-const store = createStore(
+/*const store = createStore(
     rootReducer
+);*/
+
+
+// переменные и reducer'ы автоматически создадутся и привяжутся
+const store = createStore(
+    rootReducer,
+    applyMiddleware(thunkMiddleware),
 );
 
 

@@ -3,7 +3,7 @@ import React from 'react'
 // @ts-ignore
 import UserSvg from '@ic/ic-user.svg'
 
-const UserIc = ({color, size}: {color:string, size?:number}) => {
+const UserIc = ({color, size}: {color:string, size?:number|string}) => {
     return <UserSvg
         width={size??'100%'}
         height={size??'100%'}

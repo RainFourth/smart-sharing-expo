@@ -59,7 +59,7 @@ function MapSearch({
 
     const [streets, setStreets] = useState([]);
     const [suitableStreets, setSuitableStreets] = useState([]);
-    const [selectedStreets, setSelectedStreets] = useState(null);
+    const [selectedStreet, setSelectedStreet] = useState(null);
 
     const [houses, setHouses] = useState([]);
     const [suitableHouses, setSuitableHouses] = useState([]);
@@ -84,7 +84,7 @@ function MapSearch({
     }
 
     const getHouses = async () => {
-        const { status, errors, payload } = await apartmentsService.getHouses(city.id, selectedStreets.id);
+        const { status, errors, payload } = await apartmentsService.getHouses(city.id, selectedStreet.id);
 
         if (status > 299) {
             // TODO replace to modal
@@ -101,11 +101,11 @@ function MapSearch({
     }, [])
 
     const setFilters = () => {
-        if (selectedStreets) {
+        if (selectedStreet) {
             setFiltersOptions(prev => {
                 return {
                     ...prev,
-                    street_id: selectedStreets.id
+                    street_id: selectedStreet.id
                 }
             })
         } else {
@@ -118,14 +118,14 @@ function MapSearch({
 
     useEffect(() => {
         // setFilters();
-        if (selectedStreets !== null) {
-            applyAddress('street_id', selectedStreets.id)
+        if (selectedStreet !== null) {
+            applyAddress('street_id', selectedStreet.id)
             getHouses();
         } else {
             applyAddress('street_id', null);
             setSuitableStreets(streets);
         }
-    }, [selectedStreets])
+    }, [selectedStreet])
 
     return (
         <View
@@ -167,8 +167,8 @@ function MapSearch({
                         //     text = text.replace(selectedStreets.name, '');
                         // }
 
-                        if (selectedStreets !== null && text === selectedStreets.name) {
-                            setSelectedStreets(null);
+                        if (selectedStreet !== null && text === selectedStreet.name) {
+                            setSelectedStreet(null);
                             setInputVal('');
                             return;
                         }
@@ -180,7 +180,7 @@ function MapSearch({
                         let tmp = streets.filter(el => matcher.test(el.name.toLowerCase()));
 
                         if (tmp.length === 1) {
-                            setSelectedStreets(tmp[0]);
+                            setSelectedStreet(tmp[0]);
                             // setShowVariant(false);
                             setInputVal(`${tmp[0].name},`);
                             return;
@@ -211,12 +211,12 @@ function MapSearch({
                 }}
                 keyboardShouldPersistTaps='handled'
             >
-                {selectedStreets === null && suitableStreets.map(el => {
+                {selectedStreet === null && suitableStreets.map(el => {
                     return (
                         <TouchableOpacity
                             key={el.id}
                             onPress={() => {
-                                setSelectedStreets(el);
+                                setSelectedStreet(el);
                                 setInputVal(`${el.name},`)
                                 // setShowVariant(false);
                                 inputRef.current.focus()
@@ -231,7 +231,7 @@ function MapSearch({
                         </TouchableOpacity>
                     )
                 })}
-                {selectedStreets && suitableHouses.map(el => {
+                {selectedStreet && suitableHouses.map(el => {
                     return (
                         <TouchableOpacity
                             key={el.id}
@@ -246,7 +246,7 @@ function MapSearch({
                                     fontSize: 15,
                                     marginVertical: 5
                                 }}
-                            >{selectedStreets.name}, {el.name}</Text>
+                            >{selectedStreet.name}, {el.name}</Text>
                         </TouchableOpacity>
                     )
                 })}

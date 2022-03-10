@@ -1,6 +1,7 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import CitiesScreen from "@sc/App/Apartments/CitiesScreen/CitiesScreen";
 import MapScreen from "@sc/App/Apartments/Map/MapScreen";
+import BottomTabBar from "@sc/App/BottomTabBar";
 
 
 const StackNav = createStackNavigator()

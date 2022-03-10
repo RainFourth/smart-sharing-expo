@@ -1,5 +1,6 @@
 {
     "build": {
+
         "dev-apk": {
             "android": {
                 "buildType": "apk",

@@ -13,7 +13,7 @@ import {
 import MapView from "react-native-map-clustering";
 import { Marker } from "react-native-maps";
 
-import { AppContext, splitePrice, Buffer, prettyPrint } from "@u";
+import { AppContext, splitPrice, Buffer, prettyPrint } from "@u";
 import {
     SwipeablePanel, MapSearch,
     InfiniteScroll, ApartmentCard,
@@ -150,7 +150,7 @@ function MapScreen({
     }*/
 }) {
 
-    let id = "ChIJZfbiU9M6qF0RTunYVhTN1jE"
+    let id = 1
     let lat = 52.28771725041251
     let lon = 104.28070340632
     let name = "Иркутск"
@@ -236,7 +236,7 @@ function MapScreen({
         }
 
         for (const item of items) {
-            item.price = splitePrice(item.price);
+            item.price = splitPrice(item.price);
             await buffer.addElement(item);
         }
 
@@ -264,6 +264,8 @@ function MapScreen({
         getData_();
     }, [options])
 
+
+    // Получение координат квартир
     const getCoordinates = useCallback(async options => {
         const { error, payload: { items }, status } = await apartmentsService.getCoordinates(options);
 

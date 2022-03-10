@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import { Sub } from "@c";
 import { useTheme, useThemeObj } from '@h'
-import { splitePrice, AppContext, prettyPrint } from "@u";
+import { splitPrice, AppContext, prettyPrint } from "@u";
 import * as apartmentsService from '@se/apartmentsService';
 
 const {
@@ -282,7 +282,7 @@ function ApartmentCard({
                 </View>
                 <View style={styles.bottomView}>
                     <View style={styles.bottomPriceView}>
-                        <Text style={styles.price}>{splitePrice(apartment.price)} P./ночь</Text>
+                        <Text style={styles.price}>{splitPrice(apartment.price)} P./ночь</Text>
                     </View>
                     <View style={styles.buttonView}>
                         <TouchableOpacity

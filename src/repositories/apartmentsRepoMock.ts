@@ -1,30 +1,10 @@
-import { wait } from "@u2/utils";
-
-const cities = [
-    {
-        id: 1,
-        name: 'Иркутск',
-        image_path: '150/ffff00'
-    },
-    {
-        id: 2,
-        name: 'Ангарск',
-        image_path: '150/00ff00'
-    }
-]
-
-const streets = [
-    {
-        id: 1,
-        city_id: 1,
-        name: 'улица Ленина'
-    }
-]
+import {wait} from "@u2/utils";
+import {apartmentsCoordinates, cities, districts, streets} from "@r/apartmentsRepoMockData";
 
 
-export async function getCities() {
+export const getCities = () => {
     const response = {
-        status: 200,
+        error: undefined, errors: [], status: 200,
         payload: cities
     }
 
@@ -32,12 +12,36 @@ export async function getCities() {
 }
 
 
-
-export async function getStreets(cityId) {
+export const getDistricts = async (cityId: number) => {
     const response = {
-        status: 200,
-        payload: streets.filter(s=>s.city_id===cityId)
+        error: undefined, errors: [], status: 200,
+        payload: {
+            items: districts.filter(d=>d.cityId===cityId)
+        }
     }
-
-    return response;
+    return wait(1000, response)
 }
+
+
+export async function getStreets(cityId: number) {
+    const response = {
+        error: undefined, errors: [], status: 200,
+        payload: {
+            items: streets.filter(s=>s.city_id===cityId)
+        },
+    }
+    return wait(1000, response)
+}
+
+
+export const getCoordinates = async (options: {city_id: number}) => {
+    const response = {
+        error: undefined, errors: [], status: 200,
+        payload: {
+            items: apartmentsCoordinates.filter(c=>c.city_id===options.city_id)
+        }
+    }
+    return wait(1000, response)
+}
+
+

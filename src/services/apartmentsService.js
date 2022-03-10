@@ -1,5 +1,6 @@
 import * as apartmentsRepository from '@r/apartmentsRepository';
 import * as apartmentsMockRepo from "@r/apartmentsRepoMock";
+import * as apartmentsRepoMock from "@r/apartmentsRepoMock";
 
 
 async function getList(options) {
@@ -15,7 +16,8 @@ async function getMyApartments(options) {
 }
 
 async function getCoordinates(options) {
-    const { error, payload, status } = await apartmentsRepository.getCoordinates(options);
+    //const { error, payload, status } = await apartmentsRepository.getCoordinates(options);
+    const { error, payload, status } = await apartmentsRepoMock.getCoordinates(options);
 
     if (error) return { error, payload, status };
 

@@ -19,7 +19,7 @@ import {
     Button, FreeDates
 } from '@c'
 import {
-    splitePrice, AppContext,
+    splitPrice, AppContext,
     Rights,
     prettyPrint,
 } from '@u';
@@ -289,7 +289,7 @@ function ApartmentScreen({ route, navigation }) {
                     <View style={styles.descriptionRootView}>
                         <View style={styles.priceAndRatingView}>
                             <View style={styles.priceAndRatingFlexView}>
-                                <Text style={styles.priceText}>{splitePrice(apartment.price)} Р./ночь</Text>
+                                <Text style={styles.priceText}>{splitPrice(apartment.price)} Р./ночь</Text>
                                 <View style={styles.rating}>
                                     <Ionicons
                                         name="ios-star"

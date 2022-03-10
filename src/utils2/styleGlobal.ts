@@ -13,6 +13,9 @@ export const sg = StyleSheet.create({
         bottom: 0,
         right: 0,
     },
+    flex: {
+        flex: 1
+    },
     transparent: {
         backgroundColor: '#00000000'
     },

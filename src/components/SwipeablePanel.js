@@ -124,7 +124,8 @@ function SwipeablePanel({
       styles.container,
       panelStyle,
       {
-        transform: animate.getTranslateTransform()
+        transform: animate.getTranslateTransform(),
+        zIndex:10
       }
     ]}>
       <Animated.View {...panResponder.panHandlers}>
