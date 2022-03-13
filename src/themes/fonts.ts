@@ -31,4 +31,4 @@ export const fonts2 = {
         w800: 'Montserrat-Black',
         w900: '',
     },
-} as {[prop: string]: FontType}
+}

@@ -9,6 +9,7 @@
 export type CityType = {
     id: number,
     name: string,
+    type: 'city',
     typeName: 'город',
     image_path: string
     location: {
@@ -20,6 +21,7 @@ export const cities: CityType[] = [
     {
         id: 1,
         name: 'Иркутск',
+        type: 'city',
         typeName: 'город',
         image_path: '150/ffff00',
         location: {
@@ -30,6 +32,7 @@ export const cities: CityType[] = [
     {
         id: 2,
         name: 'Ангарск',
+        type: 'city',
         typeName: 'город',
         image_path: '150/00ff00',
         location: {
@@ -40,6 +43,7 @@ export const cities: CityType[] = [
     {
         id: 3,
         name: 'Байкальск',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -50,6 +54,7 @@ export const cities: CityType[] = [
     {
         id: 4,
         name: 'Алупка',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -60,6 +65,7 @@ export const cities: CityType[] = [
     {
         id: 5,
         name: 'Алушта',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -70,6 +76,7 @@ export const cities: CityType[] = [
     {
         id: 6,
         name: 'Анапа',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -80,6 +87,7 @@ export const cities: CityType[] = [
     {
         id: 7,
         name: 'Белгород',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -90,6 +98,7 @@ export const cities: CityType[] = [
     {
         id: 8,
         name: 'Новосибирск',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -100,6 +109,7 @@ export const cities: CityType[] = [
     {
         id: 9,
         name: 'Норильск',
+        type: 'city',
         typeName: 'город',
         image_path: '150/0000ff',
         location: {
@@ -117,6 +127,7 @@ export const defaultCity = cities[0]
 export type DistrictType = {
     id: number,
     cityId: number,
+    type: 'district',
     typeName: 'район'|'округ',
     name: string,
 }
@@ -124,21 +135,25 @@ export const districts: DistrictType[] = [
     {
         id: 1,
         cityId: 1,
+        type: 'district',
         typeName: 'округ',
         name: 'Правобережный',
     },{
         id: 2,
         cityId: 1,
+        type: 'district',
         typeName: 'округ',
         name: 'Свердловский',
     },{
         id: 3,
         cityId: 1,
+        type: 'district',
         typeName: 'округ',
         name: 'Октябрьский',
     },{
         id: 4,
         cityId: 1,
+        type: 'district',
         typeName: 'округ',
         name: 'Ленинский',
     },
@@ -150,6 +165,7 @@ export const districts: DistrictType[] = [
 export type StreetType = {
     id: number,
     city_id: number, cityId: number,
+    type: 'street',
     typeName: 'улица'|'переулок'|'микрорайон',
     name: string
 }
@@ -157,36 +173,43 @@ export const streets: StreetType[] = [
     {
         id: 1,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'улица',
         name: 'Ленина'
     },{
         id: 2,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'улица',
         name: 'Рабочая'
     },{
         id: 3,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'улица',
         name: 'Академика Курчатова'
     },{
         id: 4,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'улица',
         name: 'Лермонтова'
     },{
         id: 5,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'улица',
         name: 'Грязнова'
     },{
         id: 6,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'улица',
         name: 'Дальневосточная'
     },{
         id: 7,
         city_id: 1, cityId: 1,
+        type: 'street',
         typeName: 'переулок',
         name: 'Лагерный'
     },

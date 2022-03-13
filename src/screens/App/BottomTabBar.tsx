@@ -67,7 +67,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
             <Pressable style={[s.pressable]}
                        onPress={()=>onTab('messages')}
                        onTouchStart={()=>setAnimMode1('start')}
-                       onTouchEnd={()=>setAnimMode1('end')}
+                       onTouchEndCapture={()=>setAnimMode1('end')}
 
             >
                 <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode1} />
@@ -77,7 +77,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
             <Pressable style={s.pressable}
                        onPress={()=>onTab('map')}
                        onTouchStart={()=>setAnimMode2('start')}
-                       onTouchEnd={()=>setAnimMode2('end')}
+                       onTouchEndCapture={()=>setAnimMode2('end')}
             >
                 <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode2}/>
                 <LocationIc size={'30%'} color={getIconColor('map')} />
@@ -85,7 +85,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
             <Pressable style={s.pressable}
                        onPress={()=>onTab('favorites')}
                        onTouchStart={()=>setAnimMode3('start')}
-                       onTouchEnd={()=>setAnimMode3('end')}
+                       onTouchEndCapture={()=>setAnimMode3('end')}
             >
                 <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode3}/>
                 <HeartIc size={'30%'} color={getIconColor('favorites')} />
@@ -93,7 +93,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
             <Pressable style={s.pressable}
                        onPress={()=>onTab('profile')}
                        onTouchStart={()=>setAnimMode4('start')}
-                       onTouchEnd={()=>setAnimMode4('end')}
+                       onTouchEndCapture={()=>setAnimMode4('end')}
             >
                 <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode4}/>
                 <UserIc size={'30%'} color={getIconColor('profile')} />

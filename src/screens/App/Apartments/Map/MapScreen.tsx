@@ -1,10 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react'
-import MapView, {LatLng, Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps'
-import {Pressable, StyleSheet, View} from 'react-native'
-import {empty, groupBy, reduce, halfUp} from "@u2/utils";
+import MapView, {Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps'
+import {View} from 'react-native'
+import {groupBy, reduce, halfUp} from "@u2/utils";
 import MapSearchWidget from "@sc/App/Apartments/Map/MapSearchWidget";
-import Filters from "@sc/App/Apartments/Map/Filters";
-import Settings from "@sc/App/Apartments/Map/Settings";
 import {useThemeNew} from "@h";
 import {useBackHandler} from "@react-native-community/hooks";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,11 +11,9 @@ import {setAppNavMapMode, setLocationPermissionGranted} from "@rx/appReducer";
 import * as Location from 'expo-location'
 import {Accuracy} from "expo-location";
 import {sg} from "@u2/styleGlobal";
-import {MapMarker} from "@c";
 import MapMarker2 from "@c/MapMarker2";
 import {prettyPrint} from "@u";
 import {fetchApartmentsInCity, setGroupedApartments, setSelectedCity} from "@rx/apartmentsReducer";
-import {PlaceType} from "@r/apartmentsRepoMockData";
 
 
 
@@ -42,7 +38,6 @@ const MapScreen = ({}:MapScreenType) => {
 
     const mapRef = useRef<MapView>(null)
 
-    //const [location, setLocation] = useState(undefined as empty|Location.LocationObject)
 
     const [mapReady, setMapReady] = useState(false)
     const onMapReady = () => setMapReady(true)
@@ -50,6 +45,10 @@ const MapScreen = ({}:MapScreenType) => {
         //alert("Map loaded!")
     }
 
+
+
+
+    //const [location, setLocation] = useState(undefined as empty|Location.LocationObject)
 
     /*useEffect(()=>{
         //setLoadLocationPermission(true)
@@ -123,7 +122,7 @@ const MapScreen = ({}:MapScreenType) => {
     const { city, apartments: { apartments, error: apError }, groupedApartments, addressFilter } = useSelector((s:StateType)=>s.apartments.selectedCity)
     const [addressFilterSet, setAddressFilterSet] = useState(new Set<string>())
     useEffect(()=>{
-        setAddressFilterSet(new Set(addressFilter.map(p=>p.typeName+" "+p.id)))
+        setAddressFilterSet(new Set(addressFilter.map(p=>p.type+" "+p.id)))
     },[addressFilter])
     useEffect(()=>{
         d(fetchApartmentsInCity(city.id))
@@ -136,14 +135,12 @@ const MapScreen = ({}:MapScreenType) => {
         })
     },[city])
     useEffect(()=>{
-        if (addressFilter[0] && addressFilter[0].typeName==='город') d(setSelectedCity(addressFilter[0]))
+        if (addressFilter[0] && addressFilter[0].type==='city') d(setSelectedCity(addressFilter[0]))
         if (apartments){
             const groupedAp = reduce(
                 groupBy(
                     addressFilterSet.size===0 ? apartments : apartments.filter(
-                        ap => addressFilterSet.has('округ '+ap.districtId) || addressFilterSet.has('район '+ap.districtId)
-                            || addressFilterSet.has('улица '+ap.streetId) || addressFilterSet.has('переулок '+ap.streetId)
-                            || addressFilterSet.has('микрорайон '+ap.streetId)
+                        ap => addressFilterSet.has('district '+ap.districtId) || addressFilterSet.has('street '+ap.streetId)
                     ),
                     ap => halfUp(ap.coordinates.latitude, 3)+" "+halfUp(ap.coordinates.longitude, 3)
                 ),

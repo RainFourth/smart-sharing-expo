@@ -13,4 +13,4 @@ export type ErrorObj = { error: ErrorType }
 export type ErrorEmpty = { error: undefined }
 
 
-export type ErrorOrData<D extends anyObj> = ErrorObj | ErrorEmpty & D
+export type ErrorOrData<D extends anyObj> = ErrorObj & AllUndef<D> | ErrorEmpty & D

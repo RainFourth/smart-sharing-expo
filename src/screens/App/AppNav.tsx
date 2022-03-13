@@ -16,11 +16,12 @@ import {StateType} from "@rx/store";
 import {MainStackType} from "@sc/Main";
 import {useThemeNew} from "@h";
 import ApartmentsNav from "@sc/App/Apartments/ApartmentsNav";
-import Example from "@sc/Example";
-import TestScreen from "@sc/TestScreen";
+import ExampleDraggableBallAnim from "~/EXAMPLES/ExampleDraggableBallAnim";
+import TestScreen from "~/EXAMPLES/TestScreen";
 import {sg} from "@u2/styleGlobal";
 import Filters from "@sc/App/Apartments/Map/Filters";
 import Settings from "@sc/App/Apartments/Map/Settings";
+import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet";
 
 
 
@@ -77,8 +78,8 @@ function AppNav({}:Type ) {
         {function (){switch (tab){
             case "messages": return <ApartmentsMapNavigation />//return <MessagesScreen />
             case "map": return <ApartmentsNav/>//return <MapScreen />
-            case "favorites": return <FavoritesScreen />
-            case "profile": return <Example/>//return <ProfileScreen />
+            case "favorites": return <ExampleBottomSheet/>//return <FavoritesScreen />
+            case "profile": return <ExampleDraggableBallAnim/>//return <ProfileScreen />
             default: return <></>
         }}()}
 

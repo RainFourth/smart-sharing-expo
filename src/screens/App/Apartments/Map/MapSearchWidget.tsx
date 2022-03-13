@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import {ThemeType} from "@t";
 import {useThemeNew} from "@h";
-import {empty, inf} from "@u2/utils";
+import {empty, inf, makeSearchRegexp} from "@u2/utils";
 import SearchIc from "@c/SvgIcons/SearchIc";
 import FilterIc from "@c/SvgIcons/FilterIc";
 import {useDispatch, useSelector} from "react-redux";
@@ -143,27 +143,23 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
     },[city.id])
     const [foundParts, setFoundParts] = useState([] as PlaceType[])
     useEffect(()=>{
-        let cs = cities?.cities ?? []
-        let ds = districts?.districts ?? []
-        let ss = streets?.streets ?? []
+        let cs = cities.cities ?? []
+        let ds = districts.districts ?? []
+        let ss = streets.streets ?? []
         setAvailablePlaces([...cs,...ds,...ss])
         setFoundParts(ds)
 
-        if (districts){
-            if (districts.error) alert('Ошибка получения округов/районов города:\n'+prettyPrint(districts.error))
+        if (cities.error) alert('Ошибка получения городов:\n'+prettyPrint(cities.error))
+        if (districts.error) alert('Ошибка получения округов/районов города:\n'+prettyPrint(districts.error))
+        if (streets.error) alert('Ошибка получения улиц/переулков/микрорайонов города:\n'+prettyPrint(streets.error))
 
-        }
-
-        if (streets){
-            if (streets.error) alert('Ошибка получения улиц/переулков/микрорайонов города:\n'+prettyPrint(streets.error))
-        }
-    },[districts,streets])
+    },[cities,districts,streets])
 
 
 
     useBackHandler(()=>{
         if (inputRef.current?.isFocused()){
-            blurInput()
+            d(setAppNavMapMode('map'))
             return true
         }
         return false
@@ -179,7 +175,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
     }
 
     const onInputFocus = () => d(setAppNavMapMode('search'))
-    const onInputBlur = () => d(setAppNavMapMode('map'))
+    //const onInputBlur = () => d(setAppNavMapMode('map'))
 
 
     const onTouchInput = () => {
@@ -194,9 +190,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
     useDebounce(() => {
         if (!searchText) setFoundParts(districts?.districts ?? [])
         else {
-            //console.log(searchText)
-            // replaceAll is not supported
-            const regexp = new RegExp(searchText.replace(/\s+/g, '|'),'i')
+            const regexp = makeSearchRegexp(searchText)
             setFoundParts(availablePlaces.filter(p => regexp.test(p.name)))
         }
     },500, [searchText])
@@ -226,7 +220,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
                     value={searchText}
                     onChangeText={setSearchText}
                     onFocus={onInputFocus}
-                    onBlur={onInputBlur}
+                    //onBlur={onInputBlur}
                     style={s.text}
                     multiline={false}
                     placeholder={addressFilter.length===0 ? city.name : addressFilter.map(p=>p.name).join('; ')}
@@ -299,7 +293,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
                                     </Pressable>
 
                                     {
-                                        part.typeName==='город' ? <Space w={50}/> : <Pressable
+                                        part.type==='city' ? <Space w={50}/> : <Pressable
                                                 style={[sg.centerContent, {width: 50, height: '100%'}]}
                                                 onPress={onCheck}
                                             >

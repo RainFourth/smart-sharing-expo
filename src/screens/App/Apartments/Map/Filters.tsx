@@ -181,6 +181,7 @@ const Filters = ({}:FiltersProps) => {
 
     // callbacks
     const handleSheetChanges = useCallback((idx: number) => {
+        //console.log('new sheet idx: ', idx)
         setIndex(idx)
     }, []);
 
@@ -232,7 +233,8 @@ const Filters = ({}:FiltersProps) => {
         index={-1}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
-        enablePanDownToClose={true} >
+        enablePanDownToClose={true}
+    >
             <View style={s.contentContainer}>
 
                 {/*<Text style={s.filterTitle}>Фильтр 🎉</Text>*/}

@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react'
 import { View, Text, StyleSheet } from "react-native";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppNavMapMode } from "@rx/appReducer";
 import { StateType } from "@rx/store";
@@ -7,42 +8,26 @@ import {useThemeNew} from "@h";
 import {ThemeType} from "@t";
 import SelectVariants from "@c/SelectVariants";
 import {useBackHandler} from "@react-native-community/hooks";
-import BottomSheet, {BottomSheetMethods, BottomSheetSettings} from '~/components/BottomSheet/BottomSheet';
-import BottomSheetHeader from "@c/BottomSheet/BottomSheetHeader";
-import BottomSheetBody from "@c/BottomSheet/BottomSheetBody";
-import {inf} from "@u2/utils";
-import Space from "@c/Space";
-import {sg} from "@u2/styleGlobal";
 
 
 
 const makeStyle = (t: ThemeType) => StyleSheet.create({
-
-    headerBox: {
-        height: 60, width: '100%',
-        flexDirection: 'column',
-        alignItems:'center',
-        borderTopLeftRadius: 30, borderTopRightRadius: 30,
+    bottomSheet: {
+        borderRadius: 30,
         backgroundColor: t.mainColors.bgc0,
     },
-    dash: {
-        position: 'absolute', top: 8, marginHorizontal: 'auto',
-        width: 40, height: 4,
-        borderRadius: inf,
-        backgroundColor: t.mainColors.secondary0,
-    },
-    headerTitle: {
-        fontFamily: t.font.font.w500,
-        fontSize: 24,
-        color: t.mainColors.secondary0,
-    },
-
-    contentBox: {
+    contentContainer: {
         flex: 1,
+        display: 'flex',
         flexDirection: 'column',
         padding: 12,
         paddingTop: 0,
-        backgroundColor: t.mainColors.bgc0,
+    },
+    filterTitle: {
+        fontFamily: t.font.familyBold,
+        fontSize: 24,
+        textAlign: 'center',
+        color: t.mainColors.secondary1,
     },
     text: {
         height: 50,
@@ -61,39 +46,55 @@ const themesMap = {
     "Тёмная": 'dark'
 }
 
-const snapPoints = ['-10%', '15%']
-
-
 type SettingsProps = {}
 const Settings = ({}:SettingsProps) => {
 
-    const d = useDispatch()
+    // ref
+    const bottomSheetRef = useRef<BottomSheet>(null);
+
     const { style:s, themeObj, theme, setTheme } = useThemeNew(makeStyle)
 
-    const [bottomSheetSettings, setBottomSheetSettings] = useState(undefined as BottomSheetSettings)
+    // variables
+    const snapPoints = useMemo(() => ['25%','50%','75%'], []);
 
     const mapMode = useSelector((s:StateType)=>s.app.appNav.mapMode)
-    const [closed, setClosed] = useState(true)
+    const [index,setIndex] = useState(-1)
     useLayoutEffect(()=>{
-        // если мы перешли в настройки, но лист всё ещё закрыт...
-        if (mapMode==='settings' && closed) setBottomSheetSettings({index: 1})
-        if (mapMode!=='settings' && !closed) setBottomSheetSettings({close: true})
-    },[mapMode])
+        if (bottomSheetRef.current){
+            if (mapMode==='settings' && index===-1) bottomSheetRef.current.snapToIndex(0)
+            if (mapMode!=='settings' && index>=0) bottomSheetRef.current.close()
+        }
+    },[mapMode,bottomSheetRef])
     useLayoutEffect(()=>{
-        // если лист закрылся, но мы всё ещё в настройках...
-        if (closed && mapMode==='settings') d(setAppNavMapMode('map'))
-        if (!closed && mapMode!=='settings') d(setAppNavMapMode('settings'))
-    },[closed])
+        if (bottomSheetRef.current){
+            if (mapMode==='settings' && index===-1) onClose()
+        }
+    },[index,bottomSheetRef])
 
-    console.log('mapMode:', mapMode, 'closed:', closed)
 
-    useBackHandler(()=>{
-        if (mapMode==='settings'){
-            d(setAppNavMapMode('map'))
-            return true
+    const close = () => {
+        if (bottomSheetRef.current) {
+            if (mapMode==='settings' && index>=0){
+                bottomSheetRef.current.close()
+                return true
+            }
         }
         return false
-    })
+    }
+
+    useBackHandler(close)
+
+    const d = useDispatch()
+
+    const onClose = useCallback(() => {
+        d(setAppNavMapMode('map'))
+    },[d])
+
+    // callbacks
+    const handleSheetChanges = useCallback((idx: number) => {
+        setIndex(idx)
+    }, []);
+
 
 
     const normalBoxVariants = useMemo(()=>({
@@ -114,22 +115,17 @@ const Settings = ({}:SettingsProps) => {
 
 
     return <BottomSheet
+        ref={bottomSheetRef}
+        backgroundStyle={s.bottomSheet}
+        handleIndicatorStyle={{backgroundColor: themeObj.mainColors.secondary0}}
+        index={-1}
         snapPoints={snapPoints}
-        initialSettings={{close: true}}
-        newSettings={bottomSheetSettings}
-        enableCloseOnZeroSnap={true}
-        onChange={setClosed}
-    >
-        <BottomSheetHeader>
-            <View style={s.headerBox}>
-                <View style={s.dash}/>
-                <View style={[sg.absolute, sg.centerContent]}>
-                    <Text style={s.headerTitle}>Настройки</Text>
-                </View>
-            </View>
-        </BottomSheetHeader>
-        <BottomSheetBody>
-            <View style={s.contentBox}>
+        onChange={handleSheetChanges}
+        enablePanDownToClose={true} >
+            <View style={s.contentContainer}>
+
+                <Text style={s.filterTitle}>Настройки</Text>
+
                 <Text style={s.text}>Тема</Text>
                 <View style={{width: '100%'}}>
                     <SelectVariants
@@ -145,8 +141,8 @@ const Settings = ({}:SettingsProps) => {
                         selectedTxt={selectedTxtVariants}
                     />
                 </View>
+
             </View>
-        </BottomSheetBody>
-    </BottomSheet>
+        </BottomSheet>
 }
 export default Settings

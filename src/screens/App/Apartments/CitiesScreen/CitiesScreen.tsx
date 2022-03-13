@@ -6,7 +6,7 @@ import {StateType} from "@rx/store";
 import SearchWidget from "@sc/App/Apartments/CitiesScreen/SearchWidget";
 import {sg} from "@u2/styleGlobal";
 import Space from "@c/Space";
-import {defaultComparator, emptyFun} from "@u2/utils";
+import {defaultComparator, emptyFun, makeSearchRegexp} from "@u2/utils";
 import React, {useCallback, useEffect, useState} from "react";
 import {useDebounce} from "@h/useDebounce";
 import Spinner from "@c/Spinner";
@@ -116,7 +116,10 @@ const CitiesScreen = () => {
     const [search, setSearch] = useState('')
     const [selectedCities, setSelectedCities] = useState(cities)
     useDebounce(
-        ()=>setSelectedCities(cities?.filter(c=>new RegExp(search,'i').test(c.name))),
+        ()=>{
+            const regexp = makeSearchRegexp(search)
+            setSelectedCities(cities?.filter(c=>regexp.test(c.name)))
+        },
         500,
         [cities,search]
     )

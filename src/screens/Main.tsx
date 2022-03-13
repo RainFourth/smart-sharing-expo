@@ -18,8 +18,8 @@ import { useNetInfo } from "@react-native-community/netinfo";
 
 import { useFonts } from 'expo-font';
 
-import { WelcomeScreen, Auth, OAuth, PreloaderScreen } from '@sc';
-import { LoginNavigation } from '@n';
+import { WelcomeScreen,/* Auth, OAuth,*/ PreloaderScreen } from '@sc';
+//import { LoginNavigation } from '@n';
 import { AppContext, prettyPrint } from '@u';
 import { useAuth, useSocket, useThemeNew } from '@h';
 import { Notification } from '@c';
@@ -41,12 +41,12 @@ import AppNav, {AppNavProps} from "@sc/App/AppNav";
 
 
 import { useNavigation } from "@react-navigation/native";
-import {Keyboard, PixelRatio, Pressable, ScrollView, TextInput, TouchableOpacity, View} from "react-native";
+import {View} from "react-native";
 import {StatusBar} from "expo-status-bar";
-import Example from "@sc/Example";
-import {backgroundColor} from "react-native-calendars/src/style";
+import ExampleDraggableBallAnim from "~/EXAMPLES/ExampleDraggableBallAnim";
 import {sg} from "@u2/styleGlobal";
-import TestScreen from "@sc/TestScreen"; // todo изучить
+import TestScreen from "~/EXAMPLES/TestScreen";
+import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet"; // todo изучить
 // https://reactnavigation.org/docs/navigation-prop
 // https://reactnavigation.org/docs/typescript/#combining-navigation-props
 export type MainStackType = {
@@ -138,7 +138,8 @@ function Main() {
                                     }}
                                     initialRouteName='AppNav'
                                 >
-                                    <RootNav.Screen name='Example' component={Example} />
+                                    <RootNav.Screen name='Example' component={ExampleDraggableBallAnim} />
+                                    <RootNav.Screen name='ExampleBottomSheet' component={ExampleBottomSheet} />
                                     <RootNav.Screen name='TestScreen' component={TestScreen} />
 
 
@@ -146,12 +147,12 @@ function Main() {
 
                                     <RootNav.Screen name='WelcomeScreen' component={WelcomeScreen}/>
 
-                                    <RootNav.Screen name='Login' component={LoginNavigation}/>
-                                    <RootNav.Screen name='SignUpScreen' component={Auth.SignUpScreen}/>
-                                    <RootNav.Screen name='SignInScreen' component={Auth.SignInScreen}/>
-                                    <RootNav.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen}/>
-                                    <RootNav.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen}/>
-                                    <RootNav.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen}/>
+                                    {/*<RootNav.Screen name='Login' component={LoginNavigation}/>*/}
+                                    {/*<RootNav.Screen name='SignUpScreen' component={Auth.SignUpScreen}/>*/}
+                                    {/*<RootNav.Screen name='SignInScreen' component={Auth.SignInScreen}/>*/}
+                                    {/*<RootNav.Screen name="OAuthStatusScreen" component={OAuth.StatusScreen}/>*/}
+                                    {/*<RootNav.Screen name='OAuthSignInScreen' component={OAuth.SignInScreen}/>*/}
+                                    {/*<RootNav.Screen name='OAuthSignUpScreen' component={OAuth.SignUpScreen}/>*/}
 
                                 </RootNav.Navigator>
                             </NavigationContainer>

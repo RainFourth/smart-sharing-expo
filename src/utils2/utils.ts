@@ -44,7 +44,6 @@ export const inRange = (min:number, max:number, curr:number) => {
 
 
 
-
 export type Comparator<T> = (o1: T, o2: T)=>number
 export const defaultComparator: Comparator<any> = (o1,o2) => {
     if (o1==o2) return 0
@@ -65,9 +64,22 @@ export type PromiseType<P extends Promise<any>> = P extends Promise<infer T> ? T
 
 
 export const halfUp = (n: number, r: number): number => {
-    const mult = Math.pow(10, r)
+    const mult = 10**r
     return n>=0? Math.round(n*mult)/(mult) : -Math.round(-n*mult)/mult
 }
+
+
+// replaceAll is not supported
+export const makeSearchRegexp = (searchText: string) => new RegExp(searchText.replace(/\s+/g, '|'),'i')
+
+
+export const extractPercent = (percent: string): number|undefined => {
+    if (percent.substr(percent.length-1,1)==='%')
+        return +percent.substr(0,percent.length-1)
+    return NaN
+}
+
+
 
 
 export const groupBy = <T> (objs: T[], stringkeyExtractor: (obj:T)=>string) => {

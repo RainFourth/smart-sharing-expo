@@ -174,18 +174,20 @@ const RangePicker = ({
 
 
     return <View style={{width: '100%'}}>
-        <GestureDetector gesture={gesture}><View ref={v} style={{
-            flex: 1, borderRadius: inf, borderWidth: 1, overflow: 'hidden', height: 35,
-            backgroundColor: normalStyle.backgroundColor, borderColor: normalStyle.borderColor,
-        }}>
+        <GestureDetector gesture={gesture}>
+            <View ref={v} style={{
+                flex: 1, borderRadius: inf, borderWidth: 1, overflow: 'hidden', height: 35,
+                backgroundColor: normalStyle.backgroundColor, borderColor: normalStyle.borderColor,
+            }}>
 
-            <Animated.View style={[{
-                position: 'absolute', top:0, bottom:0,
-                borderWidth: 1,
-                backgroundColor: selectedStyle.backgroundColor, borderColor: selectedStyle.borderColor
-            }, barAnim]}/>
+                <Animated.View style={[{
+                    position: 'absolute', top:0, bottom:0,
+                    borderWidth: 1,
+                    backgroundColor: selectedStyle.backgroundColor, borderColor: selectedStyle.borderColor
+                }, barAnim]}/>
 
-        </View></GestureDetector>
+            </View>
+        </GestureDetector>
     </View>
 
 }

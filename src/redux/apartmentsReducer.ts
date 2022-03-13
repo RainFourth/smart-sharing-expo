@@ -44,8 +44,14 @@ export type ApartmentsStateType = {
             }
         }[]
 
-        districts: undefined | FetchedDistricts
-        streets: undefined | FetchedStreets
+        districts: {
+            error: undefined | ErrorType
+            districts: undefined | DistrictType[]
+        }
+        streets: {
+            error: undefined | ErrorType
+            streets: undefined | StreetType[]
+        }
 
         addressFilter: PlaceType[]
     }
@@ -64,8 +70,14 @@ const initState: ApartmentsStateType = {
         },
         groupedApartments: undefined,
 
-        districts: undefined,
-        streets: undefined,
+        districts: {
+            error: undefined,
+            districts: undefined
+        },
+        streets: {
+            error: undefined,
+            streets: undefined
+        },
 
         addressFilter: [],
     },

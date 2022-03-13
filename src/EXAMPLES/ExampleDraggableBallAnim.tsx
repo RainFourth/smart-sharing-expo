@@ -51,7 +51,7 @@ function Ball() {
     );
 }
 
-export default function Example() {
+export default function ExampleDraggableBallAnim() {
     return (
         <View style={styles.container}>
             <Ball />

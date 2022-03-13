@@ -11,12 +11,12 @@ export const getCities = async (): Promise<FetchedCities> => {
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' } }
+                return { error: { code: 'error' }, cities: undefined }
             }
 
-            return { cities: payload }
+            return { error: undefined, cities: payload }
         }, error => {
-            return { error: { code: 'error' } }
+            return { error: { code: 'error' }, cities: undefined }
         }
     )
 }
@@ -30,12 +30,12 @@ export const getDistricts = async (cityId: number): Promise<FetchedDistricts> =>
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' } }
+                return { error: { code: 'error' }, districts: undefined }
             }
 
-            return { districts: payload.items }
+            return { error: undefined, districts: payload.items }
         }, error => {
-            return { error: { code: 'error' } }
+            return { error: { code: 'error' }, districts: undefined }
         }
     )
 }
@@ -48,12 +48,12 @@ export const getStreets = async (cityId: number): Promise<FetchedStreets> => {
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' } }
+                return { error: { code: 'error' }, streets: undefined }
             }
 
-            return { streets: payload.items }
+            return { error: undefined, streets: payload.items }
         }, error => {
-            return { error: { code: 'error' } }
+            return { error: { code: 'error' }, streets: undefined}
         }
     )
 }
@@ -66,12 +66,12 @@ export const getCoordinates = async (options: {city_id: number}): Promise<Fetche
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' } }
+                return { error: { code: 'error' }, apartmentsCoordinates: undefined }
             }
 
-            return { apartmentsCoordinates: payload.items }
+            return { error: undefined, apartmentsCoordinates: payload.items }
         }, error => {
-            return { error: { code: 'error' } }
+            return { error: { code: 'error' }, apartmentsCoordinates: undefined }
         }
     )
 }

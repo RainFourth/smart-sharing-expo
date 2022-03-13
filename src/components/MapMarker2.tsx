@@ -6,12 +6,12 @@ import {sg} from "@u2/styleGlobal";
 import {ThemeType} from "@t";
 import {empty, inf} from "@u2/utils";
 
-const makeStyles = (theme: ThemeType, selected: boolean) => StyleSheet.create({
+const makeStyles = (t: ThemeType, selected: boolean) => StyleSheet.create({
     priceView: {
         paddingHorizontal: 10, paddingVertical: 5,
         alignItems: 'center', justifyContent: 'center',
         borderRadius: 8,
-        backgroundColor: selected ? theme.mainColors.accent1 : theme.mainColors.bgc0,
+        backgroundColor: selected ? t.mainColors.accent1 : t.mainColors.bgc0,
 
 
         shadowColor: '#000',
@@ -25,13 +25,13 @@ const makeStyles = (theme: ThemeType, selected: boolean) => StyleSheet.create({
 
     },
     priceText: {
-        fontFamily: theme.font.font.w600,
-        color: theme.mainColors.onAccent0,
+        fontFamily: t.font.font.w600,
+        color: selected ? t.mainColors.onAccent0 : t.mainColors.secondary0,
         fontSize: 12
     },
     circleView: {
         height: 10, width: 10,
-        backgroundColor: theme.mainColors.accent1,
+        backgroundColor: t.mainColors.accent1,
         borderRadius: inf,
 
         shadowColor: '#000',
@@ -52,7 +52,7 @@ const makeStyles = (theme: ThemeType, selected: boolean) => StyleSheet.create({
         transform: [
             { scaleX: 4 }
         ],
-        backgroundColor: theme.marker.shadowCircleColor,
+        backgroundColor: t.marker.shadowCircleColor,
         opacity: 0.25
 
     }
@@ -74,25 +74,22 @@ type MapMarkerProps = {
 function MapMarker(
     { price = undefined, count = 1, selected = false }: MapMarkerProps
 ) {
-    const { style: styles, themeObj: theme } = useThemeNew(theme => makeStyles(theme, selected), [selected])
+    const { style: s } = useThemeNew(theme => makeStyles(theme, selected), [selected])
+    //console.log(s.priceText)
     const priceF = price ? f.setValue(price).format() : undefined
 
 
     return (
         <View style={sg.centerContent}>
-            <View style={styles.priceView}>
-                <Text style={{
-                        ...styles.priceText,
-                        color: selected ? theme.marker.selected.textColor : theme.marker.textColor
-                    }}
-                >
+            <View style={s.priceView}>
+                <Text style={s.priceText}>
                     {`${count===1 ? '' : '×'+count+' от'} ${price ? priceF : '??? ₽'}`}
                 </Text>
             </View>
-            <View style={styles.circleView}/>
-            <View style={styles.shadowView}/>
+            <View style={s.circleView}/>
+            <View style={s.shadowView}/>
         </View>
     )
 }
 
-export default MapMarker;
+export default React.memo(MapMarker)
