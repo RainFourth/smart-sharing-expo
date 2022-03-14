@@ -58,6 +58,7 @@ function ExampleBottomSheet(){
         <BottomSheet
             snapPoints={snapPoints}
             initialSettings={{index: startIdx}}
+            bodyBgcColor={'white'}
             newSettings={settings}
             enableCloseOnZeroSnap={true}
             onChange={(closed, idx)=>console.log('onChange', idx, closed)}
@@ -95,6 +96,8 @@ function ExampleBottomSheet(){
                     <View style={{backgroundColor: 'black', height: 100, width:'100%'}} ></View>
                 </ScrollView>
             </BottomSheetBody>
+
+            {/*<View style={{flex:1, backgroundColor: 'blue'}}></View>*/}
 
         </BottomSheet>
 

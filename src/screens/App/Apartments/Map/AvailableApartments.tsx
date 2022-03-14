@@ -1,4 +1,4 @@
-import React, {useLayoutEffect, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react'
 import { View, Text, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppNavMapMode } from "@rx/appReducer";
@@ -11,6 +11,7 @@ import BottomSheet, {BottomSheetSettings} from '~/components/BottomSheet/BottomS
 import BottomSheetHeader from "@c/BottomSheet/BottomSheetHeader";
 import BottomSheetBody from "@c/BottomSheet/BottomSheetBody";
 import {inf} from "@u2/utils";
+import Space from "@c/Space";
 import {sg} from "@u2/styleGlobal";
 
 
@@ -52,103 +53,76 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
     }
 });
 
-const themeNames = ["Светлая","Тёмная"] as const
-const themesMap = {
-    'light': "Светлая",
-    'dark': "Тёмная",
-    "Светлая": 'light',
-    "Тёмная": 'dark'
-}
-
-const snapPoints = ['-10%', '15%']
 
 
-type SettingsProps = {}
-const Settings = ({}:SettingsProps) => {
+type AvailableApartmentsProps = {}
+const AvailableApartments = ({}:AvailableApartmentsProps) => {
 
     const d = useDispatch()
     const { style:s, themeObj, theme, setTheme } = useThemeNew(makeStyle)
+    const { mapMode, bottomBarHeight } = useSelector((s:StateType)=>s.app.appNav)
+    const snapPoints = useMemo(()=>[bottomBarHeight], [bottomBarHeight])
 
     const [bottomSheetSettings, setBottomSheetSettings] = useState(undefined as BottomSheetSettings)
 
-    const mapMode = useSelector((s:StateType)=>s.app.appNav.mapMode)
     const [closed, setClosed] = useState(true)
+    const [index, setIndex] = useState(undefined as undefined|number)
     useLayoutEffect(()=>{
-        // если мы перешли в настройки, но лист всё ещё закрыт...
-        if (mapMode==='settings' && closed) setBottomSheetSettings({index: 1})
-        if (mapMode!=='settings' && !closed) setBottomSheetSettings({close: true})
+        // если мы перешли на карту, но лист всё ещё закрыт...
+        if (['map','search'].includes(mapMode) && closed) setBottomSheetSettings({index: 0})
+        if (!['map','search'].includes(mapMode) && !closed) setBottomSheetSettings({close: true})
     },[mapMode])
-    useLayoutEffect(()=>{
+    /*useLayoutEffect(()=>{
         // если лист закрылся, но мы всё ещё в настройках...
         if (closed && mapMode==='settings') d(setAppNavMapMode('map'))
         if (!closed && mapMode!=='settings') d(setAppNavMapMode('settings'))
-    },[closed])
+    },[closed])*/
 
-
-    useBackHandler(()=>{
+    /*useBackHandler(()=>{
         if (mapMode==='settings'){
             d(setAppNavMapMode('map'))
             return true
         }
         return false
-    })
+    })*/
 
 
+    const {
+        city, apartments: { apartments, error: apError },
+        groupedApartments, addressFilter, selectedApartments
+    } = useSelector((s:StateType)=>s.apartments.selectedCity)
 
-    const normalBoxVariants = useMemo(()=>({
-        backgroundColor: 'transparent', //
-        borderColor: themeObj.mainColors.secondary4, // <noname>
-    }),[themeObj])
-    const normalTxtVariants = useMemo(()=>({
-        color: themeObj.mainColors.secondary1, // gray dark
-        fontFamily: themeObj.font.family,
-    }),[themeObj])
-    const selectedBoxVariants = useMemo(()=>({
-        backgroundColor: themeObj.mainColors.accent3, // Purple
-        borderColor: themeObj.mainColors.accent3, // Purple
-    }),[themeObj])
-    const selectedTxtVariants = useMemo(()=>({
-        color: themeObj.mainColors.secondary1 // gray dark
-    }),[themeObj])
-
-
-    //console.log('render...')
+    const [cnt, setCnt] = useState(undefined as undefined|number)
+    useEffect(()=>{
+        const idsSet = selectedApartments.idsSet
+        if (idsSet.size>0) setCnt(idsSet.size)
+        else if (groupedApartments) setCnt(groupedApartments.reduce((cnt,group)=>cnt+group.ids.length,0))
+    },[groupedApartments, selectedApartments])
 
     return <BottomSheet
         snapPoints={snapPoints}
-        initialSettings={{close: true}}
+        initialSettings={{index: 0}}
         bodyBgcColor={themeObj.mainColors.bgc0}
         newSettings={bottomSheetSettings}
-        enableCloseOnZeroSnap={true}
-        onChange={setClosed}
+        enableCloseOnZeroSnap={false}
+        onChange={(closed,index) => {
+            setClosed(closed)
+            setIndex(index)
+        }}
     >
         <BottomSheetHeader>
             <View style={s.headerBox}>
                 <View style={s.dash}/>
                 <View style={[sg.absolute, sg.centerContent]}>
-                    <Text style={s.headerTitle}>Настройки</Text>
+                    <Text style={s.headerTitle}>{cnt===undefined ? '' : cnt+' вариантов'}</Text>
                 </View>
             </View>
         </BottomSheetHeader>
         <BottomSheetBody>
             <View style={s.contentBox}>
-                <Text style={s.text}>Тема</Text>
-                <View style={{width: '100%'}}>
-                    <SelectVariants
-                        variants={themeNames}
-                        selected={[themesMap[theme]]}
-                        onSelect={(t)=>{
-                            //@ts-ignore
-                            setTheme(themesMap[t])
-                        }}
-                        normalBox={normalBoxVariants}
-                        normalTxt={normalTxtVariants}
-                        selectedBox={selectedBoxVariants}
-                        selectedTxt={selectedTxtVariants}
-                    />
-                </View>
+
             </View>
         </BottomSheetBody>
     </BottomSheet>
 }
-export default Settings
+export default AvailableApartments

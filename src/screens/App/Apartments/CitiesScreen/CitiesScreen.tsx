@@ -174,7 +174,7 @@ const CitiesScreen = () => {
                 </KeyboardAvoidingView>
             :
                 <>
-                    <View style={[sg.flex, sg.centerContent]}><Spinner color={themeObj.mainColors.accent1} size={50}/></View>
+                    <View style={[sg.flex, sg.centerContent]}><Spinner color={themeObj.mainColors.accent2} size={50}/></View>
                     <Space h={bottomBarHeight}/>
                 </>
 

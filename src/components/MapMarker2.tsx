@@ -6,12 +6,13 @@ import {sg} from "@u2/styleGlobal";
 import {ThemeType} from "@t";
 import {empty, inf} from "@u2/utils";
 
-const makeStyles = (t: ThemeType, selected: boolean) => StyleSheet.create({
+const makeStyles = (t: ThemeType, selected: 'all' | 'some' | 'none') => StyleSheet.create({
     priceView: {
         paddingHorizontal: 10, paddingVertical: 5,
         alignItems: 'center', justifyContent: 'center',
         borderRadius: 8,
-        backgroundColor: selected ? t.mainColors.accent1 : t.mainColors.bgc0,
+        backgroundColor: selected==='all' ? t.mainColors.accent2 :
+            selected==='some' ? t.mainColors.accent1 : t.mainColors.bgc0,
 
 
         shadowColor: '#000',
@@ -26,12 +27,12 @@ const makeStyles = (t: ThemeType, selected: boolean) => StyleSheet.create({
     },
     priceText: {
         fontFamily: t.font.font.w600,
-        color: selected ? t.mainColors.onAccent0 : t.mainColors.secondary0,
+        color: selected==='all' || selected==='some' ? t.mainColors.onAccent0 : t.mainColors.secondary0,
         fontSize: 12
     },
     circleView: {
         height: 10, width: 10,
-        backgroundColor: t.mainColors.accent1,
+        backgroundColor: t.mainColors.accent2,
         borderRadius: inf,
 
         shadowColor: '#000',
@@ -69,27 +70,40 @@ const f = new NumFormat().setFormat({
 type MapMarkerProps = {
     price: number|empty
     count: number
-    selected: boolean
+    selected?: 'all' | 'some' | 'none'
+    exact?: boolean
 }
 function MapMarker(
-    { price = undefined, count = 1, selected = false }: MapMarkerProps
+    { price = undefined, count = 1, selected = 'none', exact = true }: MapMarkerProps
 ) {
-    const { style: s } = useThemeNew(theme => makeStyles(theme, selected), [selected])
+    const { style: s, themeObj } = useThemeNew(theme => makeStyles(theme, selected), [selected])
     //console.log(s.priceText)
     const priceF = price ? f.setValue(price).format() : undefined
 
 
-    return (
-        <View style={sg.centerContent}>
-            <View style={s.priceView}>
+    return <View style={sg.centerContent}>
+        {/*
+               Костыль чтобы цвет обновлялся,
+               потому что если выбрать один из двух маркеров,
+               а потом отдалить карту чтобы они слились в один,
+               а потом этот один выбрать полностью, то без этого костыля цвет не меняется
+         */}
+        { selected==='all' && <View></View> }
+
+            <View style={[s.priceView, {backgroundColor: selected==='all' ? themeObj.mainColors.accent2 :
+                    selected==='some' ? themeObj.mainColors.accent1 : themeObj.mainColors.bgc0}]}>
                 <Text style={s.priceText}>
                     {`${count===1 ? '' : '×'+count+' от'} ${price ? priceF : '??? ₽'}`}
                 </Text>
             </View>
-            <View style={s.circleView}/>
-            <View style={s.shadowView}/>
+            {
+                exact && <>
+                    <View style={s.circleView}/>
+                    <View style={s.shadowView}/>
+                </>
+            }
+
         </View>
-    )
 }
 
-export default React.memo(MapMarker)
+export default MapMarker

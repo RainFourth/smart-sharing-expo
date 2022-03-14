@@ -43,7 +43,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
     const onTab = (tab: AppStateType['appNav']['tab']) => d(setAppNavTab(tab))
 
     const getIconColor = useCallback(
-        (t: AppStateType['appNav']['tab']) => t===tab ? themeObj.mainColors.accent1 : themeObj.mainColors.secondary1,
+        (t: AppStateType['appNav']['tab']) => t===tab ? themeObj.mainColors.accent2 : themeObj.mainColors.secondary1,
         [tab,themeObj]
     )
 
@@ -70,7 +70,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
                        onTouchEndCapture={()=>setAnimMode1('end')}
 
             >
-                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode1} />
+                <CircleBgcAnim color={themeObj.mainColors.accent3} mode={animMode1} />
                 <MessageIc size={'30%'} color={getIconColor('messages')} />
             </Pressable>
 
@@ -79,7 +79,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
                        onTouchStart={()=>setAnimMode2('start')}
                        onTouchEndCapture={()=>setAnimMode2('end')}
             >
-                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode2}/>
+                <CircleBgcAnim color={themeObj.mainColors.accent3} mode={animMode2}/>
                 <LocationIc size={'30%'} color={getIconColor('map')} />
             </Pressable>
             <Pressable style={s.pressable}
@@ -87,7 +87,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
                        onTouchStart={()=>setAnimMode3('start')}
                        onTouchEndCapture={()=>setAnimMode3('end')}
             >
-                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode3}/>
+                <CircleBgcAnim color={themeObj.mainColors.accent3} mode={animMode3}/>
                 <HeartIc size={'30%'} color={getIconColor('favorites')} />
             </Pressable>
             <Pressable style={s.pressable}
@@ -95,7 +95,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
                        onTouchStart={()=>setAnimMode4('start')}
                        onTouchEndCapture={()=>setAnimMode4('end')}
             >
-                <CircleBgcAnim color={themeObj.mainColors.accent2} mode={animMode4}/>
+                <CircleBgcAnim color={themeObj.mainColors.accent3} mode={animMode4}/>
                 <UserIc size={'30%'} color={getIconColor('profile')} />
             </Pressable>
         </View>

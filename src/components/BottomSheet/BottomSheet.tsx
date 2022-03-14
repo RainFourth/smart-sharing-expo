@@ -4,11 +4,13 @@ import Header, {
 } from "@c/BottomSheet/BottomSheetHeader";
 import Body, {BottomSheetBodyInnerProps, BottomSheetBodyProps} from "@c/BottomSheet/BottomSheetBody";
 import React, {useCallback, useLayoutEffect, useMemo, useState} from "react";
-import {LayoutChangeEvent, Pressable, StyleSheet, View} from "react-native";
+import {ColorValue, LayoutChangeEvent, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Gesture, GestureDetector} from "react-native-gesture-handler";
 import Animated, {runOnJS, useAnimatedStyle, useSharedValue, withSpring} from "react-native-reanimated";
 import {sg} from "@u2/styleGlobal";
-import {anyObj, defaultComparator, empty, emptyFun, extractPercent, inRange, nonEmpty} from "@u2/utils";
+import {defaultComparator, empty, emptyFun, extractPercent, inf, inRange, nonEmpty} from "@u2/utils";
+import BottomSheetHeader from "@c/BottomSheet/BottomSheetHeader";
+import BottomSheetBody from "@c/BottomSheet/BottomSheetBody";
 
 type HeaderElem = React.ReactElement<BottomSheetHeaderProps, typeof Header>
 type BodyElem = React.ReactElement<BottomSheetBodyProps, typeof Body>
@@ -53,13 +55,14 @@ export type BottomSheetSettings = empty | {
 type BottomSheetProps = {
     snapPoints: (number|string)[]
     initialSettings: BottomSheetSettings
+    bodyBgcColor?: ColorValue
     newSettings?: BottomSheetSettings
     enableCloseOnZeroSnap?: boolean
     onChange?: (closed: boolean, snapIdx: number|undefined)=>void
-    children?: [HeaderElem,BodyElem] | HeaderElem | BodyElem | [] | undefined
+    children?: (HeaderElem | BodyElem)[] | HeaderElem | BodyElem | undefined
 }
 const BottomSheet = ({
-    snapPoints, initialSettings, newSettings, enableCloseOnZeroSnap = true,
+    snapPoints, initialSettings, bodyBgcColor = 'white', newSettings, enableCloseOnZeroSnap = true,
     onChange = emptyFun, children
 }:BottomSheetProps) => {
 
@@ -69,12 +72,21 @@ const BottomSheet = ({
     const prevH = useSharedValue(0)
     const currH = useSharedValue(0)
     const [closed, setClosed] = useState(true)
+    const [bgcColor, setBgcColor] = useState(bodyBgcColor)
 
 
-    const [header, setHeader] = useState(children[0] as undefined|HeaderElem)
-    const [body, setBody] = useState(children[1] as undefined|BodyElem)
+    const [header, setHeader] = useState(undefined as undefined|HeaderElem)
+    const [body, setBody] = useState(undefined as undefined|BodyElem)
     useLayoutEffect(()=>{
-        let newHeader = children[0]
+        let newHeader = defaultHeader
+        if (children) {
+            if (children instanceof Array) {
+                if(children[0] && (children[0] as any).type?.prototype === BottomSheetHeader.prototype)
+                    newHeader = children[0]
+            } else if ((children as any).type?.prototype === BottomSheetHeader.prototype)
+                newHeader = children
+        }
+
         const innerProps = {
             innerProps: { setHeaderH }
         } as BottomSheetHeaderInnerProps
@@ -83,9 +95,19 @@ const BottomSheet = ({
             ...innerProps
         })
         setHeader(newHeader)
-    },[children[0], setHeaderH])
+    },[children])
     useLayoutEffect(()=>{
-        let newBody = children[1]
+        let newBody = defaultBody
+        if (children) {
+            if (children instanceof Array) {
+                if(children[1] && (children[1] as any).type?.prototype === BottomSheetBody.prototype)
+                    newBody = children[1]
+                else if (children[0] && (children[0] as any).type?.prototype === BottomSheetBody.prototype)
+                    newBody = children[0]
+            } else if ((children as any).type?.prototype === BottomSheetBody.prototype)
+                newBody = children
+        }
+
         const innerProps = {
             innerProps: { setBodyH }
         } as BottomSheetBodyInnerProps
@@ -94,50 +116,8 @@ const BottomSheet = ({
             ...innerProps
         })
         setBody(newBody)
-    },[children[1]])
+    },[children])
 
-
-    /*if (children){
-        if (children instanceof Array) {
-            if (children.length===0){}
-            else if (children.length===2
-                && (children[0] as any).type?.prototype === BottomSheetHeader.prototype
-                && (children[1] as any).type?.prototype === BottomSheetBody.prototype
-            ) {
-                header = children[0]
-                body = children[1]
-            } else throwChildrenError()
-        } else if ((children as any).type?.prototype === BottomSheetHeader.prototype){
-            header = children
-        } else if ((children as any).type?.prototype === BottomSheetBody.prototype){
-            body = children
-        } else throwChildrenError()
-    }*/
-
-    /*if (children){
-        if (children[0]){
-            let ch0 = children[0]
-            let isComponent: boolean = typeof ch0.type !== 'string'
-                && React.Component.prototype.isPrototypeOf((ch0.type as any).prototype);
-
-            //let result: boolean = isComponent ? (ch0.type as any).prototype instanceof ComponentBase
-            //    : false; // Not a component, then never a ComponentBase
-
-
-
-            let prot = (ch0.type as any).prototype
-
-            console.log('--------------------')
-            console.log(BottomSheetHeader.prototype)
-
-            console.log(Object.getPrototypeOf(ch0))
-            console.log(ch0)
-            //console.log(JSON.stringify(ch0, ))
-            console.log(ch0.type)
-            console.log(isComponent)
-            console.log(prot)
-        }
-    }*/
 
 
 
@@ -209,12 +189,13 @@ const BottomSheet = ({
 
 
     const onSettings = useCallback((newSettings: BottomSheetSettings)=>{
-        if (newSettings){
-            if (newSettings.close){
+        const s = newSettings
+        if (s){
+            if (s.close){
                 close(undefined)
-            } else if (nonEmpty(newSettings.index)){
-                console.log('snapToIndex:',newSettings.index)
-                snapToIndex(newSettings.index)
+            } else if (nonEmpty(s.index)){
+                //console.log('snapToIndex:',s.index)
+                snapToIndex(s.index)
             }
         }
     },[newSettings, close, snapToIndex])
@@ -301,7 +282,9 @@ const BottomSheet = ({
                 </GestureDetector>
 
 
-                <Animated.View style={[s.bodyFrame, animatedBodyStyle]}>
+                <Animated.View style={[s.bodyFrame, animatedBodyStyle, {
+                    backgroundColor: bgcColor
+                }]}>
                     {body}
                 </Animated.View>
 
@@ -327,9 +310,38 @@ const getSpringConfig = (velocity: number) => {
 }
 
 
+const defaultS = StyleSheet.create({
+    headerBox: {
+        height: 60, width: '100%',
+        flexDirection: 'column',
+        alignItems:'center',
+        borderTopLeftRadius: 30, borderTopRightRadius: 30,
+        backgroundColor: 'white',
+    },
+    dash: {
+        position: 'absolute', top: 8, marginHorizontal: 'auto',
+        width: 40, height: 4,
+        borderRadius: inf,
+        backgroundColor: 'black',
+    },
+    headerTitle: {
+        fontSize: 24,
+        color: 'black',
+    },
 
-//const defaultHeader = <BottomSheetHeader></BottomSheetHeader>
-//const defaultBody = <BottomSheetBody></BottomSheetBody>
+    list: {
+        flex: 1
+    }
+})
+const defaultHeader = <BottomSheetHeader>
+    <View style={defaultS.headerBox}>
+        <View style={defaultS.dash}/>
+        <View style={[sg.absolute, sg.centerContent]}></View>
+    </View>
+</BottomSheetHeader>
+const defaultBody = <BottomSheetBody>
+    <ScrollView style={defaultS.list} keyboardShouldPersistTaps='always'></ScrollView>
+</BottomSheetBody>
 
 
 
@@ -382,6 +394,48 @@ const throwChildrenError = () => {
     }
 },[frame])*/
 
+
+/*if (children){
+    if (children instanceof Array) {
+        if (children.length===0){}
+        else if (children.length===2
+            && (children[0] as any).type?.prototype === BottomSheetHeader.prototype
+            && (children[1] as any).type?.prototype === BottomSheetBody.prototype
+        ) {
+            header = children[0]
+            body = children[1]
+        } else throwChildrenError()
+    } else if ((children as any).type?.prototype === BottomSheetHeader.prototype){
+        header = children
+    } else if ((children as any).type?.prototype === BottomSheetBody.prototype){
+        body = children
+    } else throwChildrenError()
+}*/
+
+/*if (children){
+    if (children[0]){
+        let ch0 = children[0]
+        let isComponent: boolean = typeof ch0.type !== 'string'
+            && React.Component.prototype.isPrototypeOf((ch0.type as any).prototype);
+
+        //let result: boolean = isComponent ? (ch0.type as any).prototype instanceof ComponentBase
+        //    : false; // Not a component, then never a ComponentBase
+
+
+
+        let prot = (ch0.type as any).prototype
+
+        console.log('--------------------')
+        console.log(BottomSheetHeader.prototype)
+
+        console.log(Object.getPrototypeOf(ch0))
+        console.log(ch0)
+        //console.log(JSON.stringify(ch0, ))
+        console.log(ch0.type)
+        console.log(isComponent)
+        console.log(prot)
+    }
+}*/
 
 
 

@@ -61,8 +61,8 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
         borderColor: t.mainColors.secondary4,
     },
     variantsBoxSelected:{
-        backgroundColor: t.mainColors.accent2,
-        borderColor: t.mainColors.accent2,
+        backgroundColor: t.mainColors.accent3,
+        borderColor: t.mainColors.accent3,
     },
     variantsTextNormal:{
         color: t.mainColors.secondary1,
@@ -84,11 +84,11 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
 
     priceBarNormal: {
         backgroundColor: 'transparent',
-        borderColor: t.mainColors.accent2,
+        borderColor: t.mainColors.accent3,
     },
     priceBarSelected: {
-        backgroundColor: t.mainColors.accent2,
-        borderColor: t.mainColors.accent2,
+        backgroundColor: t.mainColors.accent3,
+        borderColor: t.mainColors.accent3,
     },
 
 

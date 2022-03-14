@@ -11,7 +11,7 @@ export type AppStateType = {
     appNav: {
         readonly bottomBarHeight: number
         tab: 'messages' | 'map' | 'favorites' | 'profile' | undefined
-        mapMode: 'map' | 'filters' | 'settings' | 'search'
+        mapMode: 'none' | 'map' | 'filters' | 'settings' | 'search' | 'availableApartments'
     }
     location: {
         granted: boolean
@@ -22,7 +22,7 @@ const initState: AppStateType = {
     appNav: {
         bottomBarHeight: 80,
         tab: 'map',
-        mapMode: 'map',
+        mapMode: 'none',
     },
     location: {
         granted: false

@@ -8,8 +8,9 @@ export const lightTheme: ThemeType = {
 
 
         accent0: colors.mainColor,
-        accent1: colors.medium,
-        accent2: colors.purple,
+        accent1: colors.medium0,
+        accent2: colors.medium,
+        accent3: colors.purple,
 
         secondary0: 'black',
         secondary1: colors.darkGray,
@@ -27,7 +28,7 @@ export const lightTheme: ThemeType = {
         onBgc0: 'black',
 
 
-        accent: colors.primaryMedium,
+        accent: colors.medium,
 
 
         bgcElem: colors.darkGray,
@@ -35,7 +36,7 @@ export const lightTheme: ThemeType = {
         bgc: colors.light0,
         bgcBright: 'white',
 
-        bgcAccent: colors.primaryMedium,
+        bgcAccent: colors.medium,
         onBgcAccent: 'white',
     },
     bottomTabBar: {

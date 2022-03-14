@@ -22,6 +22,7 @@ import {sg} from "@u2/styleGlobal";
 import Filters from "@sc/App/Apartments/Map/Filters";
 import Settings from "@sc/App/Apartments/Map/Settings";
 import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet";
+import AvailableApartments from "@sc/App/Apartments/Map/AvailableApartments";
 
 
 
@@ -35,7 +36,7 @@ type Type = StackScreenProps<MainStackType,'AppNav'>
 function AppNav({}:Type ) {
 
     const { themeObj } = useThemeNew()
-    const { tab, mapMode } = useSelector((s:StateType)=>s.app.appNav)
+    const { tab } = useSelector((s:StateType)=>s.app.appNav)
 
     // todo
     function handleOpenURL({ url }:{ url:string }) {
@@ -70,10 +71,7 @@ function AppNav({}:Type ) {
 
 
 
-
     return <View style={[sg.absolute, {backgroundColor: themeObj.mainColors.bgc2}]}>
-
-        {/*<TestScreen/>*/}
 
         {function (){switch (tab){
             case "messages": return <ApartmentsMapNavigation />//return <MessagesScreen />
@@ -85,13 +83,9 @@ function AppNav({}:Type ) {
 
         <BottomTabBar />
 
-        { tab==='map' && <View style={sg.absolute} pointerEvents='box-none'>
-            <Filters/>
-        </View> }
+        { tab==='map' && <Filters/> }
 
-        { tab==='map' && <View style={sg.absolute} pointerEvents='box-none'>
-            <Settings/>
-        </View> }
+        { tab==='map' && <Settings/> }
 
     </View>
 

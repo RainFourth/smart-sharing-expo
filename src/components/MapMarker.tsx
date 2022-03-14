@@ -11,7 +11,7 @@ const makeStyles = (theme: ThemeType, selected: boolean) => StyleSheet.create({
         paddingHorizontal: 10, paddingVertical: 5,
         alignItems: 'center', justifyContent: 'center',
         borderRadius: 8,
-        backgroundColor: selected ? theme.mainColors.accent1 : theme.mainColors.bgc0,
+        backgroundColor: selected ? theme.mainColors.accent2 : theme.mainColors.bgc0,
 
 
         shadowColor: '#000',
@@ -31,7 +31,7 @@ const makeStyles = (theme: ThemeType, selected: boolean) => StyleSheet.create({
     },
     circleView: {
         height: 10, width: 10,
-        backgroundColor: theme.mainColors.accent1,
+        backgroundColor: theme.mainColors.accent2,
         borderRadius: inf,
 
         shadowColor: '#000',

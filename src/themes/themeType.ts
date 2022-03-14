@@ -9,6 +9,7 @@ export type ThemeType = {
         readonly accent0: string
         readonly accent1: string
         readonly accent2: string
+        readonly accent3: string
 
         readonly secondary0: string
         readonly secondary1: string

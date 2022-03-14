@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {LayoutChangeEvent, StyleSheet, Text, View} from "react-native";
 import {inf} from "@u2/utils";
 import {sg} from "@u2/styleGlobal";
@@ -29,8 +29,12 @@ export type BottomSheetHeaderProps = {
 const BottomSheetHeader = ({ children, ...restProps }:BottomSheetHeaderProps) => {
     const { innerProps } = restProps as BottomSheetHeaderInnerProps
 
+    const [measured, setMeasured] = useState(false)
     const onHeaderLayout = ({nativeEvent: {layout: { x, y, width:w, height:h }}}: LayoutChangeEvent) => {
-        if (innerProps && innerProps.setHeaderH) innerProps.setHeaderH(h)
+        if (!measured && innerProps && innerProps.setHeaderH) {
+            innerProps.setHeaderH(h)
+            setMeasured(true)
+        }
     }
 
     return <View style={s.headerFrame} onLayout={onHeaderLayout}>

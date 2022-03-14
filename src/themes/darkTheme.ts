@@ -21,7 +21,7 @@ export const darkTheme: ThemeType = {
     mainColors: {
         ...lightTheme.mainColors,
 
-        accent2: colors.mainColor,
+        accent3: colors.mainColor,
 
         secondary0: 'white',
         secondary1: colors.light3,

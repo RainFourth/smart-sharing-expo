@@ -19,9 +19,19 @@ import {
 
 type apartmentsActionTypes = 'setCities' | 'setSelectedCity' | 'setApartmentsInCity'
     | 'setGroupedApartments' | "setDistricts" | "setStreets"
-    | 'setAddressFilter'
+    | 'setAddressFilter' | 'setSelectedApartments'
 export type ApartmentActionType = Action<apartmentsActionTypes> & { payload: any }
 
+
+export type GroupedApartments = {
+    ids: number[]
+    minPrice: number
+    exact: boolean
+    coordinates: {
+        latitude: number
+        longitude: number
+    }
+}
 
 export type ApartmentsStateType = {
     cities: {
@@ -33,16 +43,9 @@ export type ApartmentsStateType = {
 
         apartments: {
             error: undefined|ErrorType
-            apartments: undefined|ApartmentCoordinatesType[]
+            apartments: undefined | ApartmentCoordinatesType[]
         }
-        groupedApartments: undefined | {
-            ids: number[]
-            minPrice: number
-            coordinates: {
-                latitude: number
-                longitude: number
-            }
-        }[]
+        groupedApartments: undefined | GroupedApartments[]
 
         districts: {
             error: undefined | ErrorType
@@ -54,6 +57,8 @@ export type ApartmentsStateType = {
         }
 
         addressFilter: PlaceType[]
+
+        selectedApartments: { idsSet: Set<number>} // ids
     }
 }
 const initState: ApartmentsStateType = {
@@ -80,6 +85,8 @@ const initState: ApartmentsStateType = {
         },
 
         addressFilter: [],
+
+        selectedApartments: { idsSet: new Set<number>() },
     },
 
 }
@@ -111,9 +118,17 @@ const apartmentsReducer = (state = initState, action: ApartmentActionType) => {
                 ...state.selectedCity,
                 streets: action.payload
             }}
-        case "setAddressFilter": return {...state, selectedCity: {
+        case "setAddressFilter":
+            const idsSet = state.selectedCity.selectedApartments.idsSet
+            idsSet.clear()
+            return {...state, selectedCity: {
                 ...state.selectedCity,
-                addressFilter: action.payload
+                addressFilter: action.payload,
+                selectedApartments: { idsSet }
+            }}
+        case "setSelectedApartments": return {...state, selectedCity: {
+                ...state.selectedCity,
+                selectedApartments: action.payload
             }}
         default: return state
     }
@@ -143,6 +158,9 @@ const setStreets = (streets: ApartmentsStateType['selectedCity']['streets']): Ap
 })
 export const setAddressFilter = (filter: ApartmentsStateType['selectedCity']['addressFilter']): ApartmentActionType => ({
     type: "setAddressFilter", payload: filter
+})
+export const setSelectedApartments = (idsSet: ApartmentsStateType['selectedCity']['selectedApartments']['idsSet']): ApartmentActionType => ({
+    type: 'setSelectedApartments', payload: { idsSet }
 })
 
 

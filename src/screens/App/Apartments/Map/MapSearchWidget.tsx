@@ -81,8 +81,8 @@ const makeStyle = (t: ThemeType, variants: boolean) => StyleSheet.create({
         marginRight: 6,
         height: 22,
         alignItems: 'center',
-        backgroundColor: t.mainColors.accent2,
-        borderColor: t.mainColors.accent2,
+        backgroundColor: t.mainColors.accent3,
+        borderColor: t.mainColors.accent3,
     },
     deleteVariant: {
         fontFamily: t.font.font.normal,
