@@ -100,13 +100,16 @@ const apartmentsReducer = (state = initState, action: ApartmentActionType) => {
                 ...initState.selectedCity,
                 city: action.payload,
             }}
-        case "setApartmentsInCity": return {...state, selectedCity: {
+        case "setApartmentsInCity":
+            state.selectedCity.selectedApartments.idsSet.clear()
+            return {...state, selectedCity: {
                 ...state.selectedCity,
                 apartments: action.payload,
                 groupedApartments: undefined,
                 addressFilter: []
             }}
-        case "setGroupedApartments": return {...state, selectedCity: {
+        case "setGroupedApartments":
+            return {...state, selectedCity: {
                 ...state.selectedCity,
                 groupedApartments: action.payload
             }}

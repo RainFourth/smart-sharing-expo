@@ -246,6 +246,30 @@ export const apartmentsCoordinates: ApartmentCoordinatesType[] = [
             longitude: 104.28558661921579
         }
     },{
+        // ул. Грязнова, 6, Иркутск, Иркутская обл., 664003; Правобережный округ
+        id: 6,
+        city_id: 1,
+        districtId: 1,
+        streetId: 5,
+        house: '6',
+        price: 900,
+        coordinates: {
+            latitude: 52.280732361953945,
+            longitude: 104.28581954952473,
+        }
+    },{
+        // ул. Ленина, 22, Иркутск, Иркутская обл., 664025; Правобережный округ
+        id: 11,
+        city_id: 1,
+        districtId: 1,
+        streetId: 1,
+        house: '22',
+        price: 1600,
+        coordinates: {
+            latitude: 52.28291229720827,
+            longitude: 104.28052646947768,
+        }
+    },{
         // ул. Академика Курчатова, 2А, Иркутск, Иркутская обл., 664074; Свердловский округ
         id: 2,
         city_id: 1,
@@ -294,18 +318,6 @@ export const apartmentsCoordinates: ApartmentCoordinatesType[] = [
             longitude: 104.25705135414033
         }
     },{
-        // ул. Грязнова, 6, Иркутск, Иркутская обл., 664003; Правобережный округ
-        id: 6,
-        city_id: 1,
-        districtId: 1,
-        streetId: 5,
-        house: '6',
-        price: 900,
-        coordinates: {
-            latitude: 52.280732361953945,
-            longitude: 104.28581954952473,
-        }
-    },{
         // ул. Лермонтова, 63а, Иркутск, Иркутская обл., 664074; Свердловский округ
         id: 7,
         city_id: 1,
@@ -352,18 +364,6 @@ export const apartmentsCoordinates: ApartmentCoordinatesType[] = [
         coordinates: {
             latitude: 52.28361539615834,
             longitude: 104.33078684710043,
-        }
-    },{
-        // ул. Ленина, 22, Иркутск, Иркутская обл., 664025; Правобережный округ
-        id: 11,
-        city_id: 1,
-        districtId: 1,
-        streetId: 1,
-        house: '22',
-        price: 1600,
-        coordinates: {
-            latitude: 52.28291229720827,
-            longitude: 104.28052646947768,
         }
     },
 ]

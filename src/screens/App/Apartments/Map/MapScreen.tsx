@@ -1,7 +1,7 @@
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react'
 import MapView, {LatLng, Marker, PROVIDER_GOOGLE, Region} from 'react-native-maps'
 import {LayoutChangeEvent, View} from 'react-native'
-import {groupBy, reduce, halfUp, empty} from "@u2/utils";
+import {groupBy, reduce, halfUp, empty, inRange} from "@u2/utils";
 import MapSearchWidget from "@sc/App/Apartments/Map/MapSearchWidget";
 import {useThemeNew} from "@h";
 import {useBackHandler} from "@react-native-community/hooks";
@@ -61,7 +61,13 @@ const MapScreen = ({}:MapScreenType) => {
     const onMapLoaded = () => {/*alert("Map loaded!")*/}
 
 
-    const [mapInfo, setMapInfo] = useState(undefined as undefined | { latDelta: number, lonDelta: number, angle: number })
+    const [mapInfo, setMapInfo] = useState(undefined as undefined | {
+        latDelta: number, lonDelta: number, angle: number, zoom: number
+    })
+    const [mapDimens, setMapDimens] = useState(undefined as undefined|{ w:number, h:number })
+
+
+
     useEffect(()=>{
         console.log(mapInfo)
     },[mapInfo])
@@ -72,6 +78,7 @@ const MapScreen = ({}:MapScreenType) => {
         groupedApartments, addressFilter, selectedApartments
     } = useSelector((s:StateType)=>s.apartments.selectedCity)
 
+
     const [addressFilterSet, setAddressFilterSet] = useState(new Set<string>())
     useEffect(()=>{
         setAddressFilterSet(new Set(addressFilter.map(p=>p.type+" "+p.id)))
@@ -79,7 +86,7 @@ const MapScreen = ({}:MapScreenType) => {
     useEffect(()=>{
         d(fetchApartmentsInCity(city.id))
         mapRef.current?.setCamera({
-            //zoom: 14,
+            zoom: 12,
             center: {
                 latitude: city.location.lat,
                 longitude: city.location.lon
@@ -114,7 +121,7 @@ const MapScreen = ({}:MapScreenType) => {
         }
     },[apartments, addressFilter, addressFilterSet])*/
 
-    useDebounce(()=>{
+    /*useDebounce(()=>{
         if (addressFilter[0] && addressFilter[0].type==='city') {
             d(setSelectedCity(addressFilter[0]))
         } else if (apartments && mapInfo){
@@ -147,7 +154,7 @@ const MapScreen = ({}:MapScreenType) => {
                     const dLatAbs = Math.abs(dLat)
                     const dLonAbs = Math.abs(dLon)
                     const distSq = dLat*dLat+dLon*dLon
-                    const delta = (angle>300 || angle<60 || angle>120 && angle<240) ? 0.003 : 0.001 // задать коэффициенты здесь
+                    const delta = (angle>300 || angle<60 || angle>120 && angle<240) ? 0.006 : 0.0007 // задать коэффициенты здесь
                     if ( distSq / screenDistSq < delta ){
                         group.exact = group.exact && dLatAbs<0.005 && dLonAbs<0.005
                         latSum += item.coordinates.latitude
@@ -165,7 +172,186 @@ const MapScreen = ({}:MapScreenType) => {
             }
             d(setGroupedApartments(groupedAp))
         }
+    },700, [apartments, addressFilter, addressFilterSet, mapInfo])*/
+    /*useDebounce(()=>{
+        if (addressFilter[0] && addressFilter[0].type==='city') {
+            d(setSelectedCity(addressFilter[0]))
+        } else if (apartments && mapInfo){
+            const ap = addressFilterSet.size===0 ? [...apartments] : apartments.filter(
+                ap => addressFilterSet.has('district '+ap.districtId) || addressFilterSet.has('street '+ap.streetId)
+            )
+            const groupedAp = [] as GroupedApartments[]
+            const screenDistSq = mapInfo.latDelta*mapInfo.latDelta + mapInfo.lonDelta*mapInfo.lonDelta
+            while (ap.length>0){
+                const first = ap.splice(0, 1)[0];
+
+                const group: GroupedApartments = {
+                    ids: [first.id],
+                    minPrice: first.price,
+                    exact: true,
+                    coordinates: {
+                        latitude: first.coordinates.latitude,
+                        longitude: first.coordinates.longitude
+                    }
+                }
+                let latSum = group.coordinates.latitude
+                let lonSum = group.coordinates.longitude
+
+                for (let i = 0; i < ap.length; i++){
+                    const item = ap[i]
+                    const dLat = item.coordinates.latitude - latSum/group.ids.length
+                    const dLon = item.coordinates.longitude - lonSum/group.ids.length
+                    const dAngle = Math.atan2(dLat, dLon)/Math.PI*180+180
+                    const angle = (dAngle + mapInfo.angle)%360
+                    const dLatAbs = Math.abs(dLat)
+                    const dLonAbs = Math.abs(dLon)
+                    const distSq = dLat*dLat+dLon*dLon
+                    const delta = (angle>300 || angle<60 || angle>120 && angle<240) ? 0.006 : 0.0007 // задать коэффициенты здесь
+                    if ( distSq / screenDistSq < delta ){
+                        group.exact = group.exact && dLatAbs<0.005 && dLonAbs<0.005
+                        latSum += item.coordinates.latitude
+                        lonSum += item.coordinates.longitude
+                        group.ids.push(item.id)
+                        group.minPrice = Math.min(group.minPrice, item.price)
+                        ap.splice(i,1)
+                        i--
+                    }
+                }
+                group.coordinates.latitude = latSum/group.ids.length
+                group.coordinates.longitude = lonSum/group.ids.length
+
+                groupedAp.push(group)
+            }
+            d(setGroupedApartments(groupedAp))
+        }
+    },700, [apartments, addressFilter, addressFilterSet, mapInfo])*/
+    /*useDebounce(()=>{
+        if (addressFilter[0] && addressFilter[0].type==='city') {
+            d(setSelectedCity(addressFilter[0]))
+        } else if (apartments && mapInfo){
+            const ap = addressFilterSet.size===0 ? [...apartments] : apartments.filter(
+                ap => addressFilterSet.has('district '+ap.districtId) || addressFilterSet.has('street '+ap.streetId)
+            )
+            const groupedAp = [] as GroupedApartments[]
+            const screenDistSq = mapInfo.latDelta*mapInfo.latDelta + mapInfo.lonDelta*mapInfo.lonDelta
+            while (ap.length>0){
+                const first = ap.splice(0, 1)[0];
+
+                const group: GroupedApartments = {
+                    ids: [first.id],
+                    minPrice: first.price,
+                    exact: true,
+                    coordinates: {
+                        latitude: first.coordinates.latitude,
+                        longitude: first.coordinates.longitude
+                    }
+                }
+                let latSum = group.coordinates.latitude
+                let lonSum = group.coordinates.longitude
+
+                for (let i = 0; i < ap.length; i++){
+                    const item = ap[i]
+                    const dLat = item.coordinates.latitude - latSum/group.ids.length
+                    const dLon = item.coordinates.longitude - lonSum/group.ids.length
+                    const dAngle = Math.atan2(dLat, dLon)/Math.PI*180+180
+                    const angle = (dAngle + mapInfo.angle)%360
+                    const dLatAbs = Math.abs(dLat)
+                    const dLonAbs = Math.abs(dLon)
+                    const distSq = dLat*dLat+dLon*dLon
+                    const delta = (angle>300 || angle<60 || angle>120 && angle<240) ? 0.006 : 0.002 // задать коэффициенты здесь
+                    const screenDistSq = (360/2**(mapInfo.zoom-1))**2
+                    if ( distSq / screenDistSq < delta ){
+                        group.exact = group.exact && dLatAbs<0.005 && dLonAbs<0.005
+                        latSum += item.coordinates.latitude
+                        lonSum += item.coordinates.longitude
+                        group.ids.push(item.id)
+                        group.minPrice = Math.min(group.minPrice, item.price)
+                        ap.splice(i,1)
+                        i--
+                    }
+                }
+                group.coordinates.latitude = latSum/group.ids.length
+                group.coordinates.longitude = lonSum/group.ids.length
+
+                groupedAp.push(group)
+            }
+            d(setGroupedApartments(groupedAp))
+        }
+    },700, [apartments, addressFilter, addressFilterSet, mapInfo])*/
+    useDebounce(()=>{
+        if (addressFilter[0] && addressFilter[0].type==='city') {
+            d(setSelectedCity(addressFilter[0]))
+        } else if (apartments && mapInfo){
+            const ap = addressFilterSet.size===0 ? [...apartments] : apartments.filter(
+                ap => addressFilterSet.has('district '+ap.districtId) || addressFilterSet.has('street '+ap.streetId)
+            )
+            const groupedAp = [] as GroupedApartments[]
+            while (ap.length>0){
+                const first = ap.splice(0, 1)[0];
+
+                const group: GroupedApartments = {
+                    ids: [first.id],
+                    minPrice: first.price,
+                    exact: true,
+                    coordinates: {
+                        latitude: first.coordinates.latitude,
+                        longitude: first.coordinates.longitude
+                    }
+                }
+                let latSum = group.coordinates.latitude
+                let lonSum = group.coordinates.longitude
+
+                for (let i = 0; i < ap.length; i++){
+                    const item = ap[i]
+
+                    const dLat = item.coordinates.latitude - latSum/group.ids.length
+                    const dLon = item.coordinates.longitude - lonSum/group.ids.length
+                    const dLatAbs = Math.abs(dLat)
+                    const dLonAbs = Math.abs(dLon)
+
+                    const dist = Math.sqrt(dLat*dLat+dLon*dLon)
+
+                    const dAngle = Math.atan2(dLat, dLon)/Math.PI*180+180
+                    const angle = (dAngle + mapInfo.angle)%360
+
+                    let delta
+                    let threshold
+                    const angleR = angle/180*Math.PI
+                    const angleDelta = 40
+                    if (angle>360-angleDelta || angle<angleDelta || angle>180-angleDelta && angle<180+angleDelta){
+                        delta = dist*Math.abs(Math.cos(angleR))
+                        threshold = 0.1
+                    } else {
+                        delta = dist*Math.abs(Math.sin(angleR))
+                        threshold = 0.05
+                    }
+
+                    const screenDist = (360/2**(mapInfo.zoom-1))
+
+                    console.log({
+                        dist, dAngle, angle, delta, threshold, angleR, screenDist
+                    })
+
+                    if ( dist / screenDist < threshold ){
+                        group.exact = group.exact && dLatAbs<0.005 && dLonAbs<0.005
+                        latSum += item.coordinates.latitude
+                        lonSum += item.coordinates.longitude
+                        group.ids.push(item.id)
+                        group.minPrice = Math.min(group.minPrice, item.price)
+                        ap.splice(i,1)
+                        i--
+                    }
+                }
+                group.coordinates.latitude = latSum/group.ids.length
+                group.coordinates.longitude = lonSum/group.ids.length
+
+                groupedAp.push(group)
+            }
+            d(setGroupedApartments(groupedAp))
+        }
     },700, [apartments, addressFilter, addressFilterSet, mapInfo])
+
+
     useEffect(()=>{
         if (apError) alert("Не удалось загрузить координаты квартир\n"+prettyPrint(apError,'str'))
     },[apError])
@@ -182,11 +368,40 @@ const MapScreen = ({}:MapScreenType) => {
     const onRegionChange = async (r: Region) => {
         if (map) {
             const camera = await map.getCamera()
-            setMapInfo({
-                latDelta: r.latitudeDelta,
-                lonDelta: r.longitudeDelta,
-                angle: camera.heading
-            })
+            const a = camera.heading
+            const { latitudeDelta: dLat, longitudeDelta: dLon } = r
+            const newInfo = {
+                latDelta: dLat,
+                lonDelta: dLon,
+                angle: a,
+                zoom: camera.zoom,
+            }
+            if (JSON.stringify(newInfo)!==JSON.stringify(mapInfo)) {
+                setMapInfo(newInfo)
+
+                /*if (dimens){
+                    const { w, h } = dimens
+                    const aa = Math.atan2(h,w)/Math.PI*180
+                    const rLon = (a<aa || a>(180-aa) && a<(180+aa) || a>(360-aa)) ?
+                        dLon/2*Math.abs(Math.cos(a/180*Math.PI)) : dLon/2*Math.abs(Math.sin(a/180*Math.PI))*w/h
+                    console.log('dLon',rLon*2)
+                }*/
+                /*if (dimens){
+                    const { w, h } = dimens
+                    const aa = Math.atan2(h,w)/Math.PI*180
+                    const rLon = dLon/2/Math.abs(Math.sin((180-a-aa)/180*Math.PI))
+                    console.log('dLon',rLon*2)
+                }*/
+                /*if (dimens){
+                    const { w, h } = dimens
+                    const aa = Math.atan2(w,h)/Math.PI*180
+                    const rLon = dLon/2/Math.abs(Math.sin((a+aa)/180*Math.PI))
+                    console.log('dLon',rLon*2)
+                }*/
+                //console.log('zzz',180/2**newInfo.zoom)
+                //console.log('zzz',360/2**newInfo.zoom)
+                console.log('zzz',360/2**(newInfo.zoom-1))
+            }
             //setZoom(camera.zoom)
             //console.log('camera:',camera)
             //console.log('region:',r)
@@ -204,12 +419,13 @@ const MapScreen = ({}:MapScreenType) => {
         }
     },[mapInfo])*/
 
-    /*const onMapLayout = ({nativeEvent: {layout: { x, y, width:w, height:h }}}: LayoutChangeEvent) => {
-        console.log('w:',w,'h:',h)
-        console.log('atan2',Math.atan2(w,h)/Math.PI*180)
+    const onMapLayout = ({nativeEvent: {layout: { x, y, width:w, height:h }}}: LayoutChangeEvent) => {
+        setMapDimens({w,h})
+        //console.log('w:',w,'h:',h)
+        //console.log('atan2',Math.atan2(w,h)/Math.PI*180)
         //console.log('onMainFrameLayout: ',x,y,w,h)
         // => onLayout:  0 316.4705810546875 423.5294189453125 436.4706115722656
-    }*/
+    }
 
     return <View style={[sg.absolute,sg.centerContent,{backgroundColor: 'black'}]} >
         <MapView
@@ -240,7 +456,7 @@ const MapScreen = ({}:MapScreenType) => {
 
             onRegionChangeComplete={onRegionChange}
             /*showsUserLocation={true}*/
-            //onLayout={onMapLayout}
+            onLayout={onMapLayout}
         >
             {/*
                 WARNING!!! Custom markers lag issue, to solve:
