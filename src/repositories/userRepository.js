@@ -18,7 +18,7 @@ async function singIn(options) {
     return response;
 }
 
-// todo - uses session - replace with jwt and remove
+
 async function getFullUser() {
     const response = await fetcher.get(`${API_URL}/users/current`, {
         query: {
@@ -29,7 +29,7 @@ async function getFullUser() {
     return response;
 }
 
-// todo - uses session - replace with jwt and remove
+
 async function getRents(options) {
     const response = await fetcher.get(`${API_URL}/users/current/rents`, options);
 
@@ -37,21 +37,21 @@ async function getRents(options) {
 }
 
 
-// todo - OLD - uses session - replace with jwt and remove
+
 async function getAuthDataBySession(){
     const response = fetcher.get(`${API_URL}/users/current?represent=session`)
 
     return response
 }
 
-// todo - uses session - replace with jwt and remove
+
 async function getCurrentJwt() {
     const response = await fetcher.get(`${API_URL}/users/current/jwt`);
 
     return response;
 }
 
-// todo - uses session - replace with jwt and remove
+
 async function getDraft() {
     const response = await fetcher.get(`${API_URL}/users/current/draft`);
 

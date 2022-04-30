@@ -46,7 +46,8 @@ import {StatusBar} from "expo-status-bar";
 import ExampleDraggableBallAnim from "~/EXAMPLES/ExampleDraggableBallAnim";
 import {sg} from "@u2/styleGlobal";
 import TestScreen from "~/EXAMPLES/TestScreen";
-import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet"; // todo изучить
+import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet";
+import ModalExample from "~/EXAMPLES/ModalExample"; // todo изучить
 // https://reactnavigation.org/docs/navigation-prop
 // https://reactnavigation.org/docs/typescript/#combining-navigation-props
 export type MainStackType = {
@@ -137,10 +138,12 @@ function Main() {
                                         //headerTitle: 'Smart Sharing'
                                     }}
                                     initialRouteName='AppNav'
+                                    //initialRouteName='ModalExample'
                                 >
                                     <RootNav.Screen name='Example' component={ExampleDraggableBallAnim} />
                                     <RootNav.Screen name='ExampleBottomSheet' component={ExampleBottomSheet} />
                                     <RootNav.Screen name='TestScreen' component={TestScreen} />
+                                    <RootNav.Screen name='ModalExample' component={ModalExample} />
 
 
                                     <RootNav.Screen name='AppNav' component={AppNav}/>

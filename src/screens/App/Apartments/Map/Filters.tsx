@@ -111,7 +111,7 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
         margin: pad,
     },
     applyBtn: {
-        ...sg.centerContent,
+        ...sg.center,
         flex: 1,
         borderRadius: inf,
         backgroundColor: t.mainColors.accent0,

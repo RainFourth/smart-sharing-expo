@@ -1,5 +1,5 @@
 import * as userRepository from '@r/userRepository';
-import {ErrorType} from "@se/error";
+import {ErrorType} from "@se/servicesUtils";
 import {AuthStateType} from "@rx/authReducer";
 import {prettyPrint} from "@u";
 import {AllUndef, empty} from "@u2/utils";

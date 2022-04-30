@@ -29,7 +29,7 @@ const authPersistConfig = {
     stateReconciler: hardSet
 }
 
-// reducer - функция, принимающая часть state и action, изменяющая state в соответствии с action, и возвращающая его
+// reducer - функция, принимающая часть state и action, изменяющая state в соответствии с action, и возвращающая его.
 // Создаём объект, где имя переменной является полем в state, а значение поля - reducer к переменной в store
 const rootReducer = combineReducers({
     theme: persistReducer(themePersistConfig, themeReducer),

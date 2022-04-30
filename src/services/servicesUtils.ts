@@ -14,3 +14,12 @@ export type ErrorEmpty = { error: undefined }
 
 
 export type ErrorOrData<D extends anyObj> = ErrorObj & AllUndef<D> | ErrorEmpty & D
+
+
+
+export type ServiceData<D> = { error: ErrorType, data: undefined } | { error: undefined, data: D }
+
+/*
+export function errAndData(error: ErrorType|undefined = undefined, data: any = undefined){
+    return { error, data }
+}*/

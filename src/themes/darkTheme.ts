@@ -38,7 +38,7 @@ export const darkTheme: ThemeType = {
 
 
 
-        accent: colors.primaryMedium,
+        accent: colors.medium,
 
         bgcElem: colors.darkGray,
 

@@ -21,7 +21,7 @@ export type AllUndef<T> = {
 
 // todo законспектировать себе keyof & Mapped Types
 // объект с любым количеством любых свойств
-// можно сделать {type: string}&anyObj и тогда можно задавать любые свойства но type будет обязателен
+// можно сделать {type: string}&anyObj и тогда можно задавать любые свойства, но type будет обязателен
 export type anyObj = { [prop in string | number]: any }
 
 export const emptyFun: (...args: unknown[])=>unknown = ()=>{}
@@ -31,7 +31,7 @@ export const emptyFun: (...args: unknown[])=>unknown = ()=>{}
 //export const noErrors = <T>(o: {error?: ErrorType|empty} & T): o is Require<T> => !o.error
 
 
-export const wait = async <T>(delay:number, value:T) => new Promise<T>(resolve => setTimeout(resolve,delay,value))
+export const wait = async <T>(delay:number, value?:T) => new Promise<T>(resolve => setTimeout(resolve,delay,value))
 
 
 export const inf = 1000000

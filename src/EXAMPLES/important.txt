@@ -1,0 +1,13 @@
+
+// Чтобы нажатия вне клавиатуры срабатывали сразу а не просто убирали клаву
+<ScrollView horizontal keyboardShouldPersistTaps='always'></ScrollView>
+
+
+'auto': The View can be the target of touch events.
+'none': The View is never the target of touch events.
+'box-none': The View is never the target of touch events but its subviews can be.
+(This property exists in CSS)
+<View pointerEvents='none'></View>
+
+
+Do not use percentage in max/min height/width

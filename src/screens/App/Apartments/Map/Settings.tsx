@@ -125,7 +125,7 @@ const Settings = ({}:SettingsProps) => {
         <BottomSheetHeader>
             <View style={s.headerBox}>
                 <View style={s.dash}/>
-                <View style={[sg.absolute, sg.centerContent]}>
+                <View style={[sg.absolute, sg.center]}>
                     <Text style={s.headerTitle}>Настройки</Text>
                 </View>
             </View>

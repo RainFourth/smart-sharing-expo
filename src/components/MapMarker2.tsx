@@ -81,7 +81,7 @@ function MapMarker(
     const priceF = price ? f.setValue(price).format() : undefined
 
 
-    return <View style={sg.centerContent}>
+    return <View style={sg.center}>
         {/*
                Костыль чтобы цвет обновлялся,
                потому что если выбрать один из двух маркеров,

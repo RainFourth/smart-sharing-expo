@@ -4,6 +4,8 @@ import React from "react";
 
 
 export default ()=>{
+
+
     return <View style={[sg.absolute, {display: 'flex'}]}>
         <TextInput style={{height: 100, width:'100%', backgroundColor: 'blue'}}></TextInput>
         <View style={{flex:1, backgroundColor:'green'}}>

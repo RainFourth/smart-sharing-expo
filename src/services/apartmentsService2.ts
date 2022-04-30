@@ -1,77 +1,77 @@
 import * as apartmentsRepoMock from "@r/apartmentsRepoMock";
-import {ErrorOrData} from "@se/error";
-import {ApartmentCoordinatesType, CityType, DistrictType, StreetType} from "@r/apartmentsRepoMockData";
+import { ServiceData } from "@se/servicesUtils";
+import { ApartmentCoordinatesType, CityType, DistrictType, StreetType } from "@r/apartmentsRepoMockData";
 
 
 
-export type FetchedCities = ErrorOrData<{cities: CityType[]}>
-export const getCities = async (): Promise<FetchedCities> => {
+export type ServiceCities = ServiceData<CityType[]>
+export const getCities = async (): Promise<ServiceCities> => {
     return apartmentsRepoMock.getCities().then(
         response => {
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' }, cities: undefined }
+                return { error: { code: 'error' }, data: undefined }
             }
 
-            return { error: undefined, cities: payload }
+            return { error: undefined, data: payload }
         }, error => {
-            return { error: { code: 'error' }, cities: undefined }
+            return { error: { code: 'error' }, data: undefined }
         }
     )
 }
 
 
 
-export type FetchedDistricts = ErrorOrData<{districts: DistrictType[]}>
-export const getDistricts = async (cityId: number): Promise<FetchedDistricts> => {
+export type ServiceDistricts = ServiceData<DistrictType[]>
+export const getDistricts = async (cityId: number): Promise<ServiceDistricts> => {
     return apartmentsRepoMock.getDistricts(cityId).then(
         response => {
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' }, districts: undefined }
+                return { error: { code: 'error' }, data: undefined }
             }
 
-            return { error: undefined, districts: payload.items }
+            return { error: undefined, data: payload.items }
         }, error => {
-            return { error: { code: 'error' }, districts: undefined }
+            return { error: { code: 'error' }, data: undefined }
         }
     )
 }
 
 
-export type FetchedStreets = ErrorOrData<{streets: StreetType[]}>
-export const getStreets = async (cityId: number): Promise<FetchedStreets> => {
+export type ServiceStreets = ServiceData<StreetType[]>
+export const getStreets = async (cityId: number): Promise<ServiceStreets> => {
     return apartmentsRepoMock.getStreets(cityId).then(
         response => {
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' }, streets: undefined }
+                return { error: { code: 'error' }, data: undefined }
             }
 
-            return { error: undefined, streets: payload.items }
+            return { error: undefined, data: payload.items }
         }, error => {
-            return { error: { code: 'error' }, streets: undefined}
+            return { error: { code: 'error' }, data: undefined}
         }
     )
 }
 
 
-export type FetchedCoordinates = ErrorOrData<{apartmentsCoordinates: ApartmentCoordinatesType[]}>
-export const getCoordinates = async (options: {city_id: number}): Promise<FetchedCoordinates> => {
+export type ServiceCoords = ServiceData<ApartmentCoordinatesType[]>
+export const getCoordinates = async (options: {city_id: number}): Promise<ServiceCoords> => {
     return apartmentsRepoMock.getCoordinates(options).then(
         response => {
             const { status, errors, payload, error } = response
 
             if (status >= 300){
-                return { error: { code: 'error' }, apartmentsCoordinates: undefined }
+                return { error: { code: 'error' }, data: undefined }
             }
 
-            return { error: undefined, apartmentsCoordinates: payload.items }
+            return { error: undefined, data: payload.items }
         }, error => {
-            return { error: { code: 'error' }, apartmentsCoordinates: undefined }
+            return { error: { code: 'error' }, data: undefined }
         }
     )
 }

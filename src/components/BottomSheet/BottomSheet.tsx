@@ -72,7 +72,6 @@ const BottomSheet = ({
     const prevH = useSharedValue(0)
     const currH = useSharedValue(0)
     const [closed, setClosed] = useState(true)
-    const [bgcColor, setBgcColor] = useState(bodyBgcColor)
 
 
     const [header, setHeader] = useState(undefined as undefined|HeaderElem)
@@ -124,18 +123,27 @@ const BottomSheet = ({
     const [readySnapPoints, setReadySnapPoints] = useState(undefined as undefined|number[])
     const [readySnapThresholds, setReadySnapThresholds] = useState(undefined as undefined|number[])
     useLayoutEffect(()=>{
+        //console.log(mainFrameH, bodyH, headerH)
         if (mainFrameH){
             const newPoints = snapPoints.map(p => {
                 if (typeof p === 'number') {}
                 else if (typeof p === 'string'){
+                    let expr = p.replace(/%/gi, '/100*'+mainFrameH)
+                    expr = expr.replace(/headerH/gi, headerH+'')
+                    expr = expr.replace(/bodyH/gi, bodyH+'')
+                    let val = eval(expr) // todo replace eval
+                    if (typeof val === 'number') p = val; else p = 0
+                }
+                /*else if (typeof p === 'string'){
                     let pp = extractPercent(p)
                     if (pp) p = pp*mainFrameH/100
                     else p = 0
-                }
+                }*/
                 else p = 0
                 return p
             })
             newPoints.sort(defaultComparator)
+            //console.log(newPoints)
 
             const thresholds: number[] = []
             for (let i = 1; i < newPoints.length; i++) {
@@ -145,7 +153,7 @@ const BottomSheet = ({
             setReadySnapThresholds(thresholds)
             setReadySnapPoints(newPoints)
         }
-    },[snapPoints, mainFrameH])
+    },[snapPoints, mainFrameH, bodyH, headerH])
 
 
     const onActionEnd = useCallback((closed: boolean, snapIdx: number|undefined) => {
@@ -283,7 +291,7 @@ const BottomSheet = ({
 
 
                 <Animated.View style={[s.bodyFrame, animatedBodyStyle, {
-                    backgroundColor: bgcColor
+                    backgroundColor: bodyBgcColor
                 }]}>
                     {body}
                 </Animated.View>
@@ -336,7 +344,7 @@ const defaultS = StyleSheet.create({
 const defaultHeader = <BottomSheetHeader>
     <View style={defaultS.headerBox}>
         <View style={defaultS.dash}/>
-        <View style={[sg.absolute, sg.centerContent]}></View>
+        <View style={[sg.absolute, sg.center]}></View>
     </View>
 </BottomSheetHeader>
 const defaultBody = <BottomSheetBody>

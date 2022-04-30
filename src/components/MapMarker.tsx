@@ -70,7 +70,7 @@ function MapMarker({ price, ids = [] as number[], selected = false }) {
     const priceF = f.setValue(price).format()
 
     return (
-        <View style={sg.centerContent}>
+        <View style={sg.center}>
             <View style={styles.priceView}>
                 <Text style={{
                         ...styles.priceText,

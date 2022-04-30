@@ -22,6 +22,7 @@ import {
 import AvailableApartments from "@sc/App/Apartments/Map/AvailableApartments";
 import {PlaceType} from "@r/apartmentsRepoMockData";
 import {useDebounce} from "@h/useDebounce";
+import ApartmentsHeader from "@sc/App/Apartments/Map/ApartmentsHeader";
 
 
 
@@ -45,7 +46,18 @@ const MapScreen = ({}:MapScreenType) => {
     },[])
 
     useBackHandler(()=>{
-        if (mapMode !== 'map') {
+        /*if (mapMode==='apartmentsFull'){
+            //console.log("fkdlsjfklje")
+            d(setAppNavMapMode('apartments2'))
+            return true
+        } else if (mapMode==='apartments2'){
+            d(setAppNavMapMode('apartments1'))
+            return true
+        } else if (mapMode==='apartments1'){
+            d(setAppNavMapMode('map'))
+            return true
+        } else*/ if (mapMode !== 'map') {
+            console.log('12345')
             d(setAppNavMapMode('map'))
             return true
         }
@@ -68,9 +80,9 @@ const MapScreen = ({}:MapScreenType) => {
 
 
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         console.log(mapInfo)
-    },[mapInfo])
+    },[mapInfo])*/
 
 
     const {
@@ -328,9 +340,9 @@ const MapScreen = ({}:MapScreenType) => {
 
                     const screenDist = (360/2**(mapInfo.zoom-1))
 
-                    console.log({
+                    /*console.log({
                         dist, dAngle, angle, delta, threshold, angleR, screenDist
-                    })
+                    })*/
 
                     if ( dist / screenDist < threshold ){
                         group.exact = group.exact && dLatAbs<0.005 && dLonAbs<0.005
@@ -400,7 +412,7 @@ const MapScreen = ({}:MapScreenType) => {
                 }*/
                 //console.log('zzz',180/2**newInfo.zoom)
                 //console.log('zzz',360/2**newInfo.zoom)
-                console.log('zzz',360/2**(newInfo.zoom-1))
+                //console.log('zzz',360/2**(newInfo.zoom-1))
             }
             //setZoom(camera.zoom)
             //console.log('camera:',camera)
@@ -427,7 +439,7 @@ const MapScreen = ({}:MapScreenType) => {
         // => onLayout:  0 316.4705810546875 423.5294189453125 436.4706115722656
     }
 
-    return <View style={[sg.absolute,sg.centerContent,{backgroundColor: 'black'}]} >
+    return <View style={[sg.absolute,sg.center,{backgroundColor: 'black'}]} >
         <MapView
             ref={mapRef}
             provider={PROVIDER_GOOGLE}
@@ -487,7 +499,7 @@ const MapScreen = ({}:MapScreenType) => {
         </MapView>
 
 
-        <MapSearchWidget />
+        { mapMode!=='apartmentsFull' ? <MapSearchWidget /> : <ApartmentsHeader/>}
 
         <AvailableApartments/>
 

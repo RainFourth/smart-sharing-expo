@@ -67,7 +67,7 @@ function ExampleBottomSheet(){
             <BottomSheetHeader>
                 <View style={s.headerBox}>
                     <View style={s.dash}/>
-                    <View style={[sg.absolute, sg.centerContent]}>
+                    <View style={[sg.absolute, sg.center]}>
                         <Text style={s.headerTitle}>{headerTitle}</Text>
                     </View>
                 </View>
@@ -78,7 +78,7 @@ function ExampleBottomSheet(){
                 <ScrollView style={s.list} keyboardShouldPersistTaps='always'>
                     <View style={{backgroundColor: 'red', height: 100, width:'100%'}} ></View>
                     <View style={{backgroundColor: 'white', height: 100, width:'100%'}} ></View>
-                    <View style={{backgroundColor: 'green', height: 100, width:'100%'}} ></View>
+                    <View style={{backgroundColor: 'green', height: 100, width:'100%' }} ></View>
                     <View style={{backgroundColor: 'aqua', height: 100, width:'100%'}} ></View>
                     <ScrollView horizontal keyboardShouldPersistTaps='always'>
                         <View style={{backgroundColor: 'red', height: 100, width:100}} ></View>

@@ -28,7 +28,7 @@ import Space from "@c/Space";
 import {DistrictType, PlaceType, StreetType} from "@r/apartmentsRepoMockData";
 import {fetchDistricts, fetchStreets, setAddressFilter} from "@rx/apartmentsReducer";
 import {prettyPrint} from "@u";
-import {useDimens} from "@h/useDimens";
+import {getDimens} from "@u2/getDimens";
 import CheckMarkIc from "@c/SvgIcons/CheckMarkIc";
 import Checkbox from "expo-checkbox";
 import {useDebounce} from "@h/useDebounce";
@@ -43,7 +43,7 @@ const makeStyle = (t: ThemeType, variants: boolean) => StyleSheet.create({
         position: 'absolute', top: 44, left: 15, right: 15,
         //height: !variants ? 49 : undefined,
         //minHeight: !variants ? undefined :
-        maxHeight: !variants ? undefined : useDimens().h*0.4,
+        maxHeight: !variants ? undefined : getDimens().h*0.4,
         flexDirection: 'column',
         backgroundColor: t.mainColors.bgc0,
         borderRadius: !variants ? inf : 8,
@@ -205,7 +205,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
         <View style={[s.inputBox]}>
             {
                 mapMode!=="search" ?
-                    <View style={[{height: '100%', width: 50}, sg.centerContent]}>
+                    <View style={[{height: '100%', width: 50}, sg.center]}>
                         <SearchIc color={themeObj.mainColors.secondary0} size={24} />
                     </View>
                     :
@@ -232,7 +232,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
             {
                 mapMode!=="search" && <Pressable
                     onPress={onSettings}
-                    style={[{height: '100%', width: 30}, sg.centerContent]}>
+                    style={[{height: '100%', width: 30}, sg.center]}>
                     <SettingsIc color={themeObj.mainColors.secondary0} size={24} />
                 </Pressable>
             }
@@ -240,7 +240,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
 
             <Pressable
                 onPress={onFilters}
-                style={[{height: '100%', width: 50}, sg.centerContent]}>
+                style={[{height: '100%', width: 50}, sg.center]}>
                 <FilterIc color={themeObj.mainColors.onBgc0} size={24} />
             </Pressable>
 
@@ -294,7 +294,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
 
                                     {
                                         part.type==='city' ? <Space w={50}/> : <Pressable
-                                                style={[sg.centerContent, {width: 50, height: '100%'}]}
+                                                style={[sg.center, {width: 50, height: '100%'}]}
                                                 onPress={onCheck}
                                             >
                                                 <Checkbox

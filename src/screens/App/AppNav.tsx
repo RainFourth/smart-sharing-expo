@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Linking, View} from 'react-native';
+import {Linking, View, Text, Pressable} from 'react-native';
 
 import { Messages } from '@sc';
 import { ApartmentsMapNavigation, FavoriteApartmentsNavigation, PersonalAccountNavigator, NotificationsNavigation } from '@n';
@@ -23,6 +23,8 @@ import Filters from "@sc/App/Apartments/Map/Filters";
 import Settings from "@sc/App/Apartments/Map/Settings";
 import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet";
 import AvailableApartments from "@sc/App/Apartments/Map/AvailableApartments";
+import HeartIc from "@c/SvgIcons/HeartIc";
+import Space from "@c/Space";
 
 
 
@@ -87,6 +89,8 @@ function AppNav({}:Type ) {
 
         { tab==='map' && <Settings/> }
 
+        { false && <FavoriteMsg/> }
+
     </View>
 
 
@@ -99,3 +103,31 @@ function AppNav({}:Type ) {
 }
 
 export default AppNav
+
+
+const FavoriteMsg = () => {
+
+    const { mapMode, bottomBarHeight } = useSelector((s:StateType)=>s.app.appNav)
+    const { themeObj:t } = useThemeNew()
+
+    return <View style={{
+        position: 'absolute', left: 0, right: 0, bottom: bottomBarHeight, height: 56,
+        backgroundColor: t.mainColors.accent2
+    }}>
+        <View style={[sg.row, sg.centerV, { height: '100%' }]}>
+            <Space w={20}/>
+            <HeartIc color={t.mainColors.onAccent2} size={17}/>
+            <Space w={11}/>
+            <Text style={{ color: t.mainColors.onAccent2, fontFamily: t.font.font.w400, fontSize: 14, flexGrow: 1 }}>
+                В избранном
+            </Text>
+            <Space w={11}/>
+            <Pressable style={[sg.center,{height: '100%'}]}>
+                <Text style={{ color: t.mainColors.onAccent2, fontFamily: t.font.font.w600, fontSize: 14 }}>
+                    Подборка
+                </Text>
+            </Pressable>
+            <Space w={16}/>
+        </View>
+    </View>
+}

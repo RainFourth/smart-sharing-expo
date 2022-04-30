@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react'
 import {GestureResponderEvent, Pressable, StyleSheet, View} from "react-native";
 import MessageIc from "@c/SvgIcons/MessageIc";
 import LocationIc from "@c/SvgIcons/LocationIc";
-import HeartIc from "@c/SvgIcons/HeartIc";
+import HeartEmptyIc from "@c/SvgIcons/HeartEmptyIc";
 import UserIc from "@c/SvgIcons/UserIc";
 import {emptyFun, inf, nonEmpty} from "@u2/utils";
 import {useThemeNew} from "@h";
@@ -88,7 +88,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
                        onTouchEndCapture={()=>setAnimMode3('end')}
             >
                 <CircleBgcAnim color={themeObj.mainColors.accent3} mode={animMode3}/>
-                <HeartIc size={'30%'} color={getIconColor('favorites')} />
+                <HeartEmptyIc size={'30%'} color={getIconColor('favorites')} />
             </Pressable>
             <Pressable style={s.pressable}
                        onPress={()=>onTab('profile')}

@@ -24,6 +24,7 @@ export const lightTheme: ThemeType = {
 
         onAccent0: 'white',
         onAccent1: 'white',
+        onAccent2: 'white',
 
         onBgc0: 'black',
 

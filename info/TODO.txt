@@ -1,0 +1,4 @@
+// TODO STEP for price in filters
+
+// TODO узнать что такое Apollo & GraphQL
+

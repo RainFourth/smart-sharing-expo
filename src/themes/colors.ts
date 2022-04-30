@@ -1,11 +1,10 @@
 export const colors = {
     darker: '#4925B3',
-    lighter: '#E6DEFF',
     mainColor: '#5E30E6',
     medium0: '#af83ff',
     //medium0: '#9b65ff',
     medium: '#7B61FF',
-    purple: '#E6DEFF',
+    purple: '#E6DEFF', lighter: '#E6DEFF',
 
     dark0: '#201C28',
     dark1: '#2E283D',

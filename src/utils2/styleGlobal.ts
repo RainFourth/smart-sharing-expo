@@ -19,14 +19,23 @@ export const sg = StyleSheet.create({
     transparent: {
         backgroundColor: '#00000000'
     },
-    centerContent: {
+    center: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    centerV: {
+        alignItems: 'center',
+    },
+    centerH: {
+        justifyContent: 'center',
     },
     column: {
         flexDirection: 'column'
     },
     row: {
         flexDirection: 'row'
+    },
+    fill: {
+        flex: 1
     }
 })

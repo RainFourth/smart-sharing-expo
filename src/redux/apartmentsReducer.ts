@@ -1,8 +1,6 @@
 import {Action} from "redux";
-import {ErrorType} from "@se/error";
+import {ErrorType} from "@se/servicesUtils";
 import {
-    FetchedDistricts,
-    FetchedStreets,
     getCities,
     getCoordinates,
     getDistricts,
@@ -169,18 +167,18 @@ export const setSelectedApartments = (idsSet: ApartmentsStateType['selectedCity'
 
 // Thunk Creators
 export const fetchCities = () => async (d) => {
-    const cs = await getCities()
-    d(setCities(cs))
+    const { error, data } = await getCities()
+    d(setCities({error, cities: data}))
 }
 export const fetchApartmentsInCity = (cityId: number) => async (d) => {
-    const { error, apartmentsCoordinates } = await getCoordinates({city_id: cityId})
-    d(setApartmentsInCity({ error, apartments: apartmentsCoordinates }))
+    const { error, data } = await getCoordinates({city_id: cityId})
+    d(setApartmentsInCity({ error, apartments: data }))
 }
 export const fetchDistricts = (cityId: number) => async (d) => {
-    const ds = await getDistricts(cityId)
-    d(setDistricts(ds))
+    const { error, data } = await getDistricts(cityId)
+    d(setDistricts({error, districts: data}))
 }
 export const fetchStreets = (cityId: number) => async (d) => {
-    const st = await getStreets(cityId)
-    d(setStreets(st))
+    const { error, data } = await getStreets(cityId)
+    d(setStreets({error, streets: data}))
 }

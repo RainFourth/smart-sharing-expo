@@ -74,7 +74,7 @@ const SearchWidget = ({ value, setValue }:SearchWidgetProps) => {
 
 
     return <View style={[sg.row, s.inputBox]}>
-        <View style={[{height: '100%', width: 50}, sg.centerContent]}>
+        <View style={[{height: '100%', width: 50}, sg.center]}>
             <SearchIc color={themeObj.mainColors.onBgc0} size={24} />
         </View>
 
