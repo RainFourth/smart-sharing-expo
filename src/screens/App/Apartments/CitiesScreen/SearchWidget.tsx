@@ -6,7 +6,7 @@ import {inf} from "@u2/utils";
 import SearchIc from "@c/SvgIcons/SearchIc";
 import {useDispatch, useSelector} from "react-redux";
 import {setAppNavMapMode} from "@rx/appReducer";
-import {StateType} from "@rx/store";
+import {StateT} from "@rx/store";
 import {useBackHandler} from "@react-native-community/hooks";
 import {useKeyboard} from "@h/useKeyboard";
 import {sg} from "@u2/styleGlobal";

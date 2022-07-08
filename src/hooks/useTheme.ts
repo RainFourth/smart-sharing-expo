@@ -1,6 +1,6 @@
 import { darkTheme, lightTheme, ThemeType } from '@t'
 import { useDispatch, useSelector } from "react-redux";
-import { StateType } from "@rx/store";
+import { StateT } from "@rx/store";
 import { setTheme as setThemeActionCreator } from "@rx/themeReducer";
 import { useMemo } from "react";
 import { StyleSheet } from "react-native";
@@ -23,7 +23,7 @@ export type ThemeName = keyof typeof themesMap
 
 function useThemeNew<T extends StyleSheet.NamedStyles<T>>(styleCreator?: (theme: ThemeType)=>T, deps: any[] = []){
     const { theme, _persist: { rehydrated: themeLoaded }} =
-        useSelector<StateType,StateType['theme']>((s:StateType) => s.theme)
+        useSelector<StateT,StateT['theme']>((s:StateT) => s.theme)
     const d = useDispatch()
 
     const setTheme = (theme: ThemeName)=>{ d(setThemeActionCreator(theme)) }

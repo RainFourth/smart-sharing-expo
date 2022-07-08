@@ -2,7 +2,7 @@ import {StyleSheet, View, Text, ScrollView, Pressable, KeyboardAvoidingView, Pla
 import {useThemeNew} from "@h";
 import {ThemeType} from "@t";
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "@rx/store";
+import {StateT} from "@rx/store";
 import SearchWidget from "@sc/App/Apartments/CitiesScreen/SearchWidget";
 import {sg} from "@u2/styleGlobal";
 import Space from "@c/Space";
@@ -15,7 +15,7 @@ import {prettyPrint} from "@u";
 import {useNavigation} from "@react-navigation/native";
 import SelectAnim from "@c/SelectAnim";
 import NamedStyles = StyleSheet.NamedStyles;
-import {CityType} from "@r/apartmentsRepoMockData";
+import {City} from "@se/apartmentsService2";
 
 
 
@@ -60,9 +60,9 @@ const makeStyle = (t: ThemeType) => StyleSheet.create({
 
 
 type CityItemProps = {
-    city: CityType
+    city: City
     capitalLetter: string|undefined
-    onCitySelect: (city: CityType) => void
+    onCitySelect: (city: City) => void
     s: NamedStyles<any>
     key?: any
 }
@@ -106,22 +106,22 @@ const CityItem = ({
 
 const CitiesScreen = () => {
     const { style:s, themeObj } = useThemeNew(makeStyle)
-    const { appNav: { bottomBarHeight } } = useSelector((s:StateType)=>s.app)
+    const { appNav: { bottomBarHeight } } = useSelector((s:StateT)=>s.app)
     const d = useDispatch()
 
-    const { cities, error: citiesErr } = useSelector((s:StateType)=>s.apartments.cities)
+    const { data, error: citiesErr } = useSelector((s:StateT)=>s.apartments.cities)
 
     useEffect(()=>{d(fetchCities())},[])
 
     const [search, setSearch] = useState('')
-    const [selectedCities, setSelectedCities] = useState(cities)
+    const [selectedCities, setSelectedCities] = useState(data)
     useDebounce(
         ()=>{
             const regexp = makeSearchRegexp(search)
-            setSelectedCities(cities?.filter(c=>regexp.test(c.name)))
+            setSelectedCities(data?.filter(c=>regexp.test(c.name)))
         },
         500,
-        [cities,search]
+        [data,search]
     )
 
     useEffect(()=>{
@@ -130,7 +130,7 @@ const CitiesScreen = () => {
 
     const nav = useNavigation()
 
-    const onCitySelect = (city: CityType) => {
+    const onCitySelect = (city: City) => {
         d(setSelectedCity(city))
         // @ts-ignore
         nav.navigate('MapScreen')

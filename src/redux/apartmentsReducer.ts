@@ -1,19 +1,11 @@
 import {Action} from "redux";
-import {ErrorType} from "@se/servicesUtils";
+import {ErrorType} from "@se/utils";
 import {
     getCities,
-    getCoordinates,
+    getApartments,
     getDistricts,
-    getStreets
+    getStreets, City, Street, District, Apartment, Place
 } from "@se/apartmentsService2";
-import {
-    ApartmentCoordinatesType,
-    CityType,
-    defaultCity,
-    DistrictType,
-    PlaceType,
-    StreetType
-} from "@r/apartmentsRepoMockData";
 
 type apartmentsActionTypes = 'setCities' | 'setSelectedCity' | 'setApartmentsInCity'
     | 'setGroupedApartments' | "setDistricts" | "setStreets"
@@ -22,7 +14,7 @@ export type ApartmentActionType = Action<apartmentsActionTypes> & { payload: any
 
 
 export type GroupedApartments = {
-    ids: number[]
+    ids: string[]
     minPrice: number
     exact: boolean
     coordinates: {
@@ -31,60 +23,62 @@ export type GroupedApartments = {
     }
 }
 
+
+
 export type ApartmentsStateType = {
     cities: {
-        cities: undefined|CityType[]
+        data: undefined|City[]
         error: undefined|ErrorType
     }
     selectedCity: {
-        city: CityType
+        city: City|undefined
 
         apartments: {
             error: undefined|ErrorType
-            apartments: undefined | ApartmentCoordinatesType[]
+            data: undefined | Apartment[]
         }
         groupedApartments: undefined | GroupedApartments[]
 
         districts: {
             error: undefined | ErrorType
-            districts: undefined | DistrictType[]
+            data: undefined | District[]
         }
         streets: {
             error: undefined | ErrorType
-            streets: undefined | StreetType[]
+            data: undefined | Street[]
         }
 
-        addressFilter: PlaceType[]
+        addressFilter: Place[]
 
-        selectedApartments: { idsSet: Set<number>} // ids
+        selectedApartmentIds: { idsSet: Set<string>} // ids
     }
 }
 const initState: ApartmentsStateType = {
     cities: {
-        cities: undefined,
+        data: undefined,
         error: undefined
     },
     selectedCity: {
-        city: defaultCity,
+        city: undefined,
 
         apartments: {
-            apartments: undefined,
+            data: undefined,
             error: undefined
         },
         groupedApartments: undefined,
 
         districts: {
+            data: undefined,
             error: undefined,
-            districts: undefined
         },
         streets: {
+            data: undefined,
             error: undefined,
-            streets: undefined
         },
 
         addressFilter: [],
 
-        selectedApartments: { idsSet: new Set<number>() },
+        selectedApartmentIds: { idsSet: new Set<string>() },
     },
 
 }
@@ -99,7 +93,7 @@ const apartmentsReducer = (state = initState, action: ApartmentActionType) => {
                 city: action.payload,
             }}
         case "setApartmentsInCity":
-            state.selectedCity.selectedApartments.idsSet.clear()
+            state.selectedCity.selectedApartmentIds.idsSet.clear()
             return {...state, selectedCity: {
                 ...state.selectedCity,
                 apartments: action.payload,
@@ -120,16 +114,16 @@ const apartmentsReducer = (state = initState, action: ApartmentActionType) => {
                 streets: action.payload
             }}
         case "setAddressFilter":
-            const idsSet = state.selectedCity.selectedApartments.idsSet
+            const idsSet = state.selectedCity.selectedApartmentIds.idsSet
             idsSet.clear()
             return {...state, selectedCity: {
                 ...state.selectedCity,
                 addressFilter: action.payload,
-                selectedApartments: { idsSet }
+                selectedApartmentIds: { idsSet }
             }}
         case "setSelectedApartments": return {...state, selectedCity: {
                 ...state.selectedCity,
-                selectedApartments: action.payload
+                selectedApartmentIds: action.payload
             }}
         default: return state
     }
@@ -145,7 +139,7 @@ const setCities = (cities: ApartmentsStateType['cities']): ApartmentActionType =
 export const setSelectedCity = (city: ApartmentsStateType['selectedCity']['city']): ApartmentActionType => ({
     type: "setSelectedCity", payload: city
 })
-const setApartmentsInCity = (apartments: ApartmentsStateType['selectedCity']['apartments']): ApartmentActionType => ({
+export const setApartmentsInCity = (apartments: ApartmentsStateType['selectedCity']['apartments']): ApartmentActionType => ({
     type: "setApartmentsInCity", payload: apartments
 })
 export const setGroupedApartments = (apartments: ApartmentsStateType['selectedCity']['groupedApartments']): ApartmentActionType => ({
@@ -160,7 +154,7 @@ const setStreets = (streets: ApartmentsStateType['selectedCity']['streets']): Ap
 export const setAddressFilter = (filter: ApartmentsStateType['selectedCity']['addressFilter']): ApartmentActionType => ({
     type: "setAddressFilter", payload: filter
 })
-export const setSelectedApartments = (idsSet: ApartmentsStateType['selectedCity']['selectedApartments']['idsSet']): ApartmentActionType => ({
+export const setSelectedApartments = (idsSet: ApartmentsStateType['selectedCity']['selectedApartmentIds']['idsSet']): ApartmentActionType => ({
     type: 'setSelectedApartments', payload: { idsSet }
 })
 
@@ -168,17 +162,20 @@ export const setSelectedApartments = (idsSet: ApartmentsStateType['selectedCity'
 // Thunk Creators
 export const fetchCities = () => async (d) => {
     const { error, data } = await getCities()
-    d(setCities({error, cities: data}))
+    d(setCities({ error, data }))
 }
-export const fetchApartmentsInCity = (cityId: number) => async (d) => {
-    const { error, data } = await getCoordinates({city_id: cityId})
-    d(setApartmentsInCity({ error, apartments: data }))
+export const fetchApartmentsInCity = (cityId: string) => async (d) => {
+    const { error, data } = await getApartments({ city_id: cityId })
+    d(setApartmentsInCity({ error, data }))
 }
-export const fetchDistricts = (cityId: number) => async (d) => {
+export const fetchDistricts = (cityId: string) => async (d) => {
     const { error, data } = await getDistricts(cityId)
-    d(setDistricts({error, districts: data}))
+    d(setDistricts({ error, data }))
 }
-export const fetchStreets = (cityId: number) => async (d) => {
+export const fetchStreets = (cityId: string) => async (d) => {
     const { error, data } = await getStreets(cityId)
-    d(setStreets({error, streets: data}))
+    d(setStreets({ error, data }))
+}
+export const updateApartment = (apartmentId: string, isFavorite: boolean) => async (d) => {
+
 }

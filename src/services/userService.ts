@@ -1,6 +1,6 @@
 import * as userRepository from '@r/userRepository';
-import {ErrorType} from "@se/servicesUtils";
-import {AuthStateType} from "@rx/authReducer";
+import {ErrorType} from "@se/utils";
+import {UserStateT} from "@rx/userReducer";
 import {prettyPrint} from "@u";
 import {AllUndef, empty} from "@u2/utils";
 
@@ -19,7 +19,7 @@ type signUpType = (options: {
     work_city_id: string|number // todo type
     password: string
     ref: string // инфа откуда узнали о Smart Sharing
-}) => Promise<{ error?: ErrorType, jwt?: AuthStateType['jwt'], user?: AuthStateType['user'] }>
+}) => Promise<{ error?: ErrorType, jwt?: UserStateT['jwt'], user?: UserStateT['user'] }>
 const signUp: signUpType = async (options) => {
     const response = await userRepository.singUp(options);
     const { error, status, payload } = response
@@ -41,7 +41,7 @@ const signUp: signUpType = async (options) => {
 type signInType = (options: {
     phoneOrEmail: string
     password: string
-}) => Promise<{ error?: ErrorType, jwt?: AuthStateType['jwt'], user?: AuthStateType['user'] }>
+}) => Promise<{ error?: ErrorType, jwt?: UserStateT['jwt'], user?: UserStateT['user'] }>
 const signIn: signInType = async (options) => {
     const response = await userRepository.singIn(options);
     const { status, errors, payload, error } = response
@@ -92,7 +92,7 @@ async function getRents(options) {
 
 // todo - OLD - uses session - replace with jwt and remove
 type getAuthDataBySessionType = () =>
-    Promise<{ error?: ErrorType, jwt?: AuthStateType['jwt'], user?: AuthStateType['user'] }>
+    Promise<{ error?: ErrorType, jwt?: UserStateT['jwt'], user?: UserStateT['user'] }>
 const getAuthDataBySession: getAuthDataBySessionType = async () => {
     const response = await userRepository.getAuthDataBySession()
     const { error, status, payload } = response
@@ -114,7 +114,7 @@ const getAuthDataBySession: getAuthDataBySessionType = async () => {
 
 
 // todo - uses session - replace with jwt and remove
-type getCurrentJwtType = () => Promise<{ error?: ErrorType, jwt?: AuthStateType['jwt'] }>
+type getCurrentJwtType = () => Promise<{ error?: ErrorType, jwt?: UserStateT['jwt'] }>
 const getCurrentJwt:getCurrentJwtType = async () => {
     const response = await userRepository.getCurrentJwt();
     const { status, payload } = response

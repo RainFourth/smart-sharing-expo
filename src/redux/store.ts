@@ -4,7 +4,7 @@ import thunkMiddleware from "redux-thunk";
 
 import themeReducer, {ThemeStateType} from "./themeReducer";
 import reducer, {ReducerStateType} from "@rx/reducer";
-import authReducer, {AuthStateType} from "@rx/authReducer";
+import userReducer, {UserStateT} from "@rx/userReducer";
 
 import {persistReducer} from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,7 +24,7 @@ const themePersistConfig = {
     // whitelist: ['smth'] // ONLY smth will be persisted
 }
 const authPersistConfig = {
-    key: 'auth',
+    key: 'user',
     storage: AsyncStorage,
     stateReconciler: hardSet
 }
@@ -34,7 +34,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
     theme: persistReducer(themePersistConfig, themeReducer),
     reducer: reducer,
-    auth: persistReducer(authPersistConfig, authReducer),
+    user: persistReducer(authPersistConfig, userReducer),
     app: appReducer,
     apartments: apartmentsReducer
 })
@@ -45,10 +45,10 @@ type PersistState = {
         version: number
     }
 }
-export type StateType = {
+export type StateT = {
     theme: ThemeStateType & PersistState
     reducer: ReducerStateType
-    auth: AuthStateType & PersistState
+    user: UserStateT & PersistState
     app: AppStateType
     apartments: ApartmentsStateType
 }

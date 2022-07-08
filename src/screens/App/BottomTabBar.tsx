@@ -13,7 +13,7 @@ import CircleBgcAnim from "@c/CircleBgcAnim";
 import {sg} from "@u2/styleGlobal";
 import {useKeyboard} from "@h/useKeyboard";
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "@rx/store";
+import {StateT} from "@rx/store";
 
 
 
@@ -38,7 +38,7 @@ const BottomTabBar = ( { }: BottomTabBarType ) => {
     const { themeObj } = useThemeNew()
 
     const d = useDispatch()
-    const { tab, bottomBarHeight } = useSelector((s:StateType)=>s.app.appNav)
+    const { tab, bottomBarHeight } = useSelector((s:StateT)=>s.app.appNav)
 
     const onTab = (tab: AppStateType['appNav']['tab']) => d(setAppNavTab(tab))
 

@@ -1,4 +1,4 @@
-import {AuthStateType} from "@rx/authReducer";
+import {UserStateT} from "@rx/userReducer";
 import {empty} from "@u2/utils";
 
 export const Rights = {
@@ -15,10 +15,10 @@ export const Rights = {
 	'REQUESTS_LAW': 'requests.law',
 	'REQUESTS_ADMIN': 'requests.admin'
 }
-export type RightsType = typeof Rights
+export type RightsType = keyof typeof Rights
 
 
-export const hasRights = (user: AuthStateType['user']|empty, rights: RightsType[]) => {
+export const hasRights = (user: UserStateT['user']|empty, rights: RightsType[]) => {
 	if (user && user.rights) return rights.every(r=>user.rights.includes(r))
 	return false
 }

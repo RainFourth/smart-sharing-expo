@@ -8,7 +8,7 @@ import 'react-native-gesture-handler';
  */
 
 
-import React, { useMemo } from "react";
+import React, {useEffect, useMemo} from "react";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -25,7 +25,7 @@ import { useAuth, useSocket, useThemeNew } from '@h';
 import { Notification } from '@c';
 
 import { useDispatch, useSelector } from "react-redux";
-import { StateType } from "@rx/store";
+import { StateT } from "@rx/store";
 import AppNav, {AppNavProps} from "@sc/App/AppNav";
 
 
@@ -47,7 +47,8 @@ import ExampleDraggableBallAnim from "~/EXAMPLES/ExampleDraggableBallAnim";
 import {sg} from "@u2/styleGlobal";
 import TestScreen from "~/EXAMPLES/TestScreen";
 import ExampleBottomSheet from "~/EXAMPLES/ExampleBottomSheet";
-import ModalExample from "~/EXAMPLES/ModalExample"; // todo изучить
+import ModalExample from "~/EXAMPLES/ModalExample";
+import {loadUser} from "@rx/userReducer"; // todo изучить
 // https://reactnavigation.org/docs/navigation-prop
 // https://reactnavigation.org/docs/typescript/#combining-navigation-props
 export type MainStackType = {
@@ -75,8 +76,15 @@ function Main() {
 
     const auth = useAuth()
 
-    const state = useSelector((s:StateType)=>s.reducer)
+    const state = useSelector((s:StateT)=>s.reducer)
     const d = useDispatch()
+    const { user } = useSelector((s:StateT)=>s.user)
+
+    useEffect(()=>{
+        console.log(user)
+        if (user===undefined) d(loadUser())
+    },[user])
+
 
 
     const [fontLoaded] = useFonts({
@@ -90,8 +98,18 @@ function Main() {
         'Montserrat-Black': require('@assets/fonts/Montserrat-Black.ttf'),
     })
 
-    const preloading = useMemo(() => !isConnected || !auth.authDataReady || !t.themeLoaded || !fontLoaded,
-        [isConnected, auth.authDataReady, t.themeLoaded, fontLoaded]);
+    const preloading = useMemo(
+        () =>
+            !isConnected
+            || /*!auth.authDataReady*/user===undefined
+            || !t.themeLoaded
+            || !fontLoaded,
+        [
+            isConnected,
+            /*auth.authDataReady*/user,
+            t.themeLoaded,
+            fontLoaded
+        ]);
 
 
 

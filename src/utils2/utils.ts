@@ -1,4 +1,5 @@
 export type empty = null|undefined
+export type nonempty<T> = T extends null|undefined ? never : T
 export const isEmpty = <T>(o: empty|T): o is empty => o===null || o===undefined
 export const nonEmpty = <T>(o: empty|T): o is T => o!==null && o!==undefined
 

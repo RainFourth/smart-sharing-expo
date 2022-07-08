@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "@rx/store";
-import {AuthStateType, setUser as setUserActionCreator, setJwt as setJwtActionCreator, setJwt} from "@rx/authReducer";
+import {StateT} from "@rx/store";
+import {UserStateT, setUser as setUserActionCreator, setJwt as setJwtActionCreator, setJwt} from "@rx/userReducer";
 import {useEffect, useState} from "react";
 import * as userService from "@se/userService";
 
@@ -35,7 +35,7 @@ const defaultUser: AuthStateType['user'] = {
 
 export function useAuth(){
     const { user, jwt, _persist : { rehydrated: authRehydrated } } =
-        useSelector((s:StateType)=>s.auth)
+        useSelector((s:StateT)=>s.user)
     const [authLoaded, setAuthLoaded] = useState(false)
     const d = useDispatch()
     const [authDataReady, setAuthDataReady] = useState(false)
@@ -56,7 +56,7 @@ export function useAuth(){
     const updateJwt = async () => {
         const { error, jwt } = await userService.getCurrentJwt();
         if (error) return
-        setJwt(jwt)
+        //setJwt(jwt)
     }
 
     // via getAuthDataBySession => jwt & user
@@ -64,15 +64,15 @@ export function useAuth(){
         const { error, jwt, user } = await userService.getAuthDataBySession()
         if (error) return
         else {
-            setJwt(jwt)
-            setUser(user)
+            //setJwt(jwt)
+            //setUser(user)
         }
     }
 
-    const setUser = (user: AuthStateType['user']) => {
+    const setUser = (user: UserStateT['user']) => {
         d(setUserActionCreator(user))
     }
-    const setJwt = (jwt: AuthStateType['jwt']) => {
+    const setJwt = (jwt: UserStateT['jwt']) => {
         d(setJwtActionCreator(jwt))
     }
 

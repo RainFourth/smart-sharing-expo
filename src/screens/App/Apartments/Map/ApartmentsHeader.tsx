@@ -9,7 +9,7 @@ import FilterIc from "@c/SvgIcons/FilterIc";
 import BackArrowIc from "@c/SvgIcons/BackIc";
 import {useDispatch, useSelector} from "react-redux";
 import {setAppNavMapMode} from "@rx/appReducer";
-import {StateType} from "@rx/store";
+import {StateT} from "@rx/store";
 
 
 const ApartmentsHeader = () => {
@@ -17,7 +17,7 @@ const ApartmentsHeader = () => {
     const d = useDispatch()
     const { themeObj } = useThemeNew()
     const [kbd] = useKeyboard()
-    const { mapMode } = useSelector((s:StateType)=>s.app.appNav)
+    const { mapMode } = useSelector((s:StateT)=>s.app.appNav)
 
     const onBack = () => {
         d(setAppNavMapMode('map'))

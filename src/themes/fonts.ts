@@ -14,7 +14,7 @@ export type FontType = {
     w300: string                    // Light
     w400: string, normal: string    // Regular
     w500: string                    // Medium
-    w600: string                    // SemiBold
+    w600: string                    // SemiBold / DemiBold
     w700: string, bold: string      // Bold
     w800: string                    // Black
     w900: string                    // Super

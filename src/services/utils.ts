@@ -17,9 +17,22 @@ export type ErrorOrData<D extends anyObj> = ErrorObj & AllUndef<D> | ErrorEmpty 
 
 
 
-export type ServiceData<D> = { error: ErrorType, data: undefined } | { error: undefined, data: D }
+export type ServiceData<D> = { error?: ErrorType, data?: D }
 
 /*
 export function errAndData(error: ErrorType|undefined = undefined, data: any = undefined){
     return { error, data }
 }*/
+
+
+
+
+export type GraphQlData<D> = {
+    errors?: Array<{
+        message: string,
+        locations: Array<{ line: number, column: number }>,
+        path: string[],
+        extensions: { classification: 'InvalidSyntax' | 'INTERNAL_ERROR' | string }
+    }>
+    data?: D
+}

@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react'
-import {View, Text, StyleSheet, ScrollView, Image} from "react-native";
+import {View, Text, StyleSheet, ScrollView, Image, Pressable} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppNavMapMode } from "@rx/appReducer";
-import { StateType } from "@rx/store";
+import { StateT } from "@rx/store";
 import {useThemeNew} from "@h";
 import {ThemeType} from "@t";
 import SelectVariants from "@c/SelectVariants";
@@ -10,18 +10,30 @@ import {useBackHandler} from "@react-native-community/hooks";
 import BottomSheet, {BottomSheetSettings} from '~/components/BottomSheet/BottomSheet';
 import BottomSheetHeader from "@c/BottomSheet/BottomSheetHeader";
 import BottomSheetBody from "@c/BottomSheet/BottomSheetBody";
-import {inf} from "@u2/utils";
+import {inf, isEmpty, nonEmpty} from "@u2/utils";
 import Space from "@c/Space";
 import {sg} from "@u2/styleGlobal";
 import HeartEmptyIc from "@c/SvgIcons/HeartEmptyIc";
 import LocationIc from "@c/SvgIcons/LocationIc";
 import RoomIc from "@c/SvgIcons/RoomIc";
 import AreaIc from "@c/SvgIcons/AreaIc";
+import {Apartment, FavoriteList, Imagee, updateFavoriteApartment} from "@se/apartmentsService2";
+import {API_URL} from "@env";
+import {PlaceSubType} from "@r/apartmentsRepoMock";
+import {NumFormat} from "@rrainpath/num-format";
+import HeartIc from "@c/SvgIcons/HeartIc";
+import {setApartmentsInCity} from "@rx/apartmentsReducer";
+import {userService} from "@se/userService2";
+import {useFirstAndLastAction} from "@h/useFirstAndLastAction";
 
 const testAp1 = require('@im/test-apartments-photo-1.jpg')
 const testAp2 = require('@im/test-apartments-photo-2.jpg')
+const defaultAp = require('@im/default-apartment.png')
 
-
+const f = new NumFormat().setFormat({
+    intDelim: { delim: ' ', step: 3 },
+    round: { mode: 'half-up', scale: 0 },
+})
 
 const makeStyle = (t: ThemeType) => StyleSheet.create({
 
@@ -76,7 +88,7 @@ const AvailableApartments = ({}:AvailableApartmentsProps) => {
 
     const d = useDispatch()
     const { style:s, themeObj, theme, setTheme } = useThemeNew(makeStyle)
-    const { mapMode, bottomBarHeight } = useSelector((s:StateType)=>s.app.appNav)
+    const { mapMode, bottomBarHeight } = useSelector((s:StateT)=>s.app.appNav)
     const snapPoints = useMemo(()=>[bottomBarHeight, 380, '70%', '100%+headerH'], [bottomBarHeight])
 
     const [bottomSheetSettings, setBottomSheetSettings] = useState(undefined as BottomSheetSettings)
@@ -115,16 +127,36 @@ const AvailableApartments = ({}:AvailableApartmentsProps) => {
 
 
     const {
-        city, apartments: { apartments, error: apError },
-        groupedApartments, addressFilter, selectedApartments
-    } = useSelector((s:StateType)=>s.apartments.selectedCity)
+        city, apartments: { data: aps, error: apsE },
+        groupedApartments, addressFilter, selectedApartmentIds
+    } = useSelector((s:StateT)=>s.apartments.selectedCity)
 
-    const [cnt, setCnt] = useState(undefined as undefined|number)
+    const [selectedApartments, setSelectedApartments] = useState([] as Apartment[])
     useEffect(()=>{
-        const idsSet = selectedApartments.idsSet
-        if (idsSet.size>0) setCnt(idsSet.size)
-        else if (groupedApartments) setCnt(groupedApartments.reduce((cnt,group)=>cnt+group.ids.length,0))
-    },[groupedApartments, selectedApartments])
+        const selApIds = selectedApartmentIds.idsSet
+        if (aps){
+            if (selApIds.size>0) setSelectedApartments(aps.filter(ap=>selApIds.has(ap.id!)))
+            else setSelectedApartments(aps)
+        }
+    },[aps, selectedApartmentIds])
+
+    /*useEffect(()=>{
+        console.log('selected ids:', selectedApartmentIds.idsSet)
+    },[selectedApartmentIds])*/
+
+    /*const onLike = (ap: Apartment) => {
+        d(setApartmentsInCity({
+            data: aps?.map(it=>{
+                if (it===ap && nonEmpty(it.isFavorite)) {
+                    const newAp = it.clone()
+                    newAp.isFavorite = !newAp.isFavorite
+                    return newAp
+                }
+                else return it
+            }),
+            error: apsE
+        }))
+    }*/
 
     return <BottomSheet
         snapPoints={snapPoints}
@@ -142,7 +174,7 @@ const AvailableApartments = ({}:AvailableApartmentsProps) => {
             <View style={s.headerBox}>
                 <View style={s.dash}/>
                 <View style={[sg.absolute, sg.center]}>
-                    <Text style={s.headerTitle}>{cnt===undefined ? '' : cnt+' вариантов'}</Text>
+                    <Text style={s.headerTitle}>{selectedApartments.length+' вариантов'}</Text>
                 </View>
             </View>
         </BottomSheetHeader>
@@ -153,94 +185,8 @@ const AvailableApartments = ({}:AvailableApartmentsProps) => {
 
                     { mapMode==='apartmentsFull' && <Space h={100}/> }
 
-                    {
-                        function (){
-                            let a = <><Space h={16}/>
+                    { selectedApartments.map(ap=><ApInfo apartment={ap}/>) }
 
-                            <ScrollView horizontal keyboardShouldPersistTaps='always'>
-                                <Space w={8}/>
-
-                                <View style={{ marginHorizontal: 8 }}>
-                                    <Image style={{ borderRadius: 10, width: 340, height: 180 }} source={testAp1} />
-                                    <View style={{ position: 'absolute', top: 12, right: 10 }}>
-                                        <HeartEmptyIc color={'black'} size={25}/>
-                                    </View>
-                                </View>
-
-                                <View style={{ marginHorizontal: 8 }}>
-                                    <Image style={{ borderRadius: 10, width: 340, height: 180 }} source={testAp2} />
-                                    <View style={{ position: 'absolute', top: 12, right: 10 }}>
-                                        <HeartEmptyIc color={'black'} size={25}/>
-                                    </View>
-                                </View>
-
-                                <Space w={8}/>
-                            </ScrollView>
-
-                            <View style={[sg.row, sg.center, { width: '100%', height: 21 }]}>
-                                <View style={{
-                                    width: 7, height: 7, marginHorizontal: 7, borderRadius: inf,
-                                    backgroundColor: themeObj.mainColors.accent0
-                                }}/>
-                                <View style={{
-                                    width: 7, height: 7, marginHorizontal: 7, borderRadius: inf,
-                                    backgroundColor: themeObj.mainColors.accent3
-                                }}/>
-                                <View style={{
-                                    width: 7, height: 7, marginHorizontal: 7, borderRadius: inf,
-                                    backgroundColor: themeObj.mainColors.accent3
-                                }}/>
-                                <View style={{
-                                    width: 7, height: 7, marginHorizontal: 7, borderRadius: inf,
-                                    backgroundColor: themeObj.mainColors.accent3
-                                }}/>
-                            </View>
-
-                            <Space h={8}/>
-
-                            <View style={[sg.row, {  }]}>
-                                <Space w={16}/>
-                                <LocationIc color={themeObj.mainColors.secondary0} size={18} />
-                                <Space w={8}/>
-                                <Text style={{
-                                    fontFamily: themeObj.font.font.w400,
-                                    color: themeObj.mainColors.secondary0,
-                                    fontSize: 16,
-                                }}>Иркутск, пер. Черемховский 6</Text>
-                            </View>
-
-                            <Space h={14}/>
-
-                            <View style={[sg.row, { alignItems: 'flex-end' }]}>
-                                <Space w={16}/>
-                                <RoomIc color={themeObj.mainColors.secondary0} size={18} />
-                                <Space w={8}/>
-                                <Text style={{
-                                    fontFamily: themeObj.font.font.w400,
-                                    color: themeObj.mainColors.secondary0,
-                                    fontSize: 16,
-                                }}>2-ком</Text>
-
-                                <Space w={16}/>
-                                <AreaIc color={themeObj.mainColors.secondary0} size={18} />
-                                <Space w={8}/>
-                                <Text style={{
-                                    fontFamily: themeObj.font.font.w400,
-                                    color: themeObj.mainColors.secondary0,
-                                    fontSize: 16,
-                                }}>69 м2</Text>
-
-                                <View style={{ flexGrow: 1 }}/>
-
-                                <Text style={{ fontFamily: themeObj.font.font.w400, color: themeObj.mainColors.accent0, fontSize: 16, marginBottom: -2 }}>
-                                    <Text style={{ fontFamily: themeObj.font.font.w700, fontSize: 20 }}>25 000</Text> ₽ / ночь
-                                </Text>
-
-                                <Space w={16}/>
-                            </View></>
-                            return [a,a,a,a]
-                        }()
-                    }
 
 
 
@@ -263,6 +209,7 @@ const AvailableApartments = ({}:AvailableApartmentsProps) => {
                     }]}/>
                 </View>
 
+
             </View>
         </BottomSheetBody>
     </BottomSheet>
@@ -270,5 +217,151 @@ const AvailableApartments = ({}:AvailableApartmentsProps) => {
 export default AvailableApartments
 
 
+
+function ApInfo({apartment}: {apartment: Apartment}){
+    const { style:s, themeObj, theme, setTheme } = useThemeNew(makeStyle)
+    const d = useDispatch()
+    const ap = apartment
+
+    const [favList,setFavList] = useFirstAndLastAction(
+        [...ap.favoriteLists],
+        async data => {
+            const { data:d } = await updateFavoriteApartment(
+                ap.id!, data!.map(it=>it.id!)
+            )
+            return !!d?.success
+        }
+    )
+
+    const isFavorite = favList.length>0
+    const { user } = useSelector(((s:StateT)=>s.user))
+
+
+
+    const onLike = () => {
+        if (favList.length===0){
+            setFavList([user!.favoriteLists!.find(it=>it.name===null)!])
+        } else if (favList.length===1 && favList[0].name===null){
+            setFavList([])
+        } else {
+
+        }
+    }
+
+
+    const onLongLike = async () => {
+
+    }
+
+
+
+    return <>
+        <Space h={40}/>
+
+        <ScrollView horizontal keyboardShouldPersistTaps='always'>
+            <Space w={8}/>
+
+            { function (){
+                let imgs = ap.images.length>0
+                    ? ap.images.map(it=>API_URL+'/image?path='+it.path)
+                    : [defaultAp]
+                return imgs?.map(img=>{
+                    return <View style={{marginHorizontal: 8}}>
+                        <Image style={{borderRadius: 10, width: 340, height: 180}} source={ typeof img === 'string' ? { uri:img } : img } />
+                        <Pressable onPress={onLike} onLongPress={onLongLike}
+                                   style={[sg.center, {position: 'absolute', top: 12, right: 10, width: 30, height: 30}]}>
+                            { isFavorite
+                                ? <HeartIc color={'black'} size={25}/>
+                                : <HeartEmptyIc color={'black'} size={32}/>
+                            }
+                        </Pressable>
+                    </View>
+                })
+            }() }
+
+            <Space w={8}/>
+        </ScrollView>
+
+        <DotsBar cnt={4} selected={undefined} />
+
+        <Space h={4}/>
+
+        <View style={[sg.row]}>
+            <Space w={16}/>
+            <LocationIc color={themeObj.mainColors.secondary0} size={18} />
+            <Space w={8}/>
+            <Text style={{
+                fontFamily: themeObj.font.font.w400,
+                color: themeObj.mainColors.secondary0,
+                fontSize: 16,
+            }}>{`${ap.house?.street?.city?.name}, ${placeSubTypeToShort(ap.house?.street?.placeSubType)}. ${ap.house?.street?.name} ${ap.house?.name}`}</Text>
+        </View>
+
+        <Space h={4}/>
+
+        <View style={[sg.row, { alignItems: 'flex-end' }]}>
+            <Space w={16}/>
+            <RoomIc color={themeObj.mainColors.secondary0} size={18} />
+            <Space w={8}/>
+            <Text style={{
+                fontFamily: themeObj.font.font.w400,
+                color: themeObj.mainColors.secondary0,
+                fontSize: 16,
+            }}>{ap.rooms==='Студия' ? ap.rooms : ap.rooms+'-ком'}</Text>
+
+            <Space w={16}/>
+            <AreaIc color={themeObj.mainColors.secondary0} size={18} />
+            <Space w={8}/>
+            <Text style={{
+                fontFamily: themeObj.font.font.w400,
+                color: themeObj.mainColors.secondary0,
+                fontSize: 16,
+            }}>{ap.area} м2</Text>
+
+            <View style={{ flexGrow: 1 }}/>
+
+            <Text style={{ fontFamily: themeObj.font.font.w400, color: themeObj.mainColors.accent0, fontSize: 16, marginBottom: -2 }}>
+                <Text style={{ fontFamily: themeObj.font.font.w700, fontSize: 20 }}>{isEmpty(ap.price) ? '???' : f.setValue(+ap.price).format()}</Text> ₽ / ночь
+            </Text>
+
+            <Space w={16}/>
+        </View>
+    </>
+
+}
+
+
+function DotsBar({ cnt, selected }: { cnt: number, selected: number|undefined }){
+    const { themeObj } = useThemeNew()
+
+    return <View style={[sg.row, sg.center, { width: '100%', height: 21 }]}>
+        { function (){
+            const dots = [] as JSX.Element[]
+            for (let i = 0; i < cnt; i++) {
+                dots.push(
+                    <View key={i} style={{
+                        width: 7, height: 7, marginHorizontal: 7, borderRadius: inf,
+                        backgroundColor: i===selected ? themeObj.mainColors.accent0 : themeObj.mainColors.accent3
+                    }}/>
+                )
+            }
+            return dots
+        }() }
+    </View>
+}
+
+
+
+
+
+
+function placeSubTypeToShort(placeSubType?: PlaceSubType){
+    switch (placeSubType){
+        case "улица": return 'ул'
+        case "микрорайон": return 'мкр'
+        case "переулок": return 'пер'
+        default: return placeSubType
+    }
+}
 
 

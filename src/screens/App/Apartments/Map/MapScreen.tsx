@@ -6,8 +6,8 @@ import MapSearchWidget from "@sc/App/Apartments/Map/MapSearchWidget";
 import {useThemeNew} from "@h";
 import {useBackHandler} from "@react-native-community/hooks";
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "@rx/store";
-import {setAppNavMapMode, setLocationPermissionGranted} from "@rx/appReducer";
+import {StateT} from "@rx/store";
+import { setAppNavMapMode } from "@rx/appReducer";
 import * as Location from 'expo-location'
 import {Accuracy} from "expo-location";
 import {sg} from "@u2/styleGlobal";
@@ -37,7 +37,7 @@ const lonDelta = 0.2
 const MapScreen = ({}:MapScreenType) => {
 
     const { themeObj } = useThemeNew()
-    const { appNav: { mapMode }, /*location: { granted: locationGranted }*/} = useSelector((s: StateType) => s.app)
+    const { appNav: { mapMode }, /*location: { granted: locationGranted }*/} = useSelector((s: StateT) => s.app)
     const d = useDispatch()
 
     useLayoutEffect(()=>{
@@ -57,7 +57,7 @@ const MapScreen = ({}:MapScreenType) => {
             d(setAppNavMapMode('map'))
             return true
         } else*/ if (mapMode !== 'map') {
-            console.log('12345')
+            //console.log('12345')
             d(setAppNavMapMode('map'))
             return true
         }
@@ -86,9 +86,18 @@ const MapScreen = ({}:MapScreenType) => {
 
 
     const {
-        city, apartments: { apartments, error: apError },
-        groupedApartments, addressFilter, selectedApartments
-    } = useSelector((s:StateType)=>s.apartments.selectedCity)
+        city, apartments: { data: aps, error: apsE },
+        groupedApartments, addressFilter, selectedApartmentIds
+    } = useSelector((s:StateT)=>s.apartments.selectedCity)
+    /*useEffect(()=>{
+        console.log('aps123', aps)
+    },[aps])*/
+
+
+    /*useEffect(()=>{
+        const selApIds = selectedApartmentIds.idsSet
+        console.log('selApIds:', selApIds)
+    },[selectedApartmentIds])*/
 
 
     const [addressFilterSet, setAddressFilterSet] = useState(new Set<string>())
@@ -96,14 +105,16 @@ const MapScreen = ({}:MapScreenType) => {
         setAddressFilterSet(new Set(addressFilter.map(p=>p.type+" "+p.id)))
     },[addressFilter])
     useEffect(()=>{
-        d(fetchApartmentsInCity(city.id))
-        mapRef.current?.setCamera({
-            zoom: 12,
-            center: {
-                latitude: city.location.lat,
-                longitude: city.location.lon
-            }
-        })
+        if (city){
+            d(fetchApartmentsInCity(city.id!))
+            mapRef.current?.setCamera({
+                zoom: 12,
+                center: {
+                    latitude: city.location.lat,
+                    longitude: city.location.lon
+                }
+            })
+        }
     },[city])
     /*useEffect(()=>{
         if (addressFilter[0] && addressFilter[0].type==='city') {
@@ -293,8 +304,8 @@ const MapScreen = ({}:MapScreenType) => {
     useDebounce(()=>{
         if (addressFilter[0] && addressFilter[0].type==='city') {
             d(setSelectedCity(addressFilter[0]))
-        } else if (apartments && mapInfo){
-            const ap = addressFilterSet.size===0 ? [...apartments] : apartments.filter(
+        } else if (aps && mapInfo){
+            const ap = addressFilterSet.size===0 ? [...aps] : aps.filter(
                 ap => addressFilterSet.has('district '+ap.districtId) || addressFilterSet.has('street '+ap.streetId)
             )
             const groupedAp = [] as GroupedApartments[]
@@ -302,8 +313,8 @@ const MapScreen = ({}:MapScreenType) => {
                 const first = ap.splice(0, 1)[0];
 
                 const group: GroupedApartments = {
-                    ids: [first.id],
-                    minPrice: first.price,
+                    ids: [first.id!],
+                    minPrice: +first.price!,
                     exact: true,
                     coordinates: {
                         latitude: first.coordinates.latitude,
@@ -348,8 +359,8 @@ const MapScreen = ({}:MapScreenType) => {
                         group.exact = group.exact && dLatAbs<0.005 && dLonAbs<0.005
                         latSum += item.coordinates.latitude
                         lonSum += item.coordinates.longitude
-                        group.ids.push(item.id)
-                        group.minPrice = Math.min(group.minPrice, item.price)
+                        group.ids.push(item.id!)
+                        group.minPrice = Math.min(group.minPrice, +item.price!)
                         ap.splice(i,1)
                         i--
                     }
@@ -361,20 +372,21 @@ const MapScreen = ({}:MapScreenType) => {
             }
             d(setGroupedApartments(groupedAp))
         }
-    },700, [apartments, addressFilter, addressFilterSet, mapInfo])
+    },700, [aps, addressFilter, addressFilterSet, mapInfo])
 
 
     useEffect(()=>{
-        if (apError) alert("Не удалось загрузить координаты квартир\n"+prettyPrint(apError,'str'))
-    },[apError])
+        if (apsE) alert("Не удалось загрузить координаты квартир\n"+prettyPrint(apsE,'str'))
+    },[apsE])
 
-    const onMarkerSelect = (apIds: number[]) => {
-        const idsSet = selectedApartments.idsSet
-        if (apIds.every(id=>idsSet.has(id))) {
-            apIds.forEach(id=>idsSet.delete(id))
+    const onMarkerSelect = (apIds: string[]) => {
+        const selApIds = selectedApartmentIds.idsSet
+        if (apIds.every(id=>selApIds.has(id))) {
+            apIds.forEach(id=>selApIds.delete(id))
         }
-        else apIds.forEach(id=>idsSet.add(id))
-        d(setSelectedApartments(idsSet))
+        else apIds.forEach(id=>selApIds.add(id))
+        //console.log('onSelectAp:', selApIds)
+        d(setSelectedApartments(selApIds))
     }
 
     const onRegionChange = async (r: Region) => {
@@ -439,6 +451,8 @@ const MapScreen = ({}:MapScreenType) => {
         // => onLayout:  0 316.4705810546875 423.5294189453125 436.4706115722656
     }
 
+    if (!city) return <></>
+
     return <View style={[sg.absolute,sg.center,{backgroundColor: 'black'}]} >
         <MapView
             ref={mapRef}
@@ -476,9 +490,9 @@ const MapScreen = ({}:MapScreenType) => {
                 2) disable props tracksViewChanges={false} or add icon props instead of image
             */}
             { mapReady && groupedApartments?.map((group,i)=>{
-                const idsSet = selectedApartments.idsSet
+                const selApIds = selectedApartmentIds.idsSet
                 let cnt = 0
-                group.ids.forEach(id=>{if (idsSet.has(id)) cnt++})
+                group.ids.forEach(id=>{if (selApIds.has(id)) cnt++})
                 const selected = cnt===0 ? 'none' : cnt===group.ids.length ? 'all' : 'some'
 
                 return <Marker

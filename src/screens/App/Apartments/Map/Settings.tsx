@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useMemo, useState} from 'react'
 import { View, Text, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppNavMapMode } from "@rx/appReducer";
-import { StateType } from "@rx/store";
+import { StateT } from "@rx/store";
 import {useThemeNew} from "@h";
 import {ThemeType} from "@t";
 import SelectVariants from "@c/SelectVariants";
@@ -71,7 +71,7 @@ const Settings = ({}:SettingsProps) => {
 
     const [bottomSheetSettings, setBottomSheetSettings] = useState(undefined as BottomSheetSettings)
 
-    const mapMode = useSelector((s:StateType)=>s.app.appNav.mapMode)
+    const mapMode = useSelector((s:StateT)=>s.app.appNav.mapMode)
     const [closed, setClosed] = useState(true)
     useLayoutEffect(()=>{
         // если мы перешли в настройки, но лист всё ещё закрыт...

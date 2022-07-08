@@ -12,7 +12,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 import BottomTabBar from "@sc/App/BottomTabBar";
 import {useSelector} from "react-redux";
-import {StateType} from "@rx/store";
+import {StateT} from "@rx/store";
 import {MainStackType} from "@sc/Main";
 import {useThemeNew} from "@h";
 import ApartmentsNav from "@sc/App/Apartments/ApartmentsNav";
@@ -38,7 +38,7 @@ type Type = StackScreenProps<MainStackType,'AppNav'>
 function AppNav({}:Type ) {
 
     const { themeObj } = useThemeNew()
-    const { tab } = useSelector((s:StateType)=>s.app.appNav)
+    const { tab } = useSelector((s:StateT)=>s.app.appNav)
 
     // todo
     function handleOpenURL({ url }:{ url:string }) {
@@ -107,7 +107,7 @@ export default AppNav
 
 const FavoriteMsg = () => {
 
-    const { mapMode, bottomBarHeight } = useSelector((s:StateType)=>s.app.appNav)
+    const { mapMode, bottomBarHeight } = useSelector((s:StateT)=>s.app.appNav)
     const { themeObj:t } = useThemeNew()
 
     return <View style={{

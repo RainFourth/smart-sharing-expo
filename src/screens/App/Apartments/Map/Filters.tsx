@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Pressable, TextInput, TextStyle} from "react-nat
 import BottomSheet, {BottomSheetScrollView} from "@gorhom/bottom-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { setAppNavMapMode } from "@rx/appReducer";
-import { StateType } from "@rx/store";
+import { StateT } from "@rx/store";
 import { useThemeNew } from "@h";
 import {ThemeType} from "@t";
 import SelectVariants from "@c/SelectVariants";
@@ -147,7 +147,7 @@ const Filters = ({}:FiltersProps) => {
     // variables
     const snapPoints = useMemo(() => ['25%','50%','75%'], []);
 
-    const mapMode = useSelector((s:StateType)=>s.app.appNav.mapMode)
+    const mapMode = useSelector((s:StateT)=>s.app.appNav.mapMode)
     const [index, setIndex] = useState(-1)
     useLayoutEffect(()=>{
         if (bottomSheetRef.current){

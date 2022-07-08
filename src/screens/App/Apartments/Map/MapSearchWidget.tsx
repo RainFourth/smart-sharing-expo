@@ -18,7 +18,7 @@ import FilterIc from "@c/SvgIcons/FilterIc";
 import {useDispatch, useSelector} from "react-redux";
 import {setAppNavMapMode} from "@rx/appReducer";
 import SettingsIc from "@c/SvgIcons/SettingsIc";
-import {StateType} from "@rx/store";
+import {StateT} from "@rx/store";
 import {useBackHandler} from "@react-native-community/hooks";
 import {useKeyboard} from "@h/useKeyboard";
 import Axios from 'axios'
@@ -124,8 +124,8 @@ const makeStyle = (t: ThemeType, variants: boolean) => StyleSheet.create({
 type SearchWidgetProps = { }
 const MapSearchWidget = ({ }:SearchWidgetProps) => {
 
-    const { appNav: { mapMode } } = useSelector((s:StateType)=>s.app)
-    const { selectedCity: { city, districts, streets, addressFilter }, cities } = useSelector((s:StateType)=>s.apartments)
+    const { appNav: { mapMode } } = useSelector((s:StateT)=>s.app)
+    const { selectedCity: { city, districts, streets, addressFilter }, cities } = useSelector((s:StateT)=>s.apartments)
     const { style:s, themeObj } = useThemeNew(t=>makeStyle(t, mapMode==='search'),[mapMode])
     const d = useDispatch()
     const inputRef = useRef<TextInput>(null)
@@ -143,9 +143,9 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
     },[city.id])
     const [foundParts, setFoundParts] = useState([] as PlaceType[])
     useEffect(()=>{
-        let cs = cities.cities ?? []
-        let ds = districts.districts ?? []
-        let ss = streets.streets ?? []
+        let cs = cities.data ?? []
+        let ds = districts.data ?? []
+        let ss = streets.data ?? []
         setAvailablePlaces([...cs,...ds,...ss])
         setFoundParts(ds)
 
@@ -188,7 +188,7 @@ const MapSearchWidget = ({ }:SearchWidgetProps) => {
 
     const [searchText, setSearchText] = useState('')
     useDebounce(() => {
-        if (!searchText) setFoundParts(districts?.districts ?? [])
+        if (!searchText) setFoundParts(districts?.data ?? [])
         else {
             const regexp = makeSearchRegexp(searchText)
             setFoundParts(availablePlaces.filter(p => regexp.test(p.name)))
